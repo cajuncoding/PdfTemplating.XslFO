@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslFO.FONet.Core", "Core\XslFO.FONet.Core.csproj", "{741FF28C-581C-4C51-821D-032392836C16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslFO.FONet.Cli", "Cli\XslFO.FONet.Cli.csproj", "{5359D04B-306B-4520-84C4-4C9965FC58CC}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "XslFO.FONet.Setup", "Setup\Setup.vdproj", "{23547984-B812-40B2-ADAC-2F1C491D2649}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{741FF28C-581C-4C51-821D-032392836C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5359D04B-306B-4520-84C4-4C9965FC58CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5359D04B-306B-4520-84C4-4C9965FC58CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5359D04B-306B-4520-84C4-4C9965FC58CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5359D04B-306B-4520-84C4-4C9965FC58CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23547984-B812-40B2-ADAC-2F1C491D2649}.Debug|Any CPU.ActiveCfg = Debug
+		{23547984-B812-40B2-ADAC-2F1C491D2649}.Release|Any CPU.ActiveCfg = Release
+		{23547984-B812-40B2-ADAC-2F1C491D2649}.Release|Any CPU.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

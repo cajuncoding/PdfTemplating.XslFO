@@ -1,0 +1,42 @@
+<project SchemaVersion="1.3">
+    <assemblies>
+        <assembly location="D:\Entwicklung\DotNet\GradientBorder\Animations\bin\Release\Animations.dll" documentation="D:\Entwicklung\DotNet\GradientBorder\Animations\bin\Release\Animations.xml" />
+    </assemblies>
+    <documenters>
+        <documenter name="JavaDoc">
+            <property name="OutputDirectory" value=".\doc\" />
+        </documenter>
+        <documenter name="LaTeX">
+            <property name="OutputDirectory" value=".\doc\" />
+            <property name="TextFileFullName" value="Documentation.tex" />
+            <property name="TexFileBaseName" value="Documentation" />
+            <property name="LatexCompiler" value="latex" />
+            <property name="TexFileFullPath" value=".\doc\Documentation.tex" />
+        </documenter>
+        <documenter name="LinearHtml">
+            <property name="OutputDirectory" value=".\doc\" />
+            <property name="Title" value="An NDoc Documented Class Library" />
+        </documenter>
+        <documenter name="MSDN">
+            <property name="OutputDirectory" value=".\doc\" />
+            <property name="HtmlHelpName" value="Animations Documentation" />
+            <property name="Title" value="Documentation for the Animations library" />
+            <property name="SdkLinksOnWeb" value="True" />
+            <property name="AssemblyVersionInfo" value="AssemblyVersion" />
+            <property name="FeedbackEmailAddress" value="treborg@freenet.de" />
+            <property name="CleanIntermediates" value="True" />
+        </documenter>
+        <documenter name="MSDN 2003">
+            <property name="OutputDirectory" value=".\doc\" />
+            <property name="Title" value="An NDoc Documented Class Library" />
+        </documenter>
+        <documenter name="VS.NET 2003">
+            <property name="OutputDirectory" value=".\doc\" />
+            <property name="HtmlHelpName" value="Documentation" />
+            <property name="Title" value="An NDoc documented library" />
+        </documenter>
+        <documenter name="XML">
+            <property name="OutputFile" value=".\doc\doc.xml" />
+        </documenter>
+    </documenters>
+</project>

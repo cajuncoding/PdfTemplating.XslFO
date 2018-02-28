@@ -1,0 +1,17 @@
+/XslFO.WebMVC/obj
+/XslFO.WebMVC/bin
+*.user
+/XslFO.ViewerApplication/obj
+/XslFO.ViewerApplication/bin
+/XslFO.Library/obj
+/XslFO.Library/bin
+/XslFO.ControlLibrary/obj
+/XslFO.ControlLibrary/bin
+/OpenSource.WinForms.Animations/obj
+/OpenSource.WinForms.Animations/bin
+/OpenSource.FONet/Core/obj
+/OpenSource.FONet/Core/bin
+/OpenSource.FONet/Cli/bin
+/OpenSource.FONet/Cli/obj
+/ClassLibrary.CSharp/obj
+/ClassLibrary.CSharp/bin

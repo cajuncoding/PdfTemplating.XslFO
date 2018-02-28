@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{814F92F4-2CF8-45D4-97AC-4854CA465D15}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>XslFO.ControlLibrary</RootNamespace>
+    <AssemblyName>XslFO.ControlLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="NOT_IMPLEMENTED.TempFileManager.cs" />
+    <Compile Include="IXslFOViewerControl.cs" />
+    <Compile Include="ThreadingHelpers\System.Threading.CustomExtensions.cs" />
+    <Compile Include="WindowsHelpers\Windows.Forms.CustomExtensions.cs" />
+    <Compile Include="WindowsHelpers\WindowsApplicationSpecialFolderHelper.cs" />
+    <Compile Include="XslFOAdobePdfViewerUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="XslFOAdobePdfViewerUserControl.Designer.cs">
+      <DependentUpon>XslFOAdobePdfViewerUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XslFOFormViewerAbstractControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="XslFOFormViewerAbstractControl.Designer.cs">
+      <DependentUpon>XslFOFormViewerAbstractControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XslFOViewerEventArgs.cs" />
+    <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="AcroPDFLib">
+      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="AxAcroPDFLib">
+      <Guid>{05BFD3F1-6319-4F30-B752-C7A22889BCC4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>aximp</WrapperTool>
+      <Isolated>False</Isolated>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XslFOAdobePdfViewerUserControl.resx">
+      <DependentUpon>XslFOAdobePdfViewerUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XslFOFormViewerAbstractControl.resx">
+      <DependentUpon>XslFOFormViewerAbstractControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary.CSharp\CSharp.CustomExtensions.csproj">
+      <Project>{bb09e709-0970-4951-afd2-5c52de5589a3}</Project>
+      <Name>CSharp.CustomExtensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenSource.FONet\Core\FONet.Core.csproj">
+      <Project>{741ff28c-581c-4c51-821d-032392836c16}</Project>
+      <Name>FONet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenSource.WinForms.Animations\OpenSource.WinForms.Animations.csproj">
+      <Project>{5222558b-c90b-4a8d-9081-9079d2e826d0}</Project>
+      <Name>OpenSource.WinForms.Animations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XslFO.Library\XslFO.Library.csproj">
+      <Project>{4BB90E22-FD2D-4D1A-B5FE-7E3ABF9AFAFE}</Project>
+      <Name>XslFO.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.Images\pdf-512-v2.png" />
+    <Content Include="App.Images\pdf-512.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App.References\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
