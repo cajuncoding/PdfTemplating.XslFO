@@ -166,7 +166,7 @@ namespace XslFO.ViewerApplication
                     doLoadFromXslFO();
                 }
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 this.Cursor = Cursors.Default;
                 this.LoadType = XslFOLoadType.LoadedFromXslt;

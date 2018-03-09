@@ -182,7 +182,7 @@ namespace XslFO.ControlLibrary
 
         private Stopwatch _loadingStopwatch = new Stopwatch();
 
-        private void SetLoadingState(XslFOViewerControlState loadingState)
+        protected override void SetLoadingState(XslFOViewerControlState loadingState)
         {
             this.SuspendLayout();
 
