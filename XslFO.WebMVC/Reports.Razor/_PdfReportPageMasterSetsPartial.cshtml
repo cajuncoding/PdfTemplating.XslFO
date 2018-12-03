@@ -1,0 +1,36 @@
+﻿@* MASTER SETS MUST BE DEFINED BEFORE WE RENDER CONTENT in XSL-FO *@
+@*   NOTE: We use shared Template to print out the complex markup via simple params for
+          normal US Portrait/Landscape Page layouts
+*@
+@*
+    NOTE: Calculating Width of Body and Left/Right areas:
+            The width of the body in can be calculated by subtracting the left and right margins from the page and the left and right margins from the region-body itself.
+            The region-start/region-end are NOT factored into the width of the body because they always extend from the sides and overlap the body.  Therefore to create
+            a column on the left/right side the region-body must have a margin size greater than or equal to the size of the respective extent.
+*@
+
+@{ 
+    string headerHeight = ".25in";
+    string footerHeight = ".25in";
+    string leftWidth = "0in";
+    string rightWidth = "0in";
+}
+
+    @* Define PORTRAIT PAGE settings *@
+    <fo:simple-page-master master-name="US-Letter-Portrait" page-width="8.5in" page-height="11in" margin-top=".25in" margin-bottom=".25in" margin-left=".5in" margin-right=".5in">
+        <fo:region-before extent="@headerHeight" />
+        <fo:region-after extent="@footerHeight" />
+        <fo:region-start extent="@leftWidth" />
+        <fo:region-end extent="@rightWidth" />
+        <fo:region-body margin-top="@headerHeight" margin-bottom="@footerHeight" margin-left="@leftWidth" margin-right="@rightWidth" />
+    </fo:simple-page-master>
+
+    @* Define LANDSCAPE PAGE settings *@
+    <fo:simple-page-master master-name="US-Letter-Landscape" page-width="11in" page-height="8.5in" margin-top=".25in" margin-bottom=".25in" margin-left=".25in" margin-right=".25in">
+        <fo:region-before extent="@headerHeight" />
+        <fo:region-after extent="@footerHeight" />
+        <fo:region-start extent="@leftWidth" />
+        <fo:region-end extent="@rightWidth" />
+        <fo:region-body margin-top="@headerHeight" margin-bottom="@footerHeight" margin-left="@leftWidth" margin-right="@rightWidth" />
+    </fo:simple-page-master>
+

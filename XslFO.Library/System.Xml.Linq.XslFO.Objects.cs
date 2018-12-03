@@ -14,15 +14,7 @@ Copyright 2012 Brandon Bernard
    limitations under the License.
 */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Diagnostics;
-using Fonet;
-using System.Xml.Linq.CustomExtensions;
-using System.Xml.Linq.XslFO;
 
 namespace System.Xml.Linq.XslFO.CustomExtensions
 {
@@ -54,18 +46,24 @@ namespace System.Xml.Linq.XslFO.CustomExtensions
 
     public class XslFORenderStreamOutput : XslFORenderOutput, IDisposable
     {
-        public XslFORenderStreamOutput(XDocument xXslFOXmlDoc, Stream xslFOStream) 
+        public XslFORenderStreamOutput(XDocument xXslFOXmlDoc, MemoryStream xslFOStream) 
             : base(xXslFOXmlDoc)
         {
             this.PdfStream = xslFOStream;
         }
 
-        public Stream PdfStream { get; set; }
+        public MemoryStream PdfStream { get; set; }
+
+        public byte[] ReadBytes()
+        {
+            byte[] pdfBytes = this.PdfStream?.ToArray();
+            return pdfBytes;
+        }
 
         //NOTE:  We implement IDisposable to make sure that our Stream Reference is Disposed correctly!
         public void Dispose()
         {
-            this.PdfStream.Dispose();
+            this.PdfStream?.Dispose();
         }
     }
 

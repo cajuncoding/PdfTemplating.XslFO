@@ -14,65 +14,73 @@ Copyright 2012 Brandon Bernard
    limitations under the License.
 */
 
-using System;
-using System.CustomExtensions;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Xsl;
-using System.Xml.Linq;
-using System.Xml.Linq.CustomExtensions;
-using System.Text;
-using System.IO;
-using System.IO.CustomExtensions;
 using Fonet;
 using Fonet.Render.Pdf;
 using System.Diagnostics;
+using System.IO;
+using System.IO.CustomExtensions;
 
 
 namespace System.Xml.Linq.XslFO.CustomExtensions
 {
+    public class XslFOEventArg : EventArgs
+    {
+        public String Message { get; protected set; }
+        public XslFOEventArg(String message)
+        {
+            this.Message = message ?? String.Empty;
+        }
+    }
+
+    public class XslFOErrorEventArg : XslFOEventArg
+    {
+        public XslFORenderException Exception { get; set; }
+
+        public XslFOErrorEventArg(XslFORenderException renderException)
+            : base(renderException?.Message)
+        {
+            this.Exception = renderException;
+        }
+    }
+
     public class XslFORenderOptions
     {
         public XslFORenderOptions()
         {
-            this.RenderErrorHandler = new EventHandler<FonetEventArgs>((sender, e) =>
-            {
-                System.Diagnostics.Debug.WriteLine(e.GetMessage());
-            });
         }
 
         public XslFOPdfOptions PdfOptions { get; set; }
-        public EventHandler<FonetEventArgs> RenderEventHandler { get; set; }
-        public EventHandler<FonetEventArgs> RenderErrorHandler { get; set; }
+        public EventHandler<XslFOEventArg> RenderEventHandler { get; set; }
+        public EventHandler<XslFOErrorEventArg> RenderErrorHandler { get; set; }
     }
 
     internal static class XslFONetHelper
     {
-        private static FonetDriver GetFonetDriver(XslFOPdfOptions pdfOptions)
+        private static FonetDriver GetFonetDriver(XslFOPdfOptions pdfOptions = null)
         {
-            PdfRendererOptions driverOptions = new PdfRendererOptions()
+            FonetDriver driver = FonetDriver.Make();
+            driver.CloseOnExit = false;
+
+            //Ensure we have a minimal default set of options if they are null.
+            driver.Options = new PdfRendererOptions()
             {
-                Author = pdfOptions.Author,
-                Title = pdfOptions.Title,
-                Subject = pdfOptions.Subject,
-                EnableModify = pdfOptions.EnableModify,
-                EnableAdd = pdfOptions.EnableAdd,
-                EnableCopy = pdfOptions.EnableCopy,
-                EnablePrinting = pdfOptions.EnablePrinting,
-                OwnerPassword = pdfOptions.OwnerPassword,
-                UserPassword = pdfOptions.UserPassword,
+                Author = pdfOptions?.Author,
+                Title = pdfOptions?.Title,
+                Subject = pdfOptions?.Subject,
+                EnableModify = pdfOptions?.EnableModify ?? true,
+                EnableAdd = pdfOptions?.EnableAdd ?? true,
+                EnableCopy = pdfOptions?.EnableCopy ?? true,
+                EnablePrinting = pdfOptions?.EnablePrinting ?? true,
+                OwnerPassword = pdfOptions?.OwnerPassword,
+                UserPassword = pdfOptions?.UserPassword,
                 //NOTE:  We use Subset font setting so that FONet will create embedded fonts with the precise characters/glyphs that are actually used:
                 //       http://fonet.codeplex.com/wikipage?title=Font%20Linking%2c%20Embedding%20and%20Subsetting&referringTitle=Section%204%3a%20Font%20Support
                 FontType = FontType.Subset,
                 Kerning = true
             };
 
-            FonetDriver driver = FonetDriver.Make();
-            driver.Options = driverOptions;
-            driver.CloseOnExit = false;
-
             //Initialize BaseDirectory if defined in our Options
-            if (pdfOptions.BaseDirectory != null)
+            if (pdfOptions?.BaseDirectory != null)
             {
                 driver.BaseDirectory = pdfOptions.BaseDirectory;
             }
@@ -97,39 +105,72 @@ namespace System.Xml.Linq.XslFO.CustomExtensions
                 throw new ArgumentException("The PDF binary output file already exists and cannot be created; the output file path must not already exist on the filesystem.");
         }
 
-        internal static Stream Render(XmlReader xmlFOReader, Stream outputStream, XslFORenderOptions options)
+        internal static Stream Render(XDocument xXslFODoc, Stream outputStream, XslFORenderOptions options = null)
         {
+            //Always use at least a Default set of options!
+            //NOTE: The default constructor will initialize a default set of Options!
+            var optionsToUse = options ?? new XslFORenderOptions();
+
             //Render the Binary PDF Output
-            FonetDriver pdfDriver = XslFONetHelper.GetFonetDriver(options.PdfOptions);
-            Stopwatch timer = Stopwatch.StartNew();
+            FonetDriver pdfDriver = XslFONetHelper.GetFonetDriver(optionsToUse.PdfOptions);
+            Stopwatch timer = null;
 
             //Initialize Rendering Event Handlers if possible
-            if (options.RenderEventHandler != null)
+            if (optionsToUse.RenderEventHandler != null)
             {
-                pdfDriver.OnInfo += new FonetDriver.FonetEventHandler(options.RenderEventHandler);
-                pdfDriver.OnWarning += new FonetDriver.FonetEventHandler(options.RenderEventHandler);
+                timer = Stopwatch.StartNew();
+                var fnFonetProxyEventHandler = new FonetDriver.FonetEventHandler((sender, eventArgs) => {
+                    optionsToUse.RenderEventHandler(sender, new XslFOEventArg(eventArgs.GetMessage()));
+                });
+
+                pdfDriver.OnInfo += fnFonetProxyEventHandler;
+                pdfDriver.OnWarning += fnFonetProxyEventHandler;
             }
 
-            if (options.RenderErrorHandler != null)
+            //BBernard
+            //Always ensure that at least a Default Error Event Handler is initialized to allow
+            //  the Pdf's to render as much as possbile despite many 'strict' errors that may occur.
+            //NOTE: Because there may be numerous strict errors, but the report may still render acceptably,
+            //      we always implement a Default Error Handler to allow reports to try their best to render
+            //      to completion (when no other explicit error handler is specified by the consumer).
+            pdfDriver.OnError += new FonetDriver.FonetEventHandler((sender, eventArgs) =>
             {
-                pdfDriver.OnError += new FonetDriver.FonetEventHandler(options.RenderErrorHandler);
+                Debug.WriteLine($"[XslFORenderer Error] {eventArgs.GetMessage()}");
+            });
+
+            //If any other Render Error Handlers are specified then we also attach it to Pdf Driver.
+            if (optionsToUse?.RenderErrorHandler != null)
+            {
+                //BBernard
+                //Create Lamda wrapper for the Fonet Event Handler to proxy into our Absracted Event Handler
+                //NOTE: This eliminates any dependencies on consuming code from the Fonet Driver
+                pdfDriver.OnError += new FonetDriver.FonetEventHandler((sender, eventArgs) => {
+                    var renderException = new XslFORenderException(eventArgs.GetMessage(), xXslFODoc?.ToString());
+                    optionsToUse.RenderErrorHandler(sender, new XslFOErrorEventArg(renderException));
+                });
             }
 
-            //Render the Pdf Output to the defined File Stream
-            pdfDriver.Render(xmlFOReader, outputStream);
-            outputStream.Reset();
+            //Create the Xml Reader and then use the Pdf FONet Driver to output to the specified Stream
+            using (XmlReader xmlFOReader = xXslFODoc.CreateReader())
+            {
+                //Render the Pdf Output to the defined File Stream
+                pdfDriver.Render(xmlFOReader, outputStream);
+            }
+
+            //Reset the Stream
+            outputStream.Seek(0, SeekOrigin.Begin);
 
             //Validate the rendered output
             if (!outputStream.CanRead || outputStream.Length <= 0)
             {
-                throw new IOException(String.Format("The rendered PDF output stream is empty; Xml FO rendering failed."));
+                throw new IOException("The rendered PDF output stream is empty; Xml FO rendering failed.");
             }
 
             //Log Benchmark event info if possible
-            if (options.RenderEventHandler != null)
+            if (optionsToUse.RenderEventHandler != null && timer != null)
             {
                 timer.Stop();
-                options.RenderEventHandler(null, new FonetEventArgs(String.Format("XslFO render to PDF execution completed in [{0}] seconds", timer.Elapsed.TotalSeconds)));
+                optionsToUse.RenderEventHandler(null, new XslFOEventArg($"XslFO render to PDF execution completed in [{timer.Elapsed.TotalSeconds}] seconds"));
             }
 
             //Return the Output Stream for Chaining
@@ -139,10 +180,16 @@ namespace System.Xml.Linq.XslFO.CustomExtensions
 
     public class XslFORenderException : Exception
     {
-        public XslFORenderException(String message, Exception innerExc, String renderSource)
+        public XslFORenderException(String message, String renderSource = null)
+            : base(message)
+        {
+            this.RenderSource = renderSource ?? String.Empty;
+        }
+
+        public XslFORenderException(String message, Exception innerExc, String renderSource = null)
             : base(message, innerExc)
         {
-            this.RenderSource = renderSource;
+            this.RenderSource = renderSource ?? String.Empty;
         }
 
         public String RenderSource { get; protected set; }
@@ -191,10 +238,7 @@ namespace System.Xml.Linq.XslFO.CustomExtensions
                 //NOTE: We do NOT wrap the memory stream in a using{} block or dispose of it because it must
                 //      be returned to the caller who will manage its life/scope
                 MemoryStream memoryStream = new MemoryStream();
-                using (XmlReader xmlReader = xXslFODoc.CreateReader())
-                {
-                    XslFONetHelper.Render(xmlReader, memoryStream, options);
-                }
+                XslFONetHelper.Render(xXslFODoc, memoryStream, options);
 
                 //NOTE:  The stream will be managed because the XslFORenderStreamOutput wraps it and correctly supports IDisposable interface.
                 return new XslFORenderStreamOutput(xXslFODoc, memoryStream);
@@ -220,10 +264,7 @@ namespace System.Xml.Linq.XslFO.CustomExtensions
                     //    return xEl;
                     //});
 
-                    using (XmlReader xmlReader = xXslFODoc.CreateReader())
-                    {
-                        XslFONetHelper.Render(xmlReader, fileStream, options);
-                    }
+                    XslFONetHelper.Render(xXslFODoc, fileStream, options);
                 }
 
                 //NOTE:  The stream will be managed because the XslFORenderStreamOutput wraps it and correctly supports IDisposable interface.
@@ -236,6 +277,68 @@ namespace System.Xml.Linq.XslFO.CustomExtensions
         }
 
         #endregion
-    
     }
+
+    #region Helper Class to abstract from Extension Method use when Interface Usage pattern is desired.
+
+    /// <summary>
+    /// BBernard
+    /// Interface abstraction for use when Interface Usage pattern is desired to abstract dependencies 
+    /// on the Custom Extension methods that encapsulate the actual work.
+    /// NOTE: This may be more suitable, than direct Custom Extension use, for code patterns that use 
+    ///         Dependency Injection, etc.
+    /// </summary>
+    public interface IXslFOPdfRenderer
+    {
+        byte[] RenderPdfBytes(XDocument xslFODoc, XslFOPdfOptions xslFOPdfOptions);
+    }
+
+    /// <summary>
+    /// BBernard
+    /// Class implementation of IXslFOPdfRenderer to abstract the Extension Method use when Interface 
+    /// Usage pattern is desired.
+    /// NOTE: This may be more suitable, than direct Custom Extension use, for code patterns that use 
+    ///         Dependency Injection, etc.
+    /// </summary>
+    public class XslFOPdfRenderer: IXslFOPdfRenderer
+    {
+        public EventHandler<XslFOEventArg> DebugEventHandler { get; protected set; }
+        public EventHandler<XslFOErrorEventArg> ErrorEventHandler { get; protected set; }
+
+        public XslFOPdfRenderer()
+        {
+            this.DebugEventHandler = null;
+            this.ErrorEventHandler = null;
+        }
+
+        public XslFOPdfRenderer(EventHandler<XslFOEventArg> fnDebugEventHandler, EventHandler<XslFOErrorEventArg> fnErrorEventHandler)
+        {
+            this.DebugEventHandler = fnDebugEventHandler;
+            this.ErrorEventHandler = fnErrorEventHandler;
+        }
+
+        public byte[] RenderPdfBytes(XDocument xslFODoc, XslFOPdfOptions xslFOPdfOptions)
+        {
+            //***********************************************************
+            //Render the Xsl-FO results into a Pdf binary output
+            //***********************************************************
+            //Initialize the Xsl-FO Render Options (which includes the Pdf Options and other event Handlers)
+            var xslFORenderOptions = new XslFORenderOptions()
+            {
+                PdfOptions = xslFOPdfOptions,
+                RenderEventHandler = this.DebugEventHandler,
+                RenderErrorHandler = this.ErrorEventHandler
+            };
+
+            //Initialize the render options for the FONET process and Execute the Render 
+            //  using the Custom Extensions on XDocument
+            //NOTE: The work to accomplish this is fully encapsulated in XDocument Custom Extension Methods.
+            using (var xslFORenderedOutput = xslFODoc.RenderXslFOToPdf(xslFORenderOptions))
+            {
+                var pdfBytes = xslFORenderedOutput.ReadBytes();
+                return pdfBytes;
+            }
+        }
+    }
+    #endregion
 }

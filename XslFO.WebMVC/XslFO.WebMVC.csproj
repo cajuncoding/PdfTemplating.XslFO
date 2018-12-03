@@ -35,7 +35,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,6 +58,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
     </Reference>
@@ -151,12 +152,20 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PdfController.cs" />
+    <Compile Include="Controllers\MoviePdfController.cs" />
     <Compile Include="CustomExtensions\RestSharp.CustomExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MovieSearch\MovieSearchResponse.cs" />
+    <Compile Include="Reports.MovieRenderers\BaseReportPdfRenderer.cs" />
+    <Compile Include="Reports.MovieRenderers\IMoviePdfRenderer.cs" />
+    <Compile Include="Reports.MovieRenderers\RazorMoviePdfRenderer.cs" />
+    <Compile Include="Reports.MovieRenderers\XsltMoviePdfRenderer.cs" />
+    <Compile Include="MovieSearch\MovieSearch.cs" />
+    <Compile Include="Mvc.Templating\MvcRazorViewRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports.Razor\ReportUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -170,16 +179,23 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="XslFO.Reports\MoviePdfReport\MoviesDataSample.xml" />
-    <Content Include="XslFO.Reports\MoviePdfReport\MoviesReport.xsl">
+    <Content Include="Reports.Xslt\MoviePdfReport\MoviesDataSample.xml" />
+    <Content Include="Reports.Xslt\MoviePdfReport\MoviesReport.xsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="XslFO.Reports\MoviePdfReport\Reports.Common.Movies.xsl">
+    <Content Include="Reports.Xslt\MoviePdfReport\Reports.Common.Movies.xsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="XslFO.Reports\Reports.Common.xsl">
+    <Content Include="Reports.Xslt\Reports.Common.xsl">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="TestData.XslFO\RazorRenderedXslFO-Test.xml" />
+    <Content Include="Views\MoviePdf\MoviesPdfReport.cshtml" />
+    <Content Include="Reports.Razor\MoviePdfReport\MoviesReport.cshtml" />
+    <Content Include="Reports.Razor\Web.config" />
+    <Content Include="Reports.Razor\_PdfReportLayout.cshtml" />
+    <Content Include="Reports.Razor\_PdfReportPageMasterSetsPartial.cshtml" />
+    <Content Include="Reports.Razor\_MovieFooterPartial.cshtml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -227,10 +243,6 @@
     <ProjectReference Include="..\ClassLibrary.CSharp\CSharp.CustomExtensions.csproj">
       <Project>{bb09e709-0970-4951-afd2-5c52de5589a3}</Project>
       <Name>CSharp.CustomExtensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenSource.FONet\Core\FONet.Core.csproj">
-      <Project>{741ff28c-581c-4c51-821d-032392836c16}</Project>
-      <Name>FONet.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\XslFO.Library\XslFO.Library.csproj">
       <Project>{4bb90e22-fd2d-4d1a-b5fe-7e3abf9afafe}</Project>

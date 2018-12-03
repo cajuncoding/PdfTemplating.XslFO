@@ -15,26 +15,18 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
-using System.CustomExtensions;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Xml;
-using System.Xml.Xsl;
+using System.CustomExtensions;
+using System.Diagnostics;
+using System.IO;
+using System.IO.CustomExtensions;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Linq.CustomExtensions;
 using System.Xml.Linq.XslFO.CustomExtensions;
-using System.IO;
-using System.IO.CustomExtensions;
-using System.Text;
-using System.Windows.Forms;
-using AxAcroPDFLib;
-using Fonet;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Reflection;
 using TE.Library;
 
 namespace XslFO.ControlLibrary
@@ -520,12 +512,11 @@ namespace XslFO.ControlLibrary
                     LogItem("Pdf Render Starting.");
                     timer.Restart();
 
-                    var _fnFonetEventHandler = GetFONetEventHandler();
                     var XslFORenderedOutput = xXslFOResultsDoc.RenderXslFOToPdfFile(GetTempFileHelper(), new XslFORenderOptions()
                     {
                         PdfOptions = pdfOptions,
-                        RenderErrorHandler = _fnFonetEventHandler,
-                        RenderEventHandler = _fnFonetEventHandler
+                        RenderErrorHandler = GetFONetErrorHandler(),
+                        RenderEventHandler = GetFONetEventHandler()
                     });
 
                     LogItem("Pdf Render Completed in [{0}] seconds.", timer.Elapsed.TotalSeconds);
@@ -613,12 +604,11 @@ namespace XslFO.ControlLibrary
                     LogItem("Pdf Render Starting.");
                     timer.Restart();
 
-                    var _fnFonetEventHandler = GetFONetEventHandler();
                     var XslFORenderedOutput = xXslFOResultsDoc.RenderXslFOToPdfFile(GetTempFileHelper(), new XslFORenderOptions()
                     {
                         PdfOptions = pdfOptions,
-                        RenderErrorHandler = _fnFonetEventHandler,
-                        RenderEventHandler = _fnFonetEventHandler
+                        RenderErrorHandler = GetFONetErrorHandler(),
+                        RenderEventHandler = GetFONetEventHandler()
                     });
 
                     LogItem("Pdf Render Completed in [{0}] seconds.", timer.Elapsed.TotalSeconds);
@@ -690,13 +680,12 @@ namespace XslFO.ControlLibrary
             TriggerLoadStart();
 
             FileInfo pdfBinaryFileInfo = GetTempFileHelper();
-            var _fnFOEventHandler = GetFONetEventHandler();
 
             var xslFORenderedOutput = xXslFODoc.RenderXslFOToPdfFile(pdfBinaryFileInfo, new XslFORenderOptions()
             {
                 PdfOptions = pdfOptions,
-                RenderErrorHandler = _fnFOEventHandler,
-                RenderEventHandler = _fnFOEventHandler
+                RenderErrorHandler = GetFONetErrorHandler(),
+                RenderEventHandler = GetFONetEventHandler()
             });
 
             TriggerLoadFile(xslFORenderedOutput);
@@ -760,11 +749,19 @@ namespace XslFO.ControlLibrary
             });
         }
 
-        private EventHandler<FonetEventArgs> GetFONetEventHandler()
+        private EventHandler<XslFOEventArg> GetFONetEventHandler()
         {
-            return new EventHandler<FonetEventArgs>((sender, e) =>
+            return new EventHandler<XslFOEventArg>((sender, e) =>
             {
-                LogItem("[{0}] {1}", "XslFORenderer", e.GetMessage());
+                LogItem("[{0}] {1}", "XslFORenderer", e.Message);
+            });
+        }
+
+        private EventHandler<XslFOErrorEventArg> GetFONetErrorHandler()
+        {
+            return new EventHandler<XslFOErrorEventArg>((sender, e) =>
+            {
+                LogItem("[{0}] {1}", "XslFORenderer", e.Message);
             });
         }
 

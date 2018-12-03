@@ -1,0 +1,377 @@
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="US-Letter-Portrait" page-width="8.5in" page-height="11in" margin-top=".25in" margin-bottom=".25in" margin-left=".5in" margin-right=".5in">
+      <fo:region-before extent=".25in" />
+      <fo:region-after extent=".25in" />
+      <fo:region-start extent="0in" />
+      <fo:region-end extent="0in" />
+      <fo:region-body margin-top=".25in" margin-bottom=".25in" margin-left="0in" margin-right="0in" />
+    </fo:simple-page-master>
+    <fo:simple-page-master master-name="US-Letter-Landscape" page-width="11in" page-height="8.5in" margin-top=".25in" margin-bottom=".25in" margin-left=".25in" margin-right=".25in">
+      <fo:region-before extent=".25in" />
+      <fo:region-after extent=".25in" />
+      <fo:region-start extent="0in" />
+      <fo:region-end extent="0in" />
+      <fo:region-body margin-top=".25in" margin-bottom=".25in" margin-left="0in" margin-right="0in" />
+    </fo:simple-page-master>
+    <fo:page-sequence-master master-name="report-master">
+      <fo:repeatable-page-master-alternatives maximum-repeats="no-limit">
+        <fo:conditional-page-master-reference master-reference="US-Letter-Portrait" page-position="first" />
+        <fo:conditional-page-master-reference master-reference="US-Letter-Portrait" page-position="rest" />
+      </fo:repeatable-page-master-alternatives>
+    </fo:page-sequence-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-reference="report-master">
+    <fo:static-content flow-name="xsl-region-after" font-family="Verdana" font-size="9pt">
+      <fo:block padding-top="0px" color="#777777">
+        <fo:table width="100%">
+          <fo:table-column column-width="proportional-column-width(1)" />
+          <fo:table-column column-width="proportional-column-width(2)" />
+          <fo:table-body>
+            <fo:table-row>
+              <fo:table-cell>
+                <fo:block text-align="left" padding-before="3px">
+                  <fo:block>
+                                Page <fo:page-number /> of <fo:page-number-citation ref-id="ref-last-page" /></fo:block>
+                </fo:block>
+              </fo:table-cell>
+              <fo:table-cell padding-before="3px">
+                <fo:block text-align="right">
+                  <fo:block space-before="3px">Movie Search for [Star Wars] on [12/03/2018 12:41:19 AM]</fo:block>
+                </fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+          </fo:table-body>
+        </fo:table>
+      </fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body" font-size="10pt" font-family="Cambria">
+      <fo:block font-size="9pt">
+        <fo:block break-before="auto">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" space-before="2.5in" border-bottom=".25pt solid #A0A0A0"></fo:block>
+            <fo:block font-size="18pt" space-before=".5in">
+                Movie Search for "Star Wars"
+            </fo:block>
+            <fo:block font-size="18pt" space-before=".5in">
+                Executed on: 12/03/2018 12:41:19 AM
+            </fo:block>
+            <fo:block space-before=".5in" border-bottom=".25pt solid #A0A0A0"></fo:block>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Star Wars: Episode IV - A New Hope
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BNzVlY2MwMjktM2E4OS00Y2Y3LWE3ZjctYzhkZGM3YzA1ZWM2XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Star Wars: Episode IV - A New Hope
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 1977
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0076759
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Star Wars: Episode V - The Empire Strikes Back
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BYmU1NDRjNDgtMzhiMi00NjZmLTg5NGItZDNiZjU5NTU4OTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Star Wars: Episode V - The Empire Strikes Back
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 1980
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0080684
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Star Wars: Episode VI - Return of the Jedi
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BOWZlMjFiYzgtMTUzNC00Y2IzLTk1NTMtZmNhMTczNTk0ODk1XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Star Wars: Episode VI - Return of the Jedi
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 1983
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0086190
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Star Wars: Episode I - The Phantom Menace
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BYTRhNjcwNWQtMGJmMi00NmQyLWE2YzItODVmMTdjNWI0ZDA2XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Star Wars: Episode I - The Phantom Menace
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 1999
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0120915
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Star Wars: Episode II - Attack of the Clones
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BMDAzM2M0Y2UtZjRmZi00MzVlLTg4MjEtOTE3NzU5ZDVlMTU5XkEyXkFqcGdeQXVyNDUyOTg3Njg@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Star Wars: Episode II - Attack of the Clones
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2002
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0121765
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Star Wars: Episode III - Revenge of the Sith
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BNTc4MTc3NTQ5OF5BMl5BanBnXkFtZTcwOTg0NjI4NA@@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Star Wars: Episode III - Revenge of the Sith
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2005
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0121766
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Star Wars: The Force Awakens
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BOTAzODEzNDAzMl5BMl5BanBnXkFtZTgwMDU1MTgzNzE@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Star Wars: The Force Awakens
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2015
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt2488496
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Rogue One: A Star Wars Story
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BMjEwMzMxODIzOV5BMl5BanBnXkFtZTgwNzg3OTAzMDI@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Rogue One: A Star Wars Story
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2016
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt3748528
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Star Wars: The Last Jedi
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BMjQ1MzcxNjg4N15BMl5BanBnXkFtZTgwNzgwMjY4MzI@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Star Wars: The Last Jedi
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2017
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt2527336
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Solo: A Star Wars Story
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BOTM2NTI3NTc3Nl5BMl5BanBnXkFtZTgwNzM1OTQyNTM@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Solo: A Star Wars Story
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2018
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt3778644
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:marker marker-class-name="Marker.LastPageFooterContent" />
+        <fo:block id="ref-last-page" />
+      </fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>

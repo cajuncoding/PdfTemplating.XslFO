@@ -1,0 +1,31 @@
+﻿@model String
+
+@* RENDER FOOTER REGION AS STATIC CONTENT; APPEARS ON EVERY PAGE*@
+@* NOTE:  FOOTER AND HEADERS MUST BE DEFINED BEFORE THE BODY FOR VALID XslFO PROCESSING *@
+<fo:static-content flow-name="xsl-region-after" font-family="@FontFamily.Footer" font-size="@FontSize.Footer">
+    <fo:block padding-top="0px" color="@Color.Gray">
+        @* Add debug colors to visualize the data... *@
+        @* <fo:table border="blue 1px solid"> *@
+        <fo:table width="100%">
+            <fo:table-column column-width="proportional-column-width(1)" />
+            <fo:table-column column-width="proportional-column-width(2)" />
+            <fo:table-body>
+                <fo:table-row>
+                    <fo:table-cell>
+                        <fo:block text-align="left" padding-before="3px">
+                            <fo:block>
+                                Page <fo:page-number /> of <fo:page-number-citation ref-id="ref-last-page" />
+                            </fo:block>
+                        </fo:block>
+                    </fo:table-cell>
+                    <fo:table-cell padding-before="3px">
+                        <fo:block text-align="right">
+                            @* Output the Description (e.g. our Model which is just a string)*@
+                            <fo:block space-before="3px">@Model</fo:block>
+                        </fo:block>
+                    </fo:table-cell>
+                </fo:table-row>
+            </fo:table-body>
+        </fo:table>
+    </fo:block>
+</fo:static-content>
