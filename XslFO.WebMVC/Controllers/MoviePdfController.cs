@@ -45,9 +45,9 @@ namespace XslFO.WebMVC.Controllers
             var searchResponse = await movieSearchService.SearchAsync(title);
 
             //Initialize the appropriate Renderer based on the Parameter.
-            IMoviePdfRenderer pdfRenderer = new RazorMoviePdfRenderer(ControllerContext);
+            // and execute the Pdf Renderer to generate the Pdf Document byte data
+            IPdfRenderer<MovieSearchResponse> pdfRenderer = new RazorMoviePdfRenderer(ControllerContext);
 
-            //Execute the Pdf Renderer to generate the Pdf Document byte data
             var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
 
             //Creat the MVC File Content Result from the Pdf byte data
@@ -67,9 +67,8 @@ namespace XslFO.WebMVC.Controllers
             var searchResponse = await movieSearchService.SearchAsync(title);
 
             //Initialize the appropriate Renderer based on the Parameter.
-            IMoviePdfRenderer pdfRenderer = new XsltMoviePdfRenderer();
-
-            //Execute the Pdf Renderer to generate the Pdf Document byte data
+            // and execute the Pdf Renderer to generate the Pdf Document byte data
+            IPdfRenderer<MovieSearchResponse> pdfRenderer = new XsltMoviePdfRenderer();
             var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
 
             //Creat the MVC File Content Result from the Pdf byte data

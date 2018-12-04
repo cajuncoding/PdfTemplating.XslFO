@@ -46,13 +46,18 @@ namespace MVC.Templating
             if (controllerContext == null)
             {
                 if (HttpContext.Current != null)
+                {
                     controllerContext = CreateController<EmptyController>().ControllerContext;
+                }
                 else
+                {
                     throw new InvalidOperationException(
-                        "ViewRenderer must run in the context of an ASP.NET " +
-                        "Application and requires HttpContext.Current to be present.");
+                        "ViewRenderer must run in the context of an ASP.NET Application and requires HttpContext.Current to be present."
+                    );
+                }
             }
-            Context = controllerContext;
+
+            this.Context = controllerContext;
         }
 
         /// <summary>

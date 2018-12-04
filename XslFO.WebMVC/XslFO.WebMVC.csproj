@@ -158,10 +158,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MovieSearch\MovieSearchResponse.cs" />
-    <Compile Include="Reports.MovieRenderers\BaseReportPdfRenderer.cs" />
-    <Compile Include="Reports.MovieRenderers\IMoviePdfRenderer.cs" />
-    <Compile Include="Reports.MovieRenderers\RazorMoviePdfRenderer.cs" />
-    <Compile Include="Reports.MovieRenderers\XsltMoviePdfRenderer.cs" />
+    <Compile Include="Reports.PdfRenderers\BasePdfRenderers\BaseXsltPdfRenderer.cs" />
+    <Compile Include="Reports.PdfRenderers\BasePdfRenderers\BaseRazorViewPdfRenderer.cs" />
+    <Compile Include="Reports.PdfRenderers\BasePdfRenderers\IPdfRenderer.cs" />
+    <Compile Include="Reports.PdfRenderers\MovieRenderers\RazorMoviePdfRenderer.cs" />
+    <Compile Include="Reports.PdfRenderers\MovieRenderers\XsltMoviePdfRenderer.cs" />
     <Compile Include="MovieSearch\MovieSearch.cs" />
     <Compile Include="Mvc.Templating\MvcRazorViewRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
