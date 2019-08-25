@@ -47,7 +47,6 @@ namespace XslFO.WebMVC.Controllers
             //Initialize the appropriate Renderer based on the Parameter.
             // and execute the Pdf Renderer to generate the Pdf Document byte data
             IPdfRenderer<MovieSearchResponse> pdfRenderer = new RazorMoviePdfRenderer(ControllerContext);
-
             var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
 
             //Creat the MVC File Content Result from the Pdf byte data
