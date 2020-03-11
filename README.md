@@ -16,8 +16,8 @@ Currently the full source code from FO.NET is contained within this project; bec
 There also appears to be another version hosted here, but I have not validated the state of this code:
 [https://github.com/hahmed/Fo.Net](https://github.com/hahmed/Fo.Net)
 
-#### TODO:
-**Hopefully COMING SOON... I will be spinning up a full Apache FOP engine in Azure Function and providing updates to this project to decouple the rendering engine and provide an implementation that uses the full Apache FOP as-a-service via Azure functions.**  
+#### TODO: Hopefully COMING SOON... 
+**I will be spinning up a full Apache FOP engine implementation in an Azure Function as a Serverless FOP Service. I'll updates this project to provide a new (decoupled) rendering engine implementation that uses the full Apache FOP as-a-service via the Azure function.**  
 
 #### Caveats:
 Unfortunately the FONET library that this currently uses doesn't support all features that Xsl-FO can provide, and it's not as up to date as the Apache FOP project that it ported over from.  But, in my experience it's still very capable and has worked very well for my projects for many many years.
