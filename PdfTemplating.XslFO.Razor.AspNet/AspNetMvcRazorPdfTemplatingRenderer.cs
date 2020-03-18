@@ -13,42 +13,51 @@ Copyright 2012 Brandon Bernard
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-using MVC.Templating;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 
-namespace PdfTemplating.XslFO.Razor
+namespace PdfTemplating.XslFO.Razor.AspNet
 {
-    public abstract class BaseMvcRazorViewPdfTemplatingRenderer<TViewModel>: IPdfTemplatingRenderer<TViewModel>
+    public class AspNetMvcRazorPdfTemplatingRenderer<TViewModel>: IPdfTemplatingRenderer<TViewModel>
     {
+        protected AspNetMvcRazorPdfTemplatingRenderer()
+        {}
 
-        #region Abstract Constructor that all implementations must provide
-
-        protected BaseMvcRazorViewPdfTemplatingRenderer(string razorViewPath, ControllerContext controllerContext)
+        protected AspNetMvcRazorPdfTemplatingRenderer(String razorViewVirtualPath, ControllerContext controllerContext = null)
         {
-            this.RazorViewPath = razorViewPath;
-            this.ControllerContext = controllerContext;
-            
-            //Load the Local FileInfo for the View Report so that we can use it's Directory
+            if(String.IsNullOrWhiteSpace(razorViewVirtualPath))
+                throw new ArgumentNullException(nameof(razorViewVirtualPath), "The virtual path to the Razor is null/empty; a valid virtual path must be specified.");
+
+            this.InitializeBase(razorViewVirtualPath, controllerContext);
+        }
+
+        protected void InitializeBase(String razorViewVirtualPath, ControllerContext controllerContext = null)
+        {
+            //NOTE: The Local FileInfo for the Razor View template/file will have it's Directory used
             //  as the BaseDirectory for resolving locally referenced files/images within the XSL-FO processing.
-            this.RazorViewFileInfo = new FileInfo(this.RazorViewPath.StartsWith("~")
-                                                    ? HttpContext.Current.Server.MapPath(this.RazorViewPath)
-                                                    : this.RazorViewPath);
+            this.RazorViewVirtualPath = razorViewVirtualPath;
+
+            var razorViewFilePath = HttpContext.Current.Server.MapPath(razorViewVirtualPath);
+            this.RazorViewFileInfo = new FileInfo(razorViewFilePath);
+
+            this.ControllerContext = controllerContext;
         }
 
         /// <summary>
-        /// The ViewPath to the Razor View to be used for Templating the XSL-FO Output for 
-        /// the Pdf Report; this is an abstract method that must be implemented by inheriting classes.
+        /// The original VirtualPath to the Razor View File.
+        /// NOTE: REQUIRED for underlying MVC ViewEngine to work as expected!
         /// </summary>
-        public string RazorViewPath { get; protected set; }
+        public String RazorViewVirtualPath { get; protected set; }
 
         /// <summary>
         /// The FileInfo to the Razor View file
         /// </summary>
-        public FileInfo RazorViewFileInfo { get; protected set; }
+        public FileInfo RazorViewFileInfo { get; set; }
+
 
         /// <summary>
         /// Returns a valid ControllerContext to use when executing the MVC Razor View; this is an 
@@ -57,9 +66,8 @@ namespace PdfTemplating.XslFO.Razor
         /// <returns></returns>
         public ControllerContext ControllerContext { get; protected set; }
 
-        #endregion
-
         #region IPdfRenderer implementation
+
         /// <summary>
         /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
         /// methods to simplify the implementations of all inheriting Razor View Renderers.
@@ -72,9 +80,16 @@ namespace PdfTemplating.XslFO.Razor
         /// <returns></returns>
         public virtual byte[] RenderPdf(TViewModel templateModel)
         {
-            //Render the XSL-FO output from the Razor Template and the View Model
-            var xslFODoc = this.RenderXslFOXml(templateModel);
+            //***********************************************************
+            //Execute the Razor View to generate the XSL-FO output
+            //***********************************************************
+            var razorViewRenderer = new AspNetMvcRazorViewRenderer(this.ControllerContext);
+            var renderResult = razorViewRenderer.RenderView(this.RazorViewVirtualPath, templateModel);
 
+            //Load the XSL-FO output into a fully validated XDocument.
+            //NOTE: This template must generate valid Xsl-FO output -- via the well-formed xml we load into the XDocument return value -- to be rendered as a Pdf Binary!
+            var xslFODoc = XDocument.Parse(renderResult.RenderOutput);
+            
             //Create the Pdf Options for the XSL-FO Rendering engine to use
             var pdfOptions = this.CreatePdfOptions();
 
@@ -96,10 +111,11 @@ namespace PdfTemplating.XslFO.Razor
             //Initialize the Pdf rendering options for the XSL-FO Pdf Engine
             var pdfOptions = new XslFOPdfOptions()
             {
-                Author = "BBernard",
-                Title = "Xsl-FO Test Application",
+                Author = Assembly.GetExecutingAssembly()?.GetName()?.Name ?? "PdfTemplating Renderer",
+                Title = $"Xsl-FO Pdf Templating Renderer [{this.GetType().Name}]",
                 Subject = $"Dynamic Razor Template Generated Xsl-FO Pdf Document [{DateTime.Now}]",
                 //SET the Base Directory for XslFO Images, Xslt Imports, etc.
+                //BaseDirectory = this.RazorViewFileInfo.Directory,
                 BaseDirectory = this.RazorViewFileInfo.Directory,
                 EnableAdd = false,
                 EnableCopy = true,
@@ -108,26 +124,6 @@ namespace PdfTemplating.XslFO.Razor
             };
 
             return pdfOptions;
-        }
-
-        /// <summary>
-        /// Helper method to render the XSL FO output
-        /// </summary>
-        /// <param name="viewModel"></param>
-        /// <returns></returns>
-        protected virtual XDocument RenderXslFOXml(TViewModel viewModel)
-        {
-            if (this.ControllerContext == null) throw new ArgumentNullException(nameof(this.ControllerContext));
-
-            //***********************************************************
-            //Execute the Razor View to generate the XSL-FO output
-            //***********************************************************
-            var razorViewRenderer = new MvcRazorViewRenderer(this.ControllerContext);
-            var xslFOTextOutput = razorViewRenderer.RenderViewToString(this.RazorViewPath, viewModel);
-
-            //Load the XSL-FO output into a fully validated XDocument.
-            var xslFODoc = XDocument.Parse(xslFOTextOutput);
-            return xslFODoc;
         }
 
         /// <summary>
@@ -147,11 +143,5 @@ namespace PdfTemplating.XslFO.Razor
         }
 
         #endregion
-
-        //TODO: Implement XSLFO rendering here???...
-        public byte[] RenderPdfBytes(XDocument xslFODoc, XslFOPdfOptions xslFOPdfOptions)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

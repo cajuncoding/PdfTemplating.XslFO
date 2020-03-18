@@ -1,14 +1,13 @@
 ﻿using PdfTemplating.WebMVC.MovieSearch;
+using PdfTemplating.XslFO.Razor.AspNet;
 using System.Web.Mvc;
 
-namespace PdfTemplating.XslFO.Razor
+namespace XslFO.WebMVC.Reports.PdfRenderers
 {
-    public class MvcRazorMoviePdfTemplatingRenderer : BaseMvcRazorViewPdfTemplatingRenderer<MovieSearchResponse>
+    public class RazorMoviePdfRenderer : AspNetMvcRazorPdfTemplatingRenderer<MovieSearchResponse>
     {
-        public MvcRazorMoviePdfTemplatingRenderer(ControllerContext controllerContext)
+        public RazorMoviePdfRenderer(ControllerContext controllerContext)
             : base("~/Reports.Razor/MoviePdfReport/MoviesReport.cshtml", controllerContext)
-        {
-        }
-
+        {}
     }
 }

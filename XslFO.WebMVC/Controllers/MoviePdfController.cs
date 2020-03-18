@@ -13,13 +13,12 @@ Copyright 2012 Brandon Bernard
    See the License for the specific language governing permissions and
    limitations under the License.
 */
+using PdfTemplating.WebMVC.MovieSearch;
+using PdfTemplating.XslFO;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using PdfTemplating.XslFO;
-using PdfTemplating.WebMVC.MovieSearch;
-using PdfTemplating.XslFO.Razor;
-using PdfTemplating.XslFO.Xslt;
+using XslFO.WebMVC.Reports.PdfRenderers;
 
 namespace PdfTemplating.WebMVC.Controllers
 {
@@ -48,10 +47,10 @@ namespace PdfTemplating.WebMVC.Controllers
 
             //Initialize the appropriate Renderer based on the Parameter.
             // and execute the Pdf Renderer to generate the Pdf Document byte data
-            IPdfTemplatingRenderer<MovieSearchResponse> pdfTemplatingRenderer = new MvcRazorMoviePdfTemplatingRenderer(ControllerContext);
+            IPdfTemplatingRenderer<MovieSearchResponse> pdfTemplatingRenderer = new RazorMoviePdfRenderer(ControllerContext);
             var pdfBytes = pdfTemplatingRenderer.RenderPdf(searchResponse);
 
-            //Creat the MVC File Content Result from the Pdf byte data
+            //Create the File Content Result from the Pdf byte data
             var fileContent = new FileContentResult(pdfBytes, "application/pdf");
             return fileContent;
         }
@@ -69,10 +68,10 @@ namespace PdfTemplating.WebMVC.Controllers
 
             //Initialize the appropriate Renderer based on the Parameter.
             // and execute the Pdf Renderer to generate the Pdf Document byte data
-            IPdfTemplatingRenderer<MovieSearchResponse> pdfTemplatingRenderer = new XsltMoviePdfTemplatingRenderer();
+            IPdfTemplatingRenderer<MovieSearchResponse> pdfTemplatingRenderer = new XsltMoviePdfRenderer();
             var pdfBytes = pdfTemplatingRenderer.RenderPdf(searchResponse);
 
-            //Creat the MVC File Content Result from the Pdf byte data
+            //Create the File Content Result from the Pdf byte data
             var fileContent = new FileContentResult(pdfBytes, "application/pdf");
             return fileContent;
         }

@@ -14,6 +14,8 @@ Copyright 2012 Brandon Bernard
    limitations under the License.
 */
 
+using PdfTemplating.XslFO;
+using PdfTemplating.XslFO.Fonet.CustomExtensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,8 +28,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Linq.CustomExtensions;
-using PdfTemplating.XslFO;
-using PdfTemplating.XslFO.Fonet.CustomExtensions;
+using System.Xml.Linq.Xslt.CustomExtensions;
 using TE.Library;
 
 namespace PdfTemplating.ControlLibrary

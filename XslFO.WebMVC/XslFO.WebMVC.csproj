@@ -190,7 +190,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="TestData.XslFO\RazorRenderedXslFO-Test.xml" />
-    <Content Include="Views\MoviePdf\MoviesPdfReport.cshtml" />
     <Content Include="Reports.Razor\MoviePdfReport\MoviesReport.cshtml" />
     <Content Include="Reports.Razor\Web.config" />
     <Content Include="Reports.Razor\_PdfReportLayout.cshtml" />
@@ -240,10 +239,6 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CSharp.CustomExtensions\CSharp.CustomExtensions.csproj">
-      <Project>{eca8e6f7-dcf2-4e59-8d91-b30c81a7c658}</Project>
-      <Name>CSharp.CustomExtensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj">
       <Project>{CF96DCE8-A93D-4D9A-A909-FCA0BE90B12B}</Project>
       <Name>PdfTemplating.Common</Name>

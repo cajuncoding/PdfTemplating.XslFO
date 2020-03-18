@@ -114,10 +114,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CSharp.CustomExtensions\CSharp.CustomExtensions.csproj">
-      <Project>{eca8e6f7-dcf2-4e59-8d91-b30c81a7c658}</Project>
-      <Name>CSharp.CustomExtensions</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PdfTemplating.XslFO\PdfTemplating.XslFO.csproj">
       <Project>{23d05779-c655-4d1d-bc48-3678a4d0f84e}</Project>
       <Name>PdfTemplating.XslFO</Name>

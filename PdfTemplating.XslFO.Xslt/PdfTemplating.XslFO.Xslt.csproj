@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CSharp.CustomExtensions\CSharp.CustomExtensions.csproj" />
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj" />
     <ProjectReference Include="..\PdfTemplating.XslFO\PdfTemplating.XslFO.csproj" />
   </ItemGroup>

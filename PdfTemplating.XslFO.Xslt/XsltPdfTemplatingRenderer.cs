@@ -15,38 +15,44 @@ Copyright 2012 Brandon Bernard
 */
 using System;
 using System.IO;
+using System.IO.CustomExtensions;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Xml.Linq.CustomExtensions;
+using System.Xml.Linq.Xslt.CustomExtensions;
 
 namespace PdfTemplating.XslFO.Xslt
 {
-    public abstract class BaseXsltPdfTemplatingRenderer<TViewModel>: IPdfTemplatingRenderer<TViewModel>
+    public class XsltPdfTemplatingRenderer<TViewModel>: IPdfTemplatingRenderer<TViewModel>
     {
+        public XsltPdfTemplatingRenderer()
+        {}
 
-        #region Abstract Constructor that all implementations must provide
-        public BaseXsltPdfTemplatingRenderer(string xsltPath)
+        public XsltPdfTemplatingRenderer(FileInfo xsltFileInfo)
         {
-            this.XsltPath = xsltPath;
-            this.XsltFileInfo = new FileInfo(this.XsltPath.StartsWith("~")
-                                            ? this.XsltPath //HttpContext.Current.Server.MapPath(this.XsltPath)
-                                            : this.XsltPath);
+            this.InitializeBase(xsltFileInfo);
         }
 
-        /// <summary>
-        /// The ViewPath to the Razor View to be used for Templating the XSL-FO Output for 
-        /// the Pdf Report; this is an abstract method that must be implemented by inheriting classes.
-        /// </summary>
-        public string XsltPath { get; protected set; }
+        protected void InitializeBase(FileInfo xsltFileInfo)
+        {
+            if (!xsltFileInfo.ExistsSafely()) throw new ArgumentException(
+                "The Xslt file specified does not exist; a valid Xslt file must be specified.",
+                nameof(xsltFileInfo)
+            );
+
+            //NOTE: The Local FileInfo for the Razor View template/file will have it's Directory used
+            //  as the BaseDirectory for resolving locally referenced files/images within the XSL-FO processing.
+            this.XsltFileInfo = xsltFileInfo;
+        }
 
         /// <summary>
         /// The FileInfo object for the Xslt File
         /// </summary>
         public FileInfo XsltFileInfo { get; protected set; }
 
-        #endregion
-
         #region IPdfTemplatingRenderer implementation
+
         /// <summary>
         /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
         /// methods to simplify the implementations of all inheriting Razor View Renderers.
@@ -83,8 +89,8 @@ namespace PdfTemplating.XslFO.Xslt
             //Initialize the Pdf rendering options for the XSL-FO Pdf Engine
             var pdfOptions = new XslFOPdfOptions()
             {
-                Author = "BBernard",
-                Title = "Xsl-FO Test Application",
+                Author = Assembly.GetExecutingAssembly()?.GetName()?.Name ?? "PdfTemplating Renderer",
+                Title = $"Xsl-FO Pdf Templating Renderer [{this.GetType().Name}]",
                 Subject = $"Dynamic Xslt Generated Xsl-FO Pdf Document [{DateTime.Now}]",
                 //SET the Base Directory for XslFO Images, Xslt Imports, etc.
                 BaseDirectory = this.XsltFileInfo.Directory,
@@ -111,8 +117,6 @@ namespace PdfTemplating.XslFO.Xslt
             var xmlDataDoc = ConvertModelToXDocument(viewModel).RemoveNamespaces();
 
             //Load the Xslt Report Template to process the Xml model data
-            //NOTE: This template must generate valid Xsl-FO (well formed xml) output to be rendered as a Pdf Binary!
-            //NOTE: WE must map the path from the Application Root "~/" to find the Local Files deployed with our MVC app!
             //Load the Local FileInfo for the View Report so that we can use it's Directory
             //  as the BaseDirectory for resolving locally referenced files/images within the XSL-FO processing.
             var xsltFileInfo = this.XsltFileInfo;
@@ -128,6 +132,7 @@ namespace PdfTemplating.XslFO.Xslt
             });
 
             //Execute the Xslt Transformation to generate Xsl-FO Source
+            //NOTE: This template must generate valid Xsl-FO output -- via the well-formed xml via XDocument return value -- to be rendered as a Pdf Binary!
             var xslFODoc = xslTransformer.TransformToXDocument(xmlDataDoc);
             return xslFODoc;
         }

@@ -63,10 +63,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseRazorViewPdfRenderer.cs" />
-    <Compile Include="MvcRazorViewRenderer.cs" />
+    <Compile Include="AspNetMvcRazorPdfTemplatingRenderer.cs" />
+    <Compile Include="AspNetMvcRazorViewRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RazorPdfTemplatingRenderer.cs" />
+    <Compile Include="RazorViewRenderResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
