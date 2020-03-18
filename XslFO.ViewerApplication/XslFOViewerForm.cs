@@ -25,10 +25,10 @@ using System.Windows.Forms;
 using System.Windows.Forms.CustomExtensions;
 using System.IO;
 using System.CustomExtensions;
-using System.Xml.Linq.XslFO.CustomExtensions;
+using PdfTemplating.XslFO.Fonet.CustomExtensions;
 using System.Diagnostics;
 
-namespace XslFO.ViewerApplication
+namespace PdfTemplating.ViewerApplication
 {
     public partial class XslFOViewerForm : Form
     {

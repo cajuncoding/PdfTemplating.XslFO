@@ -20,11 +20,12 @@ using System.Linq;
 using System.Xml.Xsl;
 using System.Xml.Linq;
 using System.Xml.Linq.CustomExtensions;
-using System.Xml.Linq.XslFO.CustomExtensions;
+using PdfTemplating.XslFO.Fonet.CustomExtensions;
 using System.IO;
 using System.Text;
+using PdfTemplating.XslFO;
 
-namespace XslFO.ControlLibrary
+namespace PdfTemplating.ControlLibrary
 {
     public enum XslFOViewerControlState
     {

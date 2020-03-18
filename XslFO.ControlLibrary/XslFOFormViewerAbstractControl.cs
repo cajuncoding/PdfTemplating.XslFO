@@ -26,10 +26,11 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Linq.CustomExtensions;
-using System.Xml.Linq.XslFO.CustomExtensions;
+using PdfTemplating.XslFO;
+using PdfTemplating.XslFO.Fonet.CustomExtensions;
 using TE.Library;
 
-namespace XslFO.ControlLibrary
+namespace PdfTemplating.ControlLibrary
 {
     /// <summary>
     /// NOTE:  This is designed to be an abstract class however, as a UserControl, 

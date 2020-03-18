@@ -21,7 +21,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.CustomExtensions;
 
-namespace XslFO.ViewerApplication
+namespace PdfTemplating.ViewerApplication
 {
     static class Program
     {

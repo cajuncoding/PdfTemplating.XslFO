@@ -16,10 +16,12 @@ Copyright 2012 Brandon Bernard
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using XslFO.WebMVC.MovieSearch;
-using XslFO.WebMVC.PdfRenderers;
+using PdfTemplating.XslFO;
+using PdfTemplating.WebMVC.MovieSearch;
+using PdfTemplating.XslFO.Razor;
+using PdfTemplating.XslFO.Xslt;
 
-namespace XslFO.WebMVC.Controllers
+namespace PdfTemplating.WebMVC.Controllers
 {
     [RoutePrefix("movies/pdf")]
     public class MoviePdfController : Controller
@@ -46,8 +48,8 @@ namespace XslFO.WebMVC.Controllers
 
             //Initialize the appropriate Renderer based on the Parameter.
             // and execute the Pdf Renderer to generate the Pdf Document byte data
-            IPdfRenderer<MovieSearchResponse> pdfRenderer = new RazorMoviePdfRenderer(ControllerContext);
-            var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
+            IPdfTemplatingRenderer<MovieSearchResponse> pdfTemplatingRenderer = new MvcRazorMoviePdfTemplatingRenderer(ControllerContext);
+            var pdfBytes = pdfTemplatingRenderer.RenderPdf(searchResponse);
 
             //Creat the MVC File Content Result from the Pdf byte data
             var fileContent = new FileContentResult(pdfBytes, "application/pdf");
@@ -67,8 +69,8 @@ namespace XslFO.WebMVC.Controllers
 
             //Initialize the appropriate Renderer based on the Parameter.
             // and execute the Pdf Renderer to generate the Pdf Document byte data
-            IPdfRenderer<MovieSearchResponse> pdfRenderer = new XsltMoviePdfRenderer();
-            var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
+            IPdfTemplatingRenderer<MovieSearchResponse> pdfTemplatingRenderer = new XsltMoviePdfTemplatingRenderer();
+            var pdfBytes = pdfTemplatingRenderer.RenderPdf(searchResponse);
 
             //Creat the MVC File Content Result from the Pdf byte data
             var fileContent = new FileContentResult(pdfBytes, "application/pdf");

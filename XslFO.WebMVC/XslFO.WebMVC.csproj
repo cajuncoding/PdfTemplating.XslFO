@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XslFO.WebMVC</RootNamespace>
     <AssemblyName>XslFO.WebMVC</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -26,6 +26,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,7 +58,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.4.0\lib\net461\System.ValueTuple.dll</HintPath>
@@ -66,11 +71,8 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
@@ -112,6 +114,7 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -158,13 +161,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MovieSearch\MovieSearchResponse.cs" />
-    <Compile Include="Reports.PdfRenderers\BasePdfRenderers\BaseXsltPdfRenderer.cs" />
-    <Compile Include="Reports.PdfRenderers\BasePdfRenderers\BaseRazorViewPdfRenderer.cs" />
-    <Compile Include="Reports.PdfRenderers\BasePdfRenderers\IPdfRenderer.cs" />
-    <Compile Include="Reports.PdfRenderers\MovieRenderers\RazorMoviePdfRenderer.cs" />
-    <Compile Include="Reports.PdfRenderers\MovieRenderers\XsltMoviePdfRenderer.cs" />
+    <Compile Include="Reports.PdfRenderers\RazorMoviePdfRenderer.cs" />
+    <Compile Include="Reports.PdfRenderers\XsltMoviePdfRenderer.cs" />
     <Compile Include="MovieSearch\MovieSearch.cs" />
-    <Compile Include="Mvc.Templating\MvcRazorViewRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports.Razor\ReportUtilities.cs" />
   </ItemGroup>
@@ -241,13 +240,25 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary.CSharp\CSharp.CustomExtensions.csproj">
-      <Project>{bb09e709-0970-4951-afd2-5c52de5589a3}</Project>
+    <ProjectReference Include="..\CSharp.CustomExtensions\CSharp.CustomExtensions.csproj">
+      <Project>{eca8e6f7-dcf2-4e59-8d91-b30c81a7c658}</Project>
       <Name>CSharp.CustomExtensions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XslFO.Library\XslFO.Library.csproj">
-      <Project>{4bb90e22-fd2d-4d1a-b5fe-7e3abf9afafe}</Project>
-      <Name>XslFO.Library</Name>
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj">
+      <Project>{CF96DCE8-A93D-4D9A-A909-FCA0BE90B12B}</Project>
+      <Name>PdfTemplating.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PdfTemplating.XslFO.Razor.AspNet\PdfTemplating.XslFO.Razor.AspNet.csproj">
+      <Project>{86678dea-1da7-4478-989a-05087a7a0158}</Project>
+      <Name>PdfTemplating.XslFO.Razor.AspNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PdfTemplating.XslFO.Xslt\PdfTemplating.XslFO.Xslt.csproj">
+      <Project>{C17CF83E-E100-47A0-BA8D-13835D84DEEC}</Project>
+      <Name>PdfTemplating.XslFO.Xslt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PdfTemplating.XslFO\PdfTemplating.XslFO.csproj">
+      <Project>{23d05779-c655-4d1d-bc48-3678a4d0f84e}</Project>
+      <Name>PdfTemplating.XslFO</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

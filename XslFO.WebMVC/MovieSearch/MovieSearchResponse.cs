@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace XslFO.WebMVC.MovieSearch
+namespace PdfTemplating.WebMVC.MovieSearch
 {
     public class SearchResult
     {

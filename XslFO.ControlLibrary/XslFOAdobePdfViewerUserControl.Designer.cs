@@ -1,4 +1,4 @@
-﻿namespace XslFO.ControlLibrary
+﻿namespace PdfTemplating.ControlLibrary
 {
     partial class XslFOAdobePdfViewerUserControl
     {

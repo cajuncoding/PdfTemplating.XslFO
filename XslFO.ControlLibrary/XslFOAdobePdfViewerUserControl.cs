@@ -31,7 +31,7 @@ using System.Threading.CustomExtensions;
 using System.Diagnostics;
 using System.Windows.Forms.CustomExtensions;
 
-namespace XslFO.ControlLibrary
+namespace PdfTemplating.ControlLibrary
 {
     [ToolboxItem(true)]
     public partial class XslFOAdobePdfViewerUserControl : XslFOFormViewerAbstractControl, IMessageFilter

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XslFO.ControlLibrary</RootNamespace>
     <AssemblyName>XslFO.ControlLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -24,6 +24,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -33,6 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -111,21 +113,17 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary.CSharp\CSharp.CustomExtensions.csproj">
-      <Project>{bb09e709-0970-4951-afd2-5c52de5589a3}</Project>
+    <ProjectReference Include="..\CSharp.CustomExtensions\CSharp.CustomExtensions.csproj">
+      <Project>{eca8e6f7-dcf2-4e59-8d91-b30c81a7c658}</Project>
       <Name>CSharp.CustomExtensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenSource.FONet\Core\FONet.Core.csproj">
-      <Project>{741ff28c-581c-4c51-821d-032392836c16}</Project>
-      <Name>FONet.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenSource.WinForms.Animations\OpenSource.WinForms.Animations.csproj">
       <Project>{5222558b-c90b-4a8d-9081-9079d2e826d0}</Project>
       <Name>OpenSource.WinForms.Animations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XslFO.Library\XslFO.Library.csproj">
-      <Project>{4BB90E22-FD2D-4D1A-B5FE-7E3ABF9AFAFE}</Project>
-      <Name>XslFO.Library</Name>
+    <ProjectReference Include="..\PdfTemplating.XslFO\PdfTemplating.XslFO.csproj">
+      <Project>{23d05779-c655-4d1d-bc48-3678a4d0f84e}</Project>
+      <Name>PdfTemplating.XslFO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

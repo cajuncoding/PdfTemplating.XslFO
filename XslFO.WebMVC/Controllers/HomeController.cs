@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace XslFO.WebMVC.Controllers
+namespace PdfTemplating.WebMVC.Controllers
 {
     public class HomeController : Controller
     {
