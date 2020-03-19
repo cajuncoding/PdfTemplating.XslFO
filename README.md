@@ -1,5 +1,6 @@
 # PdfTemplating.XslFO
-This is a C#.Net solution that provides the capability to easily generate Pdf files using a templated approach; as opposed to extremely complex code based approaches most libraries provide.
+This is a C#.Net solution that provides the capability to easily generate Pdf files using a templated approach that provides great separation between presentation
+(the template) and data (the Model); as opposed to extremely complex code based approaches most libraries provide.
 It's based on the Xsl-FO standard and currently is dependent on an old but still very functional libray "Fonet" -- which is port of Apache FOP to C#.
 
 In addition, this is a completely open-source and free solution to use (even commercially).  Many of the complex (powerful maybe, but horribly difficult to develop and maintain)
@@ -102,7 +103,8 @@ Provides a Web based client application based on ASP.Net MVC that can be used to
 3. The default route for the application is **/movies/pdf** and will result in the results being rendered by the **Razor Templating engine** with a default Search using **"Star Wars"**
     * **The XSLT Templating engine is also supported (see below for explicitly testing with that engine)** 
 	* In addition, you can specify any dynamic search you want by using the "title" parameter: **/pdf?title={movie title here}**, some samples are:
-		1. /movies/pdf?title=star%20trek 
+		1. /movies/pdf?title=star%20trek
+        2. /movies/pdf?title=the%20matrix
 		2. /movies/pdf?title=braveheart
 		3. /movies/pdf?title=finding%20nemo
 3. The Razor Mediator reports that render the FO (Formatting Objects Xml markup) -- that is converted into Pdf format -- are located in the MVC Project at:

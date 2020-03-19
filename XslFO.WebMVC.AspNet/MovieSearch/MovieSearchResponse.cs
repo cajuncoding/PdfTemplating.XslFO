@@ -6,11 +6,18 @@ namespace PdfTemplating.WebMVC.MovieSearch
 {
     public class SearchResult
     {
+        string _poster = string.Empty;
+
         public string Title { get; set; }
         public string Year { get; set; }
         public string ImdbID { get; set; }
         public string Type { get; set; }
-        public string Poster { get; set; }
+        
+        //NOTE: Custom Property Logic here makes the Templating Logic much easier and improves separation of presentation from data!
+        public string Poster { 
+            get => _poster;
+            set => _poster = value.StartsWith("http", StringComparison.OrdinalIgnoreCase) ? value : string.Empty;
+        }
     }
 
     public class MovieSearchResponse

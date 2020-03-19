@@ -89,7 +89,14 @@
 
 								<!-- Render Image -->
 								<xsl:variable name="posterImageUrl" select="./Poster" />
-								<fo:external-graphic src="url('{$posterImageUrl}')" width="300px" scaling="uniform" />
+                <xsl:choose>
+                  <xsl:when test="$posterImageUrl = ''">
+                    <fo:block font-size="{$FontSize.H1}">No Image</fo:block>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <fo:external-graphic src="url('{$posterImageUrl}')" width="300px" scaling="uniform" />
+                  </xsl:otherwise>
+                </xsl:choose>
 
 							</fo:table-cell>
 							<fo:table-cell padding="10px">
