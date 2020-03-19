@@ -1,28 +1,57 @@
-# XslFO.TestSolution
-This is a C#.Net solution that tests and illustrates the capabilities of using templating based approaches to render Xsl-FO for dynamically generating PDF documents. This project illustrates the use and support of two of the most common/well-known templating engines for .Net web development -- Razor Templating & XSLT Templating. 
+# PdfTemplating.XslFO
+This is a C#.Net solution that provides the capability to easily generate Pdf files using a templated approach; as opposed to extremely complex code based approaches most libraries provide.
+It's based on the Xsl-FO standard and currently is dependent on an old but still very functional libray "Fonet" -- which is port of Apache FOP to C#.
 
-The Razor & Xslt template based approaches to rendering PDF's gives you the benefits of separating the presentation from the Data model, allows different team members to work at the same time because the Template can be developed offline with sample Model data that can be easily loaded, and the code can be made very manageable with the use of Xslt include files, variables, etc. to divide your code into modular "DRY" components for re-use across multiple reports, etc.
+In addition, this is a completely open-source and free solution to use (even commercially).  Many of the complex (powerful maybe, but horribly difficult to develop and maintain)
+API libraries out there require licenses and are no longer possible solutions when simply due to steep licensing costs.
 
-In addition, the Razor & Xslt engines are extensible and can support virtually unlimited capabilities with C# based extension functions. For Razor templates the world of .Net is immediatelyl available (e.g. Linq).  And, for XSLT custom extension functions can be defined in the assembly or inlinein the Xslt, and this project has many custom extensions already included to augment the Xslt v1.0 engine that .Net provides.
+**I hope this helps anyone looking to dynamically generate PDF files in C# or .Net with a templating approach that is far more maintainable than other code based generation/manipulation approaches . . .**
 
-Finally, this project also provides basic a Windows Client (WinForms) application that provides a UI that can be used for developing when using the Xslt templating engine.
+### Project Overview:
+This project illustrates the capabilities of using templating based approaches to render Xsl-FO for dynamically generating PDF documents. 
+This project illustrates the use and support of two of the most common/well-known templating engines for .Net web development -- Razor Templating 
+& XSLT Templating. 
+
+The Razor & Xslt template based approaches to rendering PDF files gives you the benefits of separating the presentation from the Data model, allows 
+different team members to work at the same time because the Template can be developed offline with sample Model data that can be easily loaded, and 
+the code can be made very manageable with the use of Xslt include files, variables, etc. to divide your code into modular "DRY" components for re-use 
+across multiple reports, etc.
+
+In addition, the Razor & Xslt engines are extensible and can support virtually unlimited capabilities with C# based extension functions. For Razor 
+templates the world of .Net is immediately available (e.g. Linq).  And, for XSLT custom extension functions can be defined in the assembly or inlinein 
+the Xslt, and this project has many custom extensions already included to augment the Xslt v1.0 engine that .Net provides.
+
+Finally, this project also provides basic a Windows Client (WinForms) application that provides a UI that can be used for developing when using the 
+Xslt templating engine.
+
+NOTE: Currently the Razor Implementation requires Microsoft.AspNet.MVC and does not yet support .Net Core. I plan to extend this as soon as I have
+a real need to render Pdf file from a .Net Core web application; or a console app for that matter 
+(useful info. [https://stackoverflow.com/questions/38247080/using-razor-outside-of-mvc-in-net-core](here on StackOverflow).)
+
 
 #### Xsl-FO Implementation(s):
 This project is based on FO.NET, an open source project from CodePlex located here:
 [https://archive.codeplex.com/?p=fonet](https://archive.codeplex.com/?p=fonet)
 
-Currently the full source code from FO.NET is contained within this project; because the original hasn't been updated in so long, I wanted to make sure that this solution contained a stable version.
-
 There also appears to be another version hosted here, but I have not validated the state of this code:
 [https://github.com/hahmed/Fo.Net](https://github.com/hahmed/Fo.Net)
 
-#### TODO: Hopefully COMING SOON... 
-**I will be spinning up a full Apache FOP engine implementation in an Azure Function as a Serverless FOP Service. I'll updates this project to provide a new (decoupled) rendering engine implementation that uses the full Apache FOP as-a-service via the Azure function.**  
+But, because the original hasn't been updated in so long, I wanted to make sure that this solution contained a stable version. 
+Therefore, I've cloned the working stable version that I've used in several projects and included here in this project.  
+
+**NOTE: I've also updated the included version to target and compile as a .Net Standard 2.0 project for greater compatibility.**
 
 #### Caveats:
 Unfortunately the FONET library that this currently uses doesn't support all features that Xsl-FO can provide, and it's not as up to date as the Apache FOP project that it ported over from.  But, in my experience it's still very capable and has worked very well for my projects for many many years.
 
-## Projects
+
+#### TODO: Hopefully COMING SOON... 
+1. Add a service oriencted implementation that uses the latest and greatest Apache FOP as a Pdf-as-a-Service via Azure Functions.
+    * **I hope to spin up a full Apache FOP engine implementation in an Azure Function as a Serverless FOP Service.
+        I'll updates this project to provide a new (decoupled) rendering engine implementation that uses the full Apache FOP as-a-service via the Azure function.**
+2. Once I have a need to generate Pdf files with .Net Core I will create an implementation for that also.
+
+## Testing Projects
 #### XslFO.ViewerApplication project
 Provides a Windows client/desktop application that can be used as a viewer to provide real-time previews while creating/developing your Xslt and/or Xsl-FO.
 1. You use any text editor you like (e.g. Notepad++) to edit your Xslt.
@@ -33,7 +62,7 @@ Provides a Windows client/desktop application that can be used as a viewer to pr
 	* **NOTE: The Windows Client viewer MUST be run in 32-bit mode for the Acrobat ActiveX controls to work correctly (e.g. it must be built in x86 mode).**
 3. This application is completely generic and doesn't come with any pre-bundled Xslt Reports, but you can leverage the sample Xml data and MoviewReport that are located in the Web MVC project (see below).
 
-#### XslFO.WebMVC project
+#### XslFO.WebMvc.AspNet project
 Provides a Web based client application based on ASP.Net MVC that can be used to dynamically render and stream the Pdf to the browser.  It provides an example of how elegant it can be to manage Xslt or Razor based (templated approach) reports in a web application and dynamically render Pdf's to client requests.
 1. The sample report uses the OMDB Api to get results based on Movie Title Search
 	* [http://www.omdbapi.com](http://www.omdbapi.com)
@@ -52,7 +81,6 @@ Provides a Web based client application based on ASP.Net MVC that can be used to
 	* You can always explicity run the XSLT Templating engine by using the explicit route:
 	    1. /movies/pdf/xslt?title=star%20wars
 
-I hope this helps anyone looking to dynamically generate PDF's in C# or .Net with a templating approach that is far more maintainable than other code based generation/manipulation approaches . . .  
 
 ```
 /*
