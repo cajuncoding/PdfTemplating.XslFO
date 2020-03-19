@@ -11,11 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSource.WinForms.Animati
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms", "WinForms", "{0F510A11-E011-4C71-83D3-B9D1E7CF8954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslFO.WebMVC", "XslFO.WebMVC\XslFO.WebMVC.csproj", "{F9AE759C-C0EF-4412-8A33-64982C2474BB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslFO.AspNet.MVC", "XslFO.WebMVC\XslFO.AspNet.MVC.csproj", "{F9AE759C-C0EF-4412-8A33-64982C2474BB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms.Common", "WinForms.Common", "{37C7509C-D58F-4D9D-8058-5C260C57B9B6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebMVC", "WebMVC", "{1EA3ED4F-BC0E-4D30-9173-CC07429538B0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PdfTemplating.WebMVC", "PdfTemplating.WebMVC", "{1EA3ED4F-BC0E-4D30-9173-CC07429538B0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfTemplating.XslFO", "PdfTemplating.XslFO\PdfTemplating.XslFO.csproj", "{23D05779-C655-4D1D-BC48-3678A4D0F84E}"
 EndProject
@@ -28,6 +28,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfTemplating.Fonet.NetStandard", "PdfTemplating.Fonet.NetStandard\PdfTemplating.Fonet.NetStandard.csproj", "{D052C6B6-C936-47C8-904D-05DBCA07C92E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfTemplating.XslFO.Razor.AspNet", "PdfTemplating.XslFO.Razor.AspNet\PdfTemplating.XslFO.Razor.AspNet.csproj", "{86678DEA-1DA7-4478-989A-05087A7A0158}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Original Fonet Project", "Original Fonet Project", "{01CB0DD8-FBCA-4617-954E-B163BE4B344E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FONet.Core", "OpenSource.FONet.NetFramework\Core\FONet.Core.csproj", "{741FF28C-581C-4C51-821D-032392836C16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +111,14 @@ Global
 		{86678DEA-1DA7-4478-989A-05087A7A0158}.Release|Any CPU.Build.0 = Release|Any CPU
 		{86678DEA-1DA7-4478-989A-05087A7A0158}.Release|x86.ActiveCfg = Release|Any CPU
 		{86678DEA-1DA7-4478-989A-05087A7A0158}.Release|x86.Build.0 = Release|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Debug|x86.Build.0 = Debug|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Release|x86.ActiveCfg = Release|Any CPU
+		{741FF28C-581C-4C51-821D-032392836C16}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +134,7 @@ Global
 		{C17CF83E-E100-47A0-BA8D-13835D84DEEC} = {3FC646FF-E262-4BEC-ABCE-465EF01DD551}
 		{D052C6B6-C936-47C8-904D-05DBCA07C92E} = {3FC646FF-E262-4BEC-ABCE-465EF01DD551}
 		{86678DEA-1DA7-4478-989A-05087A7A0158} = {3FC646FF-E262-4BEC-ABCE-465EF01DD551}
+		{741FF28C-581C-4C51-821D-032392836C16} = {01CB0DD8-FBCA-4617-954E-B163BE4B344E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7A57A57D-1914-4887-A77D-2FCB32B09BBE}

@@ -14,23 +14,9 @@ Copyright 2012 Brandon Bernard
    limitations under the License.
 */
 
-using System;
 using System.CustomExtensions;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Xsl;
-using System.Xml.XPath;
-using System.Xml.Linq;
-using System.Xml.Linq.CustomExtensions;
-using System.Text.RegularExpressions;
-using System.Text.RegularExpressions.CustomExtensions;
-using System.Security;
-using System.Web;
 using System.IO;
-using System.IO.CustomExtensions;
+using System.Xml.Xsl;
 
 namespace System.Xml.Linq.CustomExtensions
 {
@@ -39,7 +25,7 @@ namespace System.Xml.Linq.CustomExtensions
     public class XmlUrlExtendedResolver : XmlUrlResolver
     {
         public DirectoryInfo BaseDirectory { get; protected set; }
-        private Uri _preapredBaseUri = null;
+        private readonly Uri _preparedBaseUri = null;
 
         public XmlUrlExtendedResolver(DirectoryInfo baseDirectory)
         {
@@ -55,9 +41,9 @@ namespace System.Xml.Linq.CustomExtensions
             //Process network/unc paths correctly if a forward slash syntax is used
             if (baseUriPath.Contains(@"/")) baseUriPath = baseUriPath.Replace(@"\", @"/");
             //Set the base Uri so it only has to be processed once
-            this._preapredBaseUri = new Uri(baseUriPath);
+            this._preparedBaseUri = new Uri(baseUriPath);
 
-            //DOES NOT WORK COSISTENTLY.... MUST MANUALLY PREPARE THE PATH
+            //UNFORTUNATELY THIS DOES NOT WORK CONSISTENTLY.... MUST MANUALLY PREPARE THE PATH
             //Path.GetFullPath(Path.Combine(baseDirectory, relativePath));
         }
 
@@ -82,7 +68,7 @@ namespace System.Xml.Linq.CustomExtensions
                 else
                 {
                     //Construct fully qualified base uri string
-                    resultUri = base.ResolveUri(this._preapredBaseUri, relativeUri);
+                    resultUri = base.ResolveUri(this._preparedBaseUri, relativeUri);
                 }
                 return resultUri;
             }

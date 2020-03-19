@@ -55,10 +55,13 @@ namespace PdfTemplating.XslFO.Xslt
 
         /// <summary>
         /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
-        /// methods to simplify the implementations of all inheriting Razor View Renderers.
+        /// methods to simplify the implementations of all inheriting Razor View Renderer implementations.
+        /// 
+        /// This can be overridden by implementing classes to customize this behaviour as needed.
+        /// 
         /// NOTE: This method orchestrates all logic to create the view model, execute the view template,
         ///         and render the XSL-FO output, and then convert that XSL-FO output to a valid Pdf
-        ///         in one and only place and greatly simplifies all Razor View Renderers to keep
+        ///         in one and only place and greatly simplifies all Razor View Renderer implementations to keep
         ///         code very DRY.
         /// </summary>
         /// <param name="templateModel"></param>
@@ -79,6 +82,54 @@ namespace PdfTemplating.XslFO.Xslt
         #endregion
 
         #region Helper Methods (each can be individually Overridden as needed)
+
+        /// <summary>
+        /// Helper method to render the XSL FO output
+        /// This can be overridden by implementing classes to customize this behaviour as needed.
+        /// </summary>
+        /// <param name="viewModel"></param>
+        /// <returns></returns>
+        protected virtual XDocument RenderXslFOXml(TViewModel viewModel)
+        {
+            //***********************************************************
+            //Execute the XSLT Tempalte to generate the XSL-FO output
+            //***********************************************************
+            //Convert the Model to Xml
+            var xmlDataDoc = ConvertModelToXDocument(viewModel).RemoveNamespaces();
+
+            //Load the Xslt Report Template to process the Xml model data
+            //Load the Local FileInfo for the View Report so that we can use it's Directory
+            //  as the BaseDirectory for resolving locally referenced files/images within the XSL-FO processing.
+            var xsltFileInfo = this.XsltFileInfo;
+            var xsltDoc = XDocument.Load(xsltFileInfo.FullName);
+
+            //Create the Xslt Transform Engine helper with Custom Extension methods on XDocument
+            //NOTE: We use the enhanced Xml Url Resolver to support importing Xslt Common libraries
+            var xsltTransformOptions = this.CreateXsltTransformEngineOptions();
+            XslTransformEngine xslTransformer = xsltDoc.CreateXslTransformEngine(xsltTransformOptions);
+
+            //Execute the Xslt Transformation to generate Xsl-FO Source
+            //NOTE: This template must generate valid Xsl-FO output -- via the well-formed xml via XDocument return value -- to be rendered as a Pdf Binary!
+            var xslFODoc = xslTransformer.TransformToXDocument(xmlDataDoc);
+            return xslFODoc;
+        }
+
+        /// <summary>
+        /// Helper method to convert the XSL-FO into a valid Pdf
+        /// This can be overridden by implementing classes to customize this behaviour as needed.
+        /// </summary>
+        /// <param name="xslFODoc"></param>
+        /// <param name="xslFOPdfOptions"></param>
+        /// <returns></returns>
+        protected virtual byte[] RenderXslFOPdfBytes(XDocument xslFODoc, XslFOPdfOptions xslFOPdfOptions)
+        {
+            //***********************************************************
+            //Render the Xsl-FO results into a Pdf binary output
+            //***********************************************************
+            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(xslFODoc, xslFOPdfOptions);
+            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes();
+            return pdfBytes;
+        }
 
         /// <summary>
         /// Helper method to Create the PdfOptions for the XSL-FO Rendering engine to use.
@@ -104,42 +155,26 @@ namespace PdfTemplating.XslFO.Xslt
         }
 
         /// <summary>
-        /// Helper method to render the XSL FO output
+        /// Helper method for instantiating the Xslt Transform options (e.g. XmlUrlResolver, XmlWriterSettings, etc.) for use
+        /// during the execution of the Xslt Transform.
+        /// This can be overridden by implementing classes to customize this behaviour as needed.
         /// </summary>
-        /// <param name="viewModel"></param>
         /// <returns></returns>
-        protected virtual XDocument RenderXslFOXml(TViewModel viewModel)
+        protected virtual XslTransformEngineOptions CreateXsltTransformEngineOptions()
         {
-            //***********************************************************
-            //Execute the XSLT Tempalte to generate the XSL-FO output
-            //***********************************************************
-            //Convert the Model to Xml
-            var xmlDataDoc = ConvertModelToXDocument(viewModel).RemoveNamespaces();
-
-            //Load the Xslt Report Template to process the Xml model data
-            //Load the Local FileInfo for the View Report so that we can use it's Directory
-            //  as the BaseDirectory for resolving locally referenced files/images within the XSL-FO processing.
-            var xsltFileInfo = this.XsltFileInfo;
-            var xsltDoc = XDocument.Load(xsltFileInfo.FullName);
-
-            //Create the Xslt Transform Engine helper with Custom Extension methods on XDocument
-            //NOTE: We use the enhanced Xml Url Resolver to support importing Xslt Common libraries
-            var xmlResolver = new XmlUrlExtendedResolver(xsltFileInfo.Directory);
-            XslTransformEngine xslTransformer = xsltDoc.CreateXslTransformEngine(new XslTransformEngineOptions()
+            var xmlUrlResolver = new XmlUrlExtendedResolver(this.XsltFileInfo.Directory);
+            var xsltTransformOptions = new XslTransformEngineOptions()
             {
-                XsltDocumentResolver = xmlResolver,
-                XsltLoadResolver = xmlResolver
-            });
+                XsltDocumentResolver = xmlUrlResolver,
+                XsltLoadResolver = xmlUrlResolver
+            };
 
-            //Execute the Xslt Transformation to generate Xsl-FO Source
-            //NOTE: This template must generate valid Xsl-FO output -- via the well-formed xml via XDocument return value -- to be rendered as a Pdf Binary!
-            var xslFODoc = xslTransformer.TransformToXDocument(xmlDataDoc);
-            return xslFODoc;
+            return xsltTransformOptions;
         }
 
-
         /// <summary>
-        /// Helper method to convert the Strongly Typed Model to Xml
+        /// Helper method to convert the Strongly Typed Model to Xml.
+        /// This can be overridden by implementing classes to customize this behaviour as needed.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="model"></param>
@@ -154,22 +189,6 @@ namespace PdfTemplating.XslFO.Xslt
             }
 
             return xDoc;
-        }
-
-        /// <summary>
-        /// Helper method to convert the XSL-FO into a valid Pdf
-        /// </summary>
-        /// <param name="xslFODoc"></param>
-        /// <param name="xslFOPdfOptions"></param>
-        /// <returns></returns>
-        protected virtual byte[] RenderXslFOPdfBytes(XDocument xslFODoc, XslFOPdfOptions xslFOPdfOptions)
-        {
-            //***********************************************************
-            //Render the Xsl-FO results into a Pdf binary output
-            //***********************************************************
-            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(xslFODoc, xslFOPdfOptions);
-            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes();
-            return pdfBytes;
         }
 
         #endregion

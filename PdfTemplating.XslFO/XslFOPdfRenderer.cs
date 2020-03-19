@@ -64,9 +64,9 @@ namespace PdfTemplating.XslFO
             //Initialize the render options for the FONET process and Execute the Render 
             //  using the Custom Extensions on XDocument
             //NOTE: The work to accomplish this is fully encapsulated in XDocument Custom Extension Methods.
-            using (var xslFORenderedOutput = this.XslFODocument.RenderXslFOToPdf(xslFORenderOptions))
+            using (var xslFOStreamOutput = this.XslFODocument.RenderXslFOToPdf(xslFORenderOptions))
             {
-                var pdfBytes = xslFORenderedOutput.ReadBytes();
+                var pdfBytes = xslFOStreamOutput.ReadBytes();
                 return pdfBytes;
             }
         }
