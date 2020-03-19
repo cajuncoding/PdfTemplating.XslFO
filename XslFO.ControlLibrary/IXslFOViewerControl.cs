@@ -25,7 +25,7 @@ using System.IO;
 using System.Text;
 using PdfTemplating.XslFO;
 
-namespace PdfTemplating.ControlLibrary
+namespace XslFO.ControlLibrary
 {
     public enum XslFOViewerControlState
     {

@@ -2,11 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Brandon Bernard</Authors>
+    <Company>Brandon Bernard</Company>
+    <Product>Brandon Bernard</Product>
+    <Description>This is a C#.Net solution that provides the capability to easily generate Pdf files using a templated approach with XSLT templates; as opposed to extremely complex code based approaches most libraries provide. It's based on the Xsl-FO standard and currently is dependent on an old but still very functional libray "Fonet" -- which is port of Apache FOP to C#.</Description>
+    <Copyright>Copyright ©  2020</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
+    <PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
+    <PackageReleaseNotes>Initial package upload for PdfTemplating with Xslt Templates.</PackageReleaseNotes>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj" />

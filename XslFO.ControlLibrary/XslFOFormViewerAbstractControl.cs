@@ -31,7 +31,7 @@ using System.Xml.Linq.CustomExtensions;
 using System.Xml.Linq.Xslt.CustomExtensions;
 using TE.Library;
 
-namespace PdfTemplating.ControlLibrary
+namespace XslFO.ControlLibrary
 {
     /// <summary>
     /// NOTE:  This is designed to be an abstract class however, as a UserControl, 

@@ -1,4 +1,4 @@
-﻿namespace PdfTemplating.ControlLibrary
+﻿namespace XslFO.ControlLibrary
 {
     partial class XslFOFormViewerAbstractControl
     {

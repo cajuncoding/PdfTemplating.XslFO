@@ -22,7 +22,7 @@ using System.Xml.Linq;
 using PdfTemplating.XslFO;
 using PdfTemplating.XslFO.Fonet.CustomExtensions;
 
-namespace PdfTemplating.ControlLibrary
+namespace XslFO.ControlLibrary
 {
     public class XslFOViewerEventArgs : EventArgs
     {

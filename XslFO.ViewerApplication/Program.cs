@@ -21,7 +21,7 @@ using System.Windows.Forms;
 using System.Threading;
 using System.CustomExtensions;
 
-namespace PdfTemplating.ViewerApplication
+namespace XslFO.ViewerApplication
 {
     static class Program
     {
@@ -37,12 +37,12 @@ namespace PdfTemplating.ViewerApplication
             //Application.SetUnhandledExceptionMode(UnhandledExceptionMode.Automatic);
             Application.ThreadException += new ThreadExceptionEventHandler((object sender, ThreadExceptionEventArgs e) =>
             {
-                MessageBox.Show(String.Format("Unhandled Application Exception [ThreadException]:{1}{1}{2}", Environment.NewLine, e.Exception.GetMessages()));
+                MessageBox.Show(String.Format("Unhandled Application Exception [ThreadException]:{0}{0}{1}", Environment.NewLine, e.Exception.GetMessages()));
             });
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler((object sender, UnhandledExceptionEventArgs e) =>
             {
-                MessageBox.Show(String.Format("Unhandled Application Exception [ThreadException]:{1}{1}{2}", Environment.NewLine, ""));
+                MessageBox.Show(String.Format("Unhandled Application Exception [ThreadException]:{0}{0}{1}", Environment.NewLine, ((Exception)e.ExceptionObject).GetMessages()));
             });
 
             Application.Run(new XslFOViewerForm());

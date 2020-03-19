@@ -1,4 +1,4 @@
-﻿namespace PdfTemplating.ViewerApplication
+﻿namespace XslFO.ViewerApplication
 {
     partial class LoadFromXslFOForm
     {

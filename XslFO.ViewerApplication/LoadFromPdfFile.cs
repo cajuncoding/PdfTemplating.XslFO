@@ -24,7 +24,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
-namespace PdfTemplating.ViewerApplication
+namespace XslFO.ViewerApplication
 {
     public partial class LoadFromPdfFile : Form
     {

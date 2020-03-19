@@ -1,6 +1,6 @@
-﻿using PdfTemplating.ControlLibrary;
+﻿using XslFO.ControlLibrary;
 
-namespace PdfTemplating.ViewerApplication
+namespace XslFO.ViewerApplication
 {
     partial class XslFOViewerForm
     {

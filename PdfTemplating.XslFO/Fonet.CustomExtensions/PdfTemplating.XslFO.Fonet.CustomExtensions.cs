@@ -140,8 +140,11 @@ namespace PdfTemplating.XslFO.Fonet.CustomExtensions
                 pdfDriver.Render(xmlFOReader, outputStream);
             }
 
-            //Reset the Stream
-            outputStream.Seek(0, SeekOrigin.Begin);
+            //Reset the Stream if possible (since we return it ready to be possibly consumed/used...
+            if (outputStream.CanSeek)
+            {
+                outputStream.Seek(0, SeekOrigin.Begin);
+            }
 
             //Validate the rendered output
             if (!outputStream.CanRead || outputStream.Length <= 0)

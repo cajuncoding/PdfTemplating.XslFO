@@ -27,8 +27,9 @@ using System.IO;
 using System.CustomExtensions;
 using PdfTemplating.XslFO.Fonet.CustomExtensions;
 using System.Diagnostics;
+using PdfTemplating.XslFO;
 
-namespace PdfTemplating.ViewerApplication
+namespace XslFO.ViewerApplication
 {
     public partial class XslFOViewerForm : Form
     {

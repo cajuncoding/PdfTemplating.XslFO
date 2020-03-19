@@ -1,0 +1,380 @@
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+  <fo:layout-master-set>
+    <fo:simple-page-master master-name="US-Letter-Portrait" page-width="8.5in" page-height="11in" margin-top=".25in" margin-bottom=".25in" margin-left=".5in" margin-right=".5in">
+      <fo:region-before extent=".25in" />
+      <fo:region-after extent=".25in" />
+      <fo:region-start extent="0in" />
+      <fo:region-end extent="0in" />
+      <fo:region-body margin-top=".25in" margin-bottom=".25in" margin-left="0in" margin-right="0in" />
+    </fo:simple-page-master>
+    <fo:simple-page-master master-name="US-Letter-Landscape" page-width="11in" page-height="8.5in" margin-top=".25in" margin-bottom=".25in" margin-left=".25in" margin-right=".25in">
+      <fo:region-before extent=".25in" />
+      <fo:region-after extent=".25in" />
+      <fo:region-start extent="0in" />
+      <fo:region-end extent="0in" />
+      <fo:region-body margin-top=".25in" margin-bottom=".25in" margin-left="0in" margin-right="0in" />
+    </fo:simple-page-master>
+    <fo:page-sequence-master master-name="report-master">
+      <fo:repeatable-page-master-alternatives maximum-repeats="no-limit">
+        <fo:conditional-page-master-reference master-reference="US-Letter-Portrait" page-position="first" />
+        <fo:conditional-page-master-reference master-reference="US-Letter-Portrait" page-position="rest" />
+      </fo:repeatable-page-master-alternatives>
+    </fo:page-sequence-master>
+  </fo:layout-master-set>
+  <fo:page-sequence master-reference="report-master">
+    <fo:static-content flow-name="xsl-region-after" font-family="Verdana" font-size="9pt">
+      <fo:block padding-top="0px" color="#777777">
+        <fo:table width="100%">
+          <fo:table-column column-width="proportional-column-width(1)" />
+          <fo:table-column column-width="proportional-column-width(2)" />
+          <fo:table-body>
+            <fo:table-row>
+              <fo:table-cell>
+                <fo:block text-align="left" padding-before="3px">
+                  <fo:block>
+                                Page <fo:page-number /> of <fo:page-number-citation ref-id="ref-last-page" /></fo:block>
+                </fo:block>
+              </fo:table-cell>
+              <fo:table-cell padding-before="3px">
+                <fo:block text-align="right">
+                  <fo:block space-before="3px">Movie Search for [the matrix] on [03/19/2020 01:43:48 PM]</fo:block>
+                </fo:block>
+              </fo:table-cell>
+            </fo:table-row>
+          </fo:table-body>
+        </fo:table>
+      </fo:block>
+    </fo:static-content>
+    <fo:flow flow-name="xsl-region-body" font-size="10pt" font-family="Cambria">
+      <fo:block font-size="9pt">
+        <fo:block break-before="auto">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" space-before="2.5in" border-bottom=".25pt solid #A0A0A0"></fo:block>
+            <fo:block font-size="18pt" space-before=".5in">
+                Movie Search for "the matrix"
+            </fo:block>
+            <fo:block font-size="16pt" space-before=".5in">
+                BY: Brandon Bernard
+            </fo:block>
+            <fo:block font-size="18pt" space-before=".5in">
+                Executed on: 03/19/2020 01:43:48 PM
+            </fo:block>
+            <fo:block space-before=".5in" border-bottom=".25pt solid #A0A0A0"></fo:block>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                The Matrix
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: The Matrix
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 1999
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0133093
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Sex and the Matrix
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:block font-size="18pt">No Image</fo:block>
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Sex and the Matrix
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2000
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0274085
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                The Matrix Revisited
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BMTIzMTA4NDI4NF5BMl5BanBnXkFtZTYwNjg5Nzg4._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: The Matrix Revisited
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2001
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0295432
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                The Matrix Reloaded
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BODE0MzZhZTgtYzkwYi00YmI5LThlZWYtOWRmNWE5ODk0NzMxXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: The Matrix Reloaded
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2003
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0234215
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                The Matrix Revolutions
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BNzNlZTZjMDctZjYwNi00NzljLWIwN2QtZWZmYmJiYzQ0MTk2XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: The Matrix Revolutions
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2003
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0242653
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Enter the Matrix
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BMjA4NTYwNjk0M15BMl5BanBnXkFtZTgwODk3MDMwMTE@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Enter the Matrix
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2003
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0277828
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                Return to Source: Philosophy &amp; 'The Matrix'
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BODIwNDQ3MTYtMWZiYS00MDYyLWI4ZGEtZjBkODU4NTgyNDFkXkEyXkFqcGdeQXVyMjM3ODA2NDQ@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: Return to Source: Philosophy &amp; 'The Matrix'
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2004
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0439783
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                The Matrix: Path of Neo
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BYWM2ZWU5MDUtYTU2ZS00ZDFmLWIyNGEtNWZkMjRmZjI2YzMzXkEyXkFqcGdeQXVyMTA1OTEwNjE@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: The Matrix: Path of Neo
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2005
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0451118
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                The Matrix Online
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BMTYxNTM5MDkwMF5BMl5BanBnXkFtZTcwMTAzMTEzMQ@@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: The Matrix Online
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2005
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt0390244
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:block break-before="page">
+          <fo:block text-align="center">
+            <fo:block font-size="18pt" border-bottom=".25pt solid #A0A0A0">
+                CR: Enter the Matrix
+            </fo:block>
+          </fo:block>
+          <fo:block font-size="10pt">
+            <fo:table width="100%">
+              <fo:table-column column-width="proportional-column-width(1)" />
+              <fo:table-column column-width="proportional-column-width(.75)" />
+              <fo:table-body>
+                <fo:table-row>
+                  <fo:table-cell padding="10px">
+                    <fo:external-graphic src="url('https://m.media-amazon.com/images/M/MV5BMTExMzY3NTQ1NjleQTJeQWpwZ15BbWU3MDAyMjk2NzM@._V1_SX300.jpg')" width="300px" scaling="uniform" />
+                  </fo:table-cell>
+                  <fo:table-cell padding="10px">
+                    <fo:block space-before=".15in">
+                                Title: CR: Enter the Matrix
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                Year: 2009
+                            </fo:block>
+                    <fo:block space-before=".15in">
+                                IMDB ID: tt1675286
+                            </fo:block>
+                  </fo:table-cell>
+                </fo:table-row>
+              </fo:table-body>
+            </fo:table>
+          </fo:block>
+        </fo:block>
+        <fo:marker marker-class-name="Marker.LastPageFooterContent" />
+        <fo:block id="ref-last-page" />
+      </fo:block>
+    </fo:flow>
+  </fo:page-sequence>
+</fo:root>
