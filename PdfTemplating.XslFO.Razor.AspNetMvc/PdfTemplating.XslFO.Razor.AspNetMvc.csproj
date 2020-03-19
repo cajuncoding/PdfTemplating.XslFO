@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="PdfTemplating.XslFO.Razor.AspNetMvc.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj">
