@@ -14,19 +14,16 @@ Copyright 2012 Brandon Bernard
    limitations under the License.
 */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using System.Linq.Expressions;
-using System.Reflection;
 using System.CustomExtensions;
 using System.Drawing;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace System.Windows.Forms.CustomExtensions
 {
- 
+
     public static class WindowsFormCustomExtensions
     {
         //public static void CenterOnScreen(this Form form)

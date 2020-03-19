@@ -1,4 +1,6 @@
-﻿namespace XslFO.ViewerApplication
+﻿using PdfTemplating.ControlLibrary;
+
+namespace PdfTemplating.ViewerApplication
 {
     partial class XslFOViewerForm
     {
@@ -50,7 +52,7 @@
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.tabView = new System.Windows.Forms.TabControl();
             this.tabViewPdf = new System.Windows.Forms.TabPage();
-            this.ctlXslFOViewer = new XslFO.ControlLibrary.XslFOAdobePdfViewerUserControl();
+            this.ctlXslFOViewer = new XslFOAdobePdfViewerUserControl();
             this.tabViewSource = new System.Windows.Forms.TabPage();
             this.rtxtSource = new System.Windows.Forms.RichTextBox();
             this.rtxtErrorConsole = new System.Windows.Forms.RichTextBox();
@@ -269,8 +271,8 @@
             this.ctlXslFOViewer.Size = new System.Drawing.Size(634, 340);
             this.ctlXslFOViewer.TabIndex = 5;
             this.ctlXslFOViewer.ToolbarEnabled = false;
-            this.ctlXslFOViewer.ViewerError += new System.EventHandler<XslFO.ControlLibrary.XslFOViewerEventArgs>(this.ctlXslFOViewer_ViewerError);
-            this.ctlXslFOViewer.LoadCompleted += new System.EventHandler<XslFO.ControlLibrary.XslFOViewerEventArgs>(this.XslFOViewer_OnLoadCompleted);
+            this.ctlXslFOViewer.ViewerError += new System.EventHandler<XslFOViewerEventArgs>(this.ctlXslFOViewer_ViewerError);
+            this.ctlXslFOViewer.LoadCompleted += new System.EventHandler<XslFOViewerEventArgs>(this.XslFOViewer_OnLoadCompleted);
             // 
             // tabViewSource
             // 

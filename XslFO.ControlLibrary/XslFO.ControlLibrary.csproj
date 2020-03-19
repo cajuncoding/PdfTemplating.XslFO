@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,10 +11,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XslFO.ControlLibrary</RootNamespace>
     <AssemblyName>XslFO.ControlLibrary</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,6 +27,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -33,6 +37,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -42,6 +47,9 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -111,21 +119,21 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassLibrary.CSharp\CSharp.CustomExtensions.csproj">
-      <Project>{bb09e709-0970-4951-afd2-5c52de5589a3}</Project>
-      <Name>CSharp.CustomExtensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenSource.FONet\Core\FONet.Core.csproj">
-      <Project>{741ff28c-581c-4c51-821d-032392836c16}</Project>
-      <Name>FONet.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenSource.WinForms.Animations\OpenSource.WinForms.Animations.csproj">
       <Project>{5222558b-c90b-4a8d-9081-9079d2e826d0}</Project>
       <Name>OpenSource.WinForms.Animations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XslFO.Library\XslFO.Library.csproj">
-      <Project>{4BB90E22-FD2D-4D1A-B5FE-7E3ABF9AFAFE}</Project>
-      <Name>XslFO.Library</Name>
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj">
+      <Project>{CF96DCE8-A93D-4D9A-A909-FCA0BE90B12B}</Project>
+      <Name>PdfTemplating.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PdfTemplating.XslFO.Xslt\PdfTemplating.XslFO.Xslt.csproj">
+      <Project>{c17cf83e-e100-47a0-ba8d-13835d84deec}</Project>
+      <Name>PdfTemplating.XslFO.Xslt</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PdfTemplating.XslFO\PdfTemplating.XslFO.csproj">
+      <Project>{23d05779-c655-4d1d-bc48-3678a4d0f84e}</Project>
+      <Name>PdfTemplating.XslFO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -135,7 +143,16 @@
   <ItemGroup>
     <Folder Include="App.References\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE" Link="LICENSE" />
+    <None Include="..\README.md" Link="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj" />
+    <ProjectReference Include="..\PdfTemplating.Fonet.NetStandard\PdfTemplating.Fonet.NetStandard.csproj" />
+  </ItemGroup>
+
+</Project>
