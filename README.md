@@ -28,8 +28,41 @@ NOTE: Currently the Razor Implementation requires Microsoft.AspNet.MVC and does 
 a real need to render Pdf file from a .Net Core web application; or a console app for that matter 
 (useful info. [https://stackoverflow.com/questions/38247080/using-razor-outside-of-mvc-in-net-core](here on StackOverflow).)
 
+#### Usage is as easy as:
 
-#### Xsl-FO Implementation(s):
+##### Xslt (.Net Standard 2.0):
+```
+//Initialize the Model to use in the templating process...
+MovieSearchResults movieSearchResults = GetMovieSearchResults();
+
+//Initialize the appropriate Renderer based on the Model to use in the Template...
+string xsltFullyQualifiedPath = HttpContext.Current.Server.MapPath("~/Reports.Xslt/MoviePdfReport/MoviesReport.xsl");
+
+IPdfTemplatingRenderer<MovieSearchResponse> pdfTemplatingRenderer = new XsltPdfTemplatingRenderer<MovieSearchResponse>(
+    new FileInfo(xsltFullyQualifiedPath)
+);
+
+//Execute the Pdf Renderer template for the specified Model to generate the Pdf Document...
+byte[] pdfBytes = pdfTemplatingRenderer.RenderPdf(movieSearchResults);
+```
+
+##### Razor View (.Net Framework and requires Microsoft.AspNet.Mvc):
+```
+//Initialize the Model to use in the templating process...
+MovieSearchResults movieSearchResults = GetMovieSearchResults();
+
+//Initialize the appropriate Renderer based on the Model to use in the Template...
+IPdfTemplatingRenderer<MovieSearchResponse> pdfTemplatingRenderer = new AspNetMvcRazorPdfTemplatingRenderer<MovieSearchResults>(
+    "~/Reports.Razor/MoviePdfReport/MoviesReport.cshtml",
+    ControllerContext
+);
+
+//Execute the Pdf Renderer template for the specified Model to generate the Pdf Document...
+byte[] pdfBytes = pdfTemplatingRenderer.RenderPdf(movieSearchResults);
+```
+
+
+#### Notes about the Xsl-FO Implementation(s):
 This project is based on FO.NET, an open source project from CodePlex located here:
 [https://archive.codeplex.com/?p=fonet](https://archive.codeplex.com/?p=fonet)
 
