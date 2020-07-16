@@ -19,7 +19,7 @@ using System.Xml.Linq;
 
 namespace PdfTemplating.XslFO
 {
-    public class XslFORenderOutput
+    public abstract class XslFORenderOutput
     {
         public XslFORenderOutput(XDocument xXslFOXmlDoc)
         {

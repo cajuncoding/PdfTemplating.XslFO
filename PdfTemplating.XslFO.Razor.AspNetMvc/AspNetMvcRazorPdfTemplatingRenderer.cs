@@ -16,13 +16,14 @@ Copyright 2012 Brandon Bernard
 using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml.Linq;
 
 namespace PdfTemplating.XslFO.Razor.AspNet
 {
-    public class AspNetMvcRazorPdfTemplatingRenderer<TViewModel>: IPdfTemplatingRenderer<TViewModel>
+    public abstract class AspNetMvcRazorPdfTemplatingRenderer<TViewModel>
     {
         protected AspNetMvcRazorPdfTemplatingRenderer()
         {}
@@ -66,39 +67,6 @@ namespace PdfTemplating.XslFO.Razor.AspNet
         /// <returns></returns>
         public ControllerContext ControllerContext { get; protected set; }
 
-        #region IPdfRenderer implementation
-
-        /// <summary>
-        /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
-        /// methods to simplify the implementations of all inheriting Razor View Renderers.
-        /// NOTE: This method orchestrates all logic to create the view model, execute the view template,
-        ///         and render the XSL-FO output, and then convert that XSL-FO output to a valid Pdf
-        ///         in one and only place and greatly simplifies all Razor View Renderers to keep
-        ///         code very DRY.
-        /// </summary>
-        /// <param name="templateModel"></param>
-        /// <returns></returns>
-        public virtual byte[] RenderPdf(TViewModel templateModel)
-        {
-            //***********************************************************
-            //Execute the Razor View to generate the XSL-FO output
-            //***********************************************************
-            var razorViewRenderer = new AspNetMvcRazorViewRenderer(this.ControllerContext);
-            var renderResult = razorViewRenderer.RenderView(this.RazorViewVirtualPath, templateModel);
-
-            //Load the XSL-FO output into a fully validated XDocument.
-            //NOTE: This template must generate valid Xsl-FO output -- via the well-formed xml we load into the XDocument return value -- to be rendered as a Pdf Binary!
-            var xslFODoc = XDocument.Parse(renderResult.RenderOutput);
-            
-            //Create the Pdf Options for the XSL-FO Rendering engine to use
-            var pdfOptions = this.CreatePdfOptions();
-
-            //Finally conver the XSL-FO XDocument into valid Pdf Binary data
-            var pdfBytes = this.RenderXslFOPdfBytes(xslFODoc, pdfOptions);
-            return pdfBytes;
-        }
-
-        #endregion
 
         #region Helper Methods (each can be individually Overridden as needed)
 
@@ -124,22 +92,6 @@ namespace PdfTemplating.XslFO.Razor.AspNet
             };
 
             return pdfOptions;
-        }
-
-        /// <summary>
-        /// Helper method to convert the XSL-FO into a valid Pdf
-        /// </summary>
-        /// <param name="xslFODoc"></param>
-        /// <param name="xslFOPdfOptions"></param>
-        /// <returns></returns>
-        protected virtual byte[] RenderXslFOPdfBytes(XDocument xslFODoc, XslFOPdfOptions xslFOPdfOptions)
-        {
-            //***********************************************************
-            //Render the Xsl-FO results into a Pdf binary output
-            //***********************************************************
-            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(xslFODoc, xslFOPdfOptions);
-            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes();
-            return pdfBytes;
         }
 
         #endregion

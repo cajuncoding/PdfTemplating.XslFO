@@ -17,7 +17,7 @@ nuget pack -IncludeReferencedProjects</Description>
 
   <ItemGroup>
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj" />
-    <ProjectReference Include="..\PdfTemplating.XslFO\PdfTemplating.XslFO.csproj" />
+    <ProjectReference Include="..\PdfTemplating.XslFO.Render.Fonet\PdfTemplating.XslFO.Render.Fonet.csproj" />
   </ItemGroup>
 
 </Project>

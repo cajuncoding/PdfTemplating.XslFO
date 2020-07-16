@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Brandon Bernard</Authors>
+    <Company>Brandon Bernard</Company>
+    <Description>This is a C#.Net solution that provides the capability to easily generate Pdf files using a templated approach; as opposed to extremely complex code based approaches most libraries provide. It's based on the Xsl-FO standard and currently is dependent on an old but still very functional libray "Fonet" -- which is port of Apache FOP to C#.</Description>
+    <Copyright>Copyright ©  2020</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
+    <PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
+    <PackageReleaseNotes>Initial package upload for PdfTemplating.XslFO core XslFO libraries for use with other templating packages: PdfTemplating.XslFO.Razor.AspNet (.Net Framework Mvc), PdfTemplating.XslFO.Xslt (.Net Standard 2.0, etc.</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE" Link="LICENSE" />
+    <None Include="..\README.md" Link="README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="RestSharp" Version="106.11.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj" />
+    <ProjectReference Include="..\PdfTemplating.Fonet.NetStandard\PdfTemplating.Fonet.NetStandard.csproj" />
+  </ItemGroup>
+
+</Project>

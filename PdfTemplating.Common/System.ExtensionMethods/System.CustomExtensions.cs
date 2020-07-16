@@ -5,7 +5,7 @@ Copyright 2012 Brandon Bernard
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-     http://www.apache.org/licenses/LICENSE-2.0
+	 http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,6 +35,58 @@ using System.Xml.Linq.CustomExtensions;
 
 namespace System.CustomExtensions
 {
+
+	public static class SystemValidationCustomExtensions
+	{
+		/// <summary>
+		/// Assert that a given string argument is not null or blank
+		/// </summary>
+		/// <param name="argument"></param>
+		/// <param name="argumentName"></param>
+		/// <param name="customMessage"></param>
+		/// <returns></returns>
+
+		public static string AssertArgumentIsNotNullOrBlank(this string argument, string argumentName = null, string customMessage = null)
+		{
+			if (string.IsNullOrWhiteSpace(argument))
+			{
+				//Since this string is Null or Blank we can just Delegate to the generic Null handler co-ercing this to a null string value!
+				AssertArgumentIsNotNull((string)null, argumentName, customMessage);
+			}
+
+			//BBernard - Always return the original argument o make this chainable to simplify calling code!
+			return argument;
+		}
+
+		/// <summary>
+		/// Assert that a given generic object argument is not null or blank
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="argument"></param>
+		/// <param name="argumentName"></param>
+		/// <param name="customMessage"></param>
+		/// <returns></returns>
+		public static T AssertArgumentIsNotNull<T>(this T argument, string argumentName = null, string customMessage = null)
+		{
+			if (argument == null)
+			{
+				var typeName = typeof(T).Name;
+				var name = argumentName ?? nameof(argument);
+				var message = $"{typeName} instance cannot be null.";
+
+				if (!string.IsNullOrWhiteSpace(customMessage))
+					message = string.Concat(message, " ", customMessage);
+
+				//BBernard - If the argument is null throw a useful/helpful error message.
+				throw new ArgumentNullException(name, message);
+			}
+
+			//BBernard - Always return the original argument o make this chainable to simplify calling code!
+			return argument;
+		}
+
+	}
+
 
 	public static class SystemObjectCustomExtensions
 	{
