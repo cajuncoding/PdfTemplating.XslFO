@@ -86,11 +86,11 @@ Unfortunately the FONET library that this currently uses doesn't support all fea
 
 #### TODO: Hopefully COMING SOON... 
 1. ***IN PROGRESS:*** Add a service oriencted implementation that uses the latest and greatest Apache FOP as a Pdf-as-a-Service via Azure Functions.
-    * **I hope to spin up a full Apache FOP engine implementation in an Azure Function as a Serverless FOP Service.
+    * **I have now spun up a full Apache FOP engine implementation in an Azure Function as a Serverless FOP micro-service.
         I'll updates this project to provide a new (decoupled) rendering engine implementation that uses the full Apache FOP as-a-service via the Azure function.**
-*** A new repo specifically containing a fully functioning implementation of Apache FOP ready for deployment into Azure Functions has now been been added here: https://github.com/cajuncoding/ApacheFOP.Serverless
-*** Documentation and ReadMe updates are still pending both here and in that repo.  But, this PdfTemplating.XslFO project has also been updated to work with the ApacheFOP running in an Azure Function (or locally if you spin it up for debugging; it's just a micro-service after all :-).
-*** It's fully functional but I'm still cleaning a few things up, in the branch here: https://github.com/cajuncoding/PdfTemplating.XslFO/tree/feature/iniial_support_for_apache_fop_serverless_rendering
+    * A new repo specifically containing a fully functioning implementation of Apache FOP ready for deployment into Azure Functions has now been been added here: https://github.com/cajuncoding/ApacheFOP.Serverless
+    * Documentation and ReadMe updates are still pending both here and in that repo.  But, this PdfTemplating.XslFO project has also been updated to work with the ApacheFOP running in an Azure Function (or locally if you spin it up for debugging; it's just a micro-service after all :-).
+    * It's fully functional but I'm still cleaning a few things up, in the branch here: https://github.com/cajuncoding/PdfTemplating.XslFO/tree/feature/iniial_support_for_apache_fop_serverless_rendering
 2. Once I have a need to generate Pdf files with .Net Core I will create an implementation for that also.
 
 ## Testing Projects
