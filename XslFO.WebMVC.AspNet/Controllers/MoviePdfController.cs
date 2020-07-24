@@ -44,34 +44,15 @@ namespace PdfTemplating.WebMVC.Controllers
         [Route("razor")]
         public async Task<ActionResult> PdfWithRazor(String title = "Star Wars")
         {
-            var searchResponse = await ExecuteMovieSearchHelper(title);
+            try 
+            { 
+                var searchResponse = await ExecuteMovieSearchHelper(title);
 
-            //********************
-            // RAZOR + Fonet
-            //********************
-            //Initialize the appropriate Renderer based on the Parameter.
-            // and execute the Pdf Renderer to generate the Pdf Document byte data
-            var pdfRenderer = new RazorMoviePdfRendererViaFonet(ControllerContext);
-            var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
-
-            //Create the File Content Result from the Pdf byte data
-            return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
-        }
-
-        [Route("razor/apache-fop")]
-        public async Task<ActionResult> PdfWithRazorAndApacheFOP(String title = "Star Wars")
-        {
-            var searchResponse = await ExecuteMovieSearchHelper(title);
-
-            try
-            {
-                //********************
-                // RAZOR + Apace FOP
-                //********************
-                //Initialize the appropriate Renderer based on the Parameter.
-                // and execute the Pdf Renderer to generate the Pdf Document byte data
-                var pdfRenderer = new RazorMoviePdfRendererViaApacheFOP(ControllerContext);
-                var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse);
+                //*******************************************
+                // RAZOR + Fonet (synchronous; embedded code)
+                //*******************************************
+                var pdfRenderer = new RazorMoviePdfRenderer(ControllerContext);
+                var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
 
                 //Create the File Content Result from the Pdf byte data
                 return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
@@ -80,6 +61,30 @@ namespace PdfTemplating.WebMVC.Controllers
             {
                 //Since the Apache FOP Service provides helpful errors on syntax issues, we want to let
                 //  those details bubble up to the caller for troubleshooting...
+                return CreateJsonExceptionResult(exc);
+            }
+
+        }
+
+        [Route("razor/apache-fop")]
+        public async Task<ActionResult> PdfWithRazorAndApacheFOP(String title = "Star Wars")
+        {
+            try
+            {
+                var searchResponse = await ExecuteMovieSearchHelper(title);
+
+                //*******************************************
+                // RAZOR + Apace FOP (async I/O request)
+                //*******************************************
+                var pdfRenderer = new RazorMoviePdfRenderer(ControllerContext);
+                var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse);
+
+                //Create the File Content Result from the Pdf byte data
+                return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
+            }
+            catch (Exception exc)
+            {
+                //Bubble up the Error as Json for additional Details
                 return CreateJsonExceptionResult(exc);
             }        
         }
@@ -87,33 +92,38 @@ namespace PdfTemplating.WebMVC.Controllers
         [Route("xslt")]
         public async Task<ActionResult> PdfWithXslt(String title = "Star Wars")
         {
-            var searchResponse = await ExecuteMovieSearchHelper(title);
+            try
+            {
+                var searchResponse = await ExecuteMovieSearchHelper(title);
 
-            //********************
-            // XSLT + Fonet
-            //********************
-            //Initialize the appropriate Renderer based on the Parameter.
-            // and execute the Pdf Renderer to generate the Pdf Document byte data
-            var pdfRenderer = new XsltMoviePdfRendererViaFonet();
-            var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
+                //*******************************************
+                // XSLT + Fonet (synchronous; embedded code)
+                //*******************************************
+                var pdfRenderer = new XsltMoviePdfRenderer();
+                var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
 
-            //Create the File Content Result from the Pdf byte data
-            return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
+                //Create the File Content Result from the Pdf byte data
+                return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
+            }
+            catch (Exception exc)
+            {
+                //Bubble up the Error as Json for additional Details
+                return CreateJsonExceptionResult(exc);
+            }
+
         }
 
         [Route("xslt/apache-fop")]
         public async Task<ActionResult> PdfWithXsltAndApacheFOP(String title = "Star Wars")
         {
-            var searchResponse = await ExecuteMovieSearchHelper(title);
-
             try
             {
-                //********************
-                // RAZOR + Apache FOP
-                //********************
-                //Initialize the appropriate Renderer based on the Parameter.
-                // and execute the Pdf Renderer to generate the Pdf Document byte data
-                var pdfRenderer = new XsltMoviePdfRendererViaApacheFOP();
+                var searchResponse = await ExecuteMovieSearchHelper(title);
+
+                //*******************************************
+                // XSLT + Apache FOP (async I/O request)
+                //*******************************************
+                var pdfRenderer = new XsltMoviePdfRenderer();
                 var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse);
 
                 //Create the File Content Result from the Pdf byte data
@@ -121,11 +131,12 @@ namespace PdfTemplating.WebMVC.Controllers
             }
             catch (Exception exc)
             {
-                //Since the Apache FOP Service provides helpful errors on syntax issues, we want to let
-                //  those details bubble up to the caller for troubleshooting...
+                //Bubble up the Error as Json for additional Details
                 return CreateJsonExceptionResult(exc);
             }
         }
+
+        #region Helpers
 
         private async Task<MovieSearchResponse> ExecuteMovieSearchHelper(String title)
         {
@@ -146,6 +157,7 @@ namespace PdfTemplating.WebMVC.Controllers
             return resultContent;
         }
 
+        #endregion
     }
 
 

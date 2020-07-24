@@ -56,7 +56,9 @@
 						</xsl:for-each>
 
 						<!--OUTPUT REFERENCES FOR LAST PAGE - MUST APPEAR AFTER ALL CONTENT HAS BEEN RENDERED via TEMPLATES -->
-						<fo:marker marker-class-name="Marker.LastPageFooterContent"></fo:marker>
+						<fo:block>
+							<fo:marker marker-class-name="Marker.LastPageFooterContent"></fo:marker>
+						</fo:block>
 						<fo:block id="ref-last-page"/>
 
 					</fo:block>
@@ -89,14 +91,25 @@
 
 								<!-- Render Image -->
 								<xsl:variable name="posterImageUrl" select="./Poster" />
-                <xsl:choose>
-                  <xsl:when test="$posterImageUrl = ''">
-                    <fo:block font-size="{$FontSize.H1}">No Image</fo:block>
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <fo:external-graphic src="url('{$posterImageUrl}')" width="300px" scaling="uniform" />
-                  </xsl:otherwise>
-                </xsl:choose>
+								<xsl:choose>
+									<xsl:when test="$posterImageUrl = ''">
+										<fo:block font-size="{$FontSize.H1}">No Image</fo:block>
+									</xsl:when>
+									<xsl:otherwise>
+										<fo:block>
+
+											<xsl:choose>
+												<xsl:when test="//FonetCompatibilityEnabled = 'true'">
+													<!-- Render External graphic without the content-width attribute; scaling is not configurable in legacy Fonet -->
+													<fo:external-graphic src="url('{$posterImageUrl}')" width="3in" scaling="uniform" />
+												</xsl:when>
+												<xsl:otherwise>
+													<fo:external-graphic src="url('{$posterImageUrl}')" width="3in" scaling="uniform" content-width="scale-to-fit" />
+												</xsl:otherwise>
+											</xsl:choose>
+										</fo:block>
+									</xsl:otherwise>
+								</xsl:choose>
 
 							</fo:table-cell>
 							<fo:table-cell padding="10px">
@@ -127,26 +140,40 @@
 	<xsl:template match="MovieSearchResponse" mode="cover-page">
 
 		<fo:block break-before="auto">
-			<!--Output Heading info-->
-			<fo:block text-align="center">
 
-				<!-- Generate a Horizontal Rule -->
-				<fo:block font-size="{$FontSize.H1}" space-before="2.5in" border-bottom="{$Border.HorizontalRule}"></fo:block>	
+			<!-- Vertical Alignment requires a full sized width/height Table with 1 Cell: https://sites.cs.ucsb.edu/~pconrad/github/ucsb-cs56-tutorials-fop/fop-1.1/docs/fo.html#fo-center-vertical -->
+			<fo:table table-layout="fixed" width="100%">
+				<fo:table-column column-width="proportional-column-width(1)"/>
+				<fo:table-body>
+					<fo:table-row height="8.5in">
+						<fo:table-cell display-align="center">
 
-				<fo:block font-size="{$FontSize.H1}" space-before=".5in">
-					Movie Search for "<xsl:value-of select="./SearchTitle" />"
-				</fo:block>	
-				<fo:block font-size="{$FontSize.H1}" space-before=".5in">
-					<!-- Use the DateTime stamp that is already taken & formatted in Reports.Common initialization! -->
-					Executed on: <xsl:value-of select="$date_time_stamp" />
-				</fo:block>
+							<!--Output Title Page info-->
+							<fo:block text-align="center">
+								<!-- Generate a Horizontal Rule -->
+								<fo:block font-size="{$FontSize.H1}" border-bottom="{$Border.HorizontalRule}"></fo:block>
 
-				<!-- Generate a Horizontal Rule -->
-				<fo:block space-before=".5in" border-bottom="{$Border.HorizontalRule}"></fo:block>	
+								<fo:block font-size="{$FontSize.H1}" space-before=".5in">
+									Movie Search for "<xsl:value-of select="./SearchTitle" />"
+								</fo:block>
+								<fo:block font-size="{$FontSize.H2}" space-before=".5in">
+									BY: Brandon Bernard
+								</fo:block>
+								<fo:block font-size="{$FontSize.H1}" space-before=".5in">
+									<!-- Use the DateTime stamp that is already taken & formatted in Reports.Common initialization! -->
+									Executed on: <xsl:value-of select="$date_time_stamp" />
+								</fo:block>
 
-			</fo:block>	
-		</fo:block>			
+								<!-- Generate a Horizontal Rule -->
+								<fo:block space-before=".5in" border-bottom="{$Border.HorizontalRule}"></fo:block>
+							</fo:block>
 
+						</fo:table-cell>
+					</fo:table-row>
+				</fo:table-body>
+			</fo:table>
+
+		</fo:block>
 	</xsl:template>
 
 
@@ -161,7 +188,7 @@
 		<fo:static-content flow-name="xsl-region-after"  font-family="{$FontFamily.Footer}" font-size="{$FontSize.Footer}">
 			<fo:block padding-top="0px" color="{$Color.Gray}">
 				<!-- <fo:table width="100%" border="blue 1px solid"> -->
-        <fo:table width="100%">
+				<fo:table width="100%">
 					<fo:table-column column-width="proportional-column-width(1)" />
 					<fo:table-column column-width="proportional-column-width(2)" />
 					<fo:table-body>

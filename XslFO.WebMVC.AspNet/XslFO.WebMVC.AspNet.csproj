@@ -162,11 +162,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MovieSearch\MovieSearchResponse.cs" />
-    <Compile Include="Reports.PdfRenderers\ApacheFOP.Serverless\ApacheFOPServiceHelper.cs" />
-    <Compile Include="Reports.PdfRenderers\ApacheFOP.Serverless\RazorMoviePdfRendererViaApacheFOP.cs" />
-    <Compile Include="Reports.PdfRenderers\ApacheFOP.Serverless\XsltMoviePdfRendererViaApacheFOP.cs" />
-    <Compile Include="Reports.PdfRenderers\Fonet\RazorMoviePdfRendererViaFonet.cs" />
-    <Compile Include="Reports.PdfRenderers\Fonet\XsltMoviePdfRendererViaFonet.cs" />
+    <Compile Include="Reports.PdfRenderers\ApacheFOPServiceHelper.cs" />
+    <Compile Include="Reports.PdfRenderers\RazorMoviePdfRenderer.cs" />
+    <Compile Include="Reports.PdfRenderers\XsltMoviePdfRenderer.cs" />
     <Compile Include="MovieSearch\MovieSearch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports.Razor\ReportUtilities.cs" />
@@ -178,9 +176,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Reports.Xslt\MoviePdfReport\MoviesReportForApacheFOP.xsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
