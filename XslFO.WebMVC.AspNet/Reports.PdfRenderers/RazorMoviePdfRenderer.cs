@@ -10,7 +10,7 @@ namespace XslFO.WebMVC.Reports.PdfRenderers.Fonet
 {
     /// <summary>
     /// This class implements both the sync and sync interfaces so that it can illustrate side-by-side the legacy Fonet (sync),
-    /// and teh new ApacheFOP.Serverless (async) appraoches.
+    /// and teh new ApacheFOP.Serverless (async) approaches.
     /// </summary>
     public class RazorMoviePdfRenderer : AspNetMvcRazorPdfTemplatingRenderer<MovieSearchResponse>, IPdfTemplatingRenderer<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
     {
@@ -44,7 +44,7 @@ namespace XslFO.WebMVC.Reports.PdfRenderers.Fonet
             var pdfOptions = this.CreatePdfOptions();
 
             //****************************************************************************
-            //Execute the Trasnformation of the XSL-FO source to Binary Pdf via Fonet
+            //Execute the Transformation of the XSL-FO source to Binary Pdf via Fonet
             //****************************************************************************
             var xslFOPdfRenderer = new FONetXslFOPdfRenderer(xslFODoc, pdfOptions);
             var pdfBytes = xslFOPdfRenderer.RenderPdfBytes();
@@ -77,7 +77,7 @@ namespace XslFO.WebMVC.Reports.PdfRenderers.Fonet
             var xslFODoc = XDocument.Parse(renderResult.RenderOutput);
 
             //******************************************************************************************
-            //Execute the Trasnformation of the XSL-FO source to Binary Pdf via Apache FOP Service...
+            //Execute the Transformation of the XSL-FO source to Binary Pdf via Apache FOP Service...
             //******************************************************************************************
             var pdfBytes = await ApacheFOPServiceHelper.RenderXslFOToPdfAsync(xslFODoc);
             return pdfBytes;

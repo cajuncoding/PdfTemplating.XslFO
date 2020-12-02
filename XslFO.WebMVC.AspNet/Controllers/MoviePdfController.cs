@@ -46,7 +46,7 @@ namespace PdfTemplating.WebMVC.Controllers
         {
             try 
             { 
-                var searchResponse = await ExecuteMovieSearchHelper(title);
+                var searchResponse = await ExecuteMovieSearchHelperAsync(title);
 
                 //*******************************************
                 // RAZOR + Fonet (synchronous; embedded code)
@@ -71,7 +71,7 @@ namespace PdfTemplating.WebMVC.Controllers
         {
             try
             {
-                var searchResponse = await ExecuteMovieSearchHelper(title);
+                var searchResponse = await ExecuteMovieSearchHelperAsync(title);
 
                 //*******************************************
                 // RAZOR + Apace FOP (async I/O request)
@@ -94,7 +94,7 @@ namespace PdfTemplating.WebMVC.Controllers
         {
             try
             {
-                var searchResponse = await ExecuteMovieSearchHelper(title);
+                var searchResponse = await ExecuteMovieSearchHelperAsync(title);
 
                 //*******************************************
                 // XSLT + Fonet (synchronous; embedded code)
@@ -118,7 +118,7 @@ namespace PdfTemplating.WebMVC.Controllers
         {
             try
             {
-                var searchResponse = await ExecuteMovieSearchHelper(title);
+                var searchResponse = await ExecuteMovieSearchHelperAsync(title);
 
                 //*******************************************
                 // XSLT + Apache FOP (async I/O request)
@@ -138,7 +138,7 @@ namespace PdfTemplating.WebMVC.Controllers
 
         #region Helpers
 
-        private async Task<MovieSearchResponse> ExecuteMovieSearchHelper(String title)
+        private async Task<MovieSearchResponse> ExecuteMovieSearchHelperAsync(String title)
         {
             //Execute the Move Search to load data . . . 
             //NOTE: This can come from any source, and can be from converted JSON or Xml, etc.

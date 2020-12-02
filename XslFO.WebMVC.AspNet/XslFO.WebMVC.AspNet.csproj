@@ -198,6 +198,9 @@
     <Content Include="Reports.Razor\_PdfReportPageMasterSetsPartial.cshtml" />
     <Content Include="Reports.Razor\_MovieFooterPartial.cshtml" />
     <Content Include="Reports.Razor\MoviePdfReport\MoviesReportForApacheFOP.cshtml" />
+    <Content Include="..\README.md">
+      <Link>README.md</Link>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
