@@ -33,12 +33,12 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
     public class ApacheFOPServerlessPdfRenderService : IAsyncXslFOPdfRenderer
     {
         public XDocument XslFODocument { get; set; }
-        public ApacheFOPServerlessXslFORenderOptions ApacheFopServerlessXslFoPdfRenderOptions { get; set; }
+        public ApacheFOPServerlessXslFORenderOptions Options { get; set; }
 
         public ApacheFOPServerlessPdfRenderService(XDocument xslFODoc, ApacheFOPServerlessXslFORenderOptions apacheFopServerlessXslFoPdfRenderOptions)
         {
             this.XslFODocument = xslFODoc.AssertArgumentIsNotNull(nameof(xslFODoc), "Valid XSL-FO Xml source document must be specified.");
-            this.ApacheFopServerlessXslFoPdfRenderOptions = apacheFopServerlessXslFoPdfRenderOptions.AssertArgumentIsNotNull(nameof(apacheFopServerlessXslFoPdfRenderOptions), "XSL-FO Render options must be specified.");
+            this.Options = apacheFopServerlessXslFoPdfRenderOptions.AssertArgumentIsNotNull(nameof(apacheFopServerlessXslFoPdfRenderOptions), "XSL-FO Render options must be specified.");
         }
 
         public async Task<byte[]> RenderPdfBytesAsync()
@@ -47,23 +47,23 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             //Render the Xsl-FO source into a Pdf binary output
             //***********************************************************
             //Initialize the Xsl-FO micro-service via configuration...
-            var restClient = new RestClient(ApacheFopServerlessXslFoPdfRenderOptions.ApacheFOPServiceHost);
+            var restClient = new RestClient(Options.ApacheFOPServiceHost);
 
             //Get the Raw Xml Source for our Xsl-FO to be transformed into Pdf binary...
             var xslFoSource = this.XslFODocument.ToString();
 
             //Create the REST request for the Apache FOP micro-service...
-            var restRequest = new RestRequest(ApacheFopServerlessXslFoPdfRenderOptions.ApacheFOPApi, Method.POST);
+            var restRequest = new RestRequest(Options.ApacheFOPApi, Method.POST);
             restRequest.AddRawTextBody(xslFoSource, ContentType.Xml);
 
             //Append Request Headers if defined...
-            foreach (var item in this.ApacheFopServerlessXslFoPdfRenderOptions.RequestHeaders)
+            foreach (var item in this.Options.RequestHeaders)
             {
                 restRequest.AddHeader(item.Key, item.Value);
             }
 
             //Append Request Querystring Params if defined...
-            foreach (var item in this.ApacheFopServerlessXslFoPdfRenderOptions.QuerystringParams)
+            foreach (var item in this.Options.QuerystringParams)
             {
                 restRequest.AddQueryParameter(item.Key, item.Value);
             }

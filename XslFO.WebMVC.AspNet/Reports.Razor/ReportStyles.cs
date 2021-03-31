@@ -1,4 +1,4 @@
-﻿namespace XslFO.WebMVC.Reports.Razor
+﻿namespace PdfTemplating.WebMvc.Reports.Razor
 {
     public static class FontFamily
     {
