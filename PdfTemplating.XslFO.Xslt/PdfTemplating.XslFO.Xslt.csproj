@@ -8,15 +8,16 @@
     <Description>USE NUSPEC instead, so that references can be included:
 
 nuget pack -IncludeReferencedProjects</Description>
-    <Copyright>Copyright ©  2020</Copyright>
+    <Copyright>Copyright © 2020</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl></PackageProjectUrl>
     <PackageTags></PackageTags>
     <PackageReleaseNotes></PackageReleaseNotes>
+    <Version>2.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj" />
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj" />
     <ProjectReference Include="..\PdfTemplating.XslFO.Render.Fonet\PdfTemplating.XslFO.Render.Fonet.csproj" />
   </ItemGroup>
 

@@ -55,15 +55,15 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp, Version=106.11.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
-      <HintPath>..\packages\RestSharp.106.11.4\lib\net452\RestSharp.dll</HintPath>
+    <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.7\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.7.2\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.InteropServices" />
@@ -245,9 +245,9 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj">
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj">
       <Project>{CF96DCE8-A93D-4D9A-A909-FCA0BE90B12B}</Project>
-      <Name>PdfTemplating.Common</Name>
+      <Name>PdfTemplating.XslFO.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PdfTemplating.XslFO.Razor.AspNetMvc\PdfTemplating.XslFO.Razor.AspNetMvc.csproj">
       <Project>{86678dea-1da7-4478-989a-05087a7a0158}</Project>
@@ -263,7 +263,7 @@
     </ProjectReference>
     <ProjectReference Include="..\PdfTemplating.XslFO.Render.Fonet\PdfTemplating.XslFO.Render.Fonet.csproj">
       <Project>{23d05779-c655-4d1d-bc48-3678a4d0f84e}</Project>
-      <Name>PdfTemplating.XslFO</Name>
+      <Name>PdfTemplating.XslFO.Render.Fonet</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

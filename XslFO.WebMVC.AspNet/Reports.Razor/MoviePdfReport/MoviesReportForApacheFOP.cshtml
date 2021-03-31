@@ -1,4 +1,4 @@
-﻿@model PdfTemplating.WebMVC.MovieSearch.MovieSearchResponse
+﻿@model PdfTemplating.WebMvc.MovieSearch.MovieSearchResponse
 @{
     Layout = "~/Reports.Razor/_PdfReportLayout.cshtml";
 }
@@ -71,7 +71,7 @@
 }
 
 
-@helper RenderMoviePage(PdfTemplating.WebMVC.MovieSearch.SearchResult movie)
+@helper RenderMoviePage(PdfTemplating.WebMvc.MovieSearch.SearchResult movie)
 {
     @* Render Each Search Results with this template...
         NOTE: Each of the Search rendered items will be on it's own Page by including Page Breaks

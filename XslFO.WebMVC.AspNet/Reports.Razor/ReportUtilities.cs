@@ -1,4 +1,4 @@
-﻿namespace PdfTemplating.WebMVC.Reports.Razor
+﻿namespace PdfTemplating.WebMvc.Reports.Razor
 {
     public static class FontFamily
     {
@@ -12,7 +12,7 @@
         public static string Default = "10pt";
         public static string Medium = "9pt";
         public static string Small = "8pt";
-        public static string H1 = "18pt";
+        public static string H1 = "36pt";
         public static string H2 = "16pt";
         public static string H3 = "10pt";
 

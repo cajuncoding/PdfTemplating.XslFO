@@ -49,7 +49,7 @@ namespace RestSharp.CustomExtensions
     {
         public static bool IsOk(this IRestResponse response)
         {
-            return (response?.StatusCode == HttpStatusCode.OK && response?.ErrorException == null);
+            return response?.StatusCode == HttpStatusCode.OK && response?.ErrorException == null;
         }
 
         public static bool IsError(this IRestResponse response)

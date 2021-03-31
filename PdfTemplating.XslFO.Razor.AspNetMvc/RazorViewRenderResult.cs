@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PdfTemplating.XslFO.Razor.AspNet
+namespace PdfTemplating.XslFO.Razor.AspNetMvc
 {
     public class RazorViewRenderResult
     {
@@ -9,6 +9,6 @@ namespace PdfTemplating.XslFO.Razor.AspNet
             this.RenderOutput = renderOutput;
         }
 
-        public String RenderOutput { get; protected set; }
+        public string RenderOutput { get; protected set; }
     }
 }

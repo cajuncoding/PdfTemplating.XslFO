@@ -13,19 +13,18 @@ Copyright 2012 Brandon Bernard
    See the License for the specific language governing permissions and
    limitations under the License.
 */
-using PdfTemplating.WebMVC.MovieSearch;
+
 using PdfTemplating.XslFO;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using XslFO.WebMVC.Reports.PdfRenderers.Fonet;
-using XslFO.WebMVC.Reports.PdfRenderers.ApacheFOP;
-using XslFO.WebMVC.Reports.PdfRenderers.ApacheFOP.Serverless;
 using System.Web.UI.WebControls;
 using Newtonsoft.Json;
+using PdfTemplating.WebMvc.MovieSearch;
 using RestSharp.CustomExtensions;
+using XslFO.WebMvc.Reports.PdfRenderers;
 
-namespace PdfTemplating.WebMVC.Controllers
+namespace PdfTemplating.WebMvc.Controllers
 {
     [RoutePrefix("movies/pdf")]
     public class MoviePdfController : Controller

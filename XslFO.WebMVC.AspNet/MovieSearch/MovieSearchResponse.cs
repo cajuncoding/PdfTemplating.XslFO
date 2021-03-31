@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace PdfTemplating.WebMVC.MovieSearch
+namespace PdfTemplating.WebMvc.MovieSearch
 {
     public class MovieSearchResponse
     {

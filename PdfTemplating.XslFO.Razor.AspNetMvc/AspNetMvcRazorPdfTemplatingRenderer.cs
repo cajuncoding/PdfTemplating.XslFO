@@ -15,13 +15,10 @@ Copyright 2012 Brandon Bernard
 */
 using System;
 using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Xml.Linq;
 
-namespace PdfTemplating.XslFO.Razor.AspNet
+namespace PdfTemplating.XslFO.Razor.AspNetMvc
 {
     public abstract class AspNetMvcRazorPdfTemplatingRenderer<TViewModel>
     {
@@ -30,7 +27,7 @@ namespace PdfTemplating.XslFO.Razor.AspNet
 
         protected AspNetMvcRazorPdfTemplatingRenderer(String razorViewVirtualPath, ControllerContext controllerContext = null)
         {
-            if(String.IsNullOrWhiteSpace(razorViewVirtualPath))
+            if(string.IsNullOrWhiteSpace(razorViewVirtualPath))
                 throw new ArgumentNullException(nameof(razorViewVirtualPath), "The virtual path to the Razor is null/empty; a valid virtual path must be specified.");
 
             this.InitializeBase(razorViewVirtualPath, controllerContext);
@@ -52,7 +49,7 @@ namespace PdfTemplating.XslFO.Razor.AspNet
         /// The original VirtualPath to the Razor View File.
         /// NOTE: REQUIRED for underlying MVC ViewEngine to work as expected!
         /// </summary>
-        public String RazorViewVirtualPath { get; protected set; }
+        public string RazorViewVirtualPath { get; protected set; }
 
         /// <summary>
         /// The FileInfo to the Razor View file
@@ -66,34 +63,5 @@ namespace PdfTemplating.XslFO.Razor.AspNet
         /// </summary>
         /// <returns></returns>
         public ControllerContext ControllerContext { get; protected set; }
-
-
-        #region Helper Methods (each can be individually Overridden as needed)
-
-        /// <summary>
-        /// Helper method to Create the PdfOptions for the XSL-FO Rendering engine to use.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual XslFOPdfOptions CreatePdfOptions()
-        {
-            //Initialize the Pdf rendering options for the XSL-FO Pdf Engine
-            var pdfOptions = new XslFOPdfOptions()
-            {
-                Author = Assembly.GetExecutingAssembly()?.GetName()?.Name ?? "PdfTemplating Renderer",
-                Title = $"Xsl-FO Pdf Templating Renderer [{this.GetType().Name}]",
-                Subject = $"Dynamic Razor Template Generated Xsl-FO Pdf Document [{DateTime.Now}]",
-                //SET the Base Directory for XslFO Images, Xslt Imports, etc.
-                //BaseDirectory = this.RazorViewFileInfo.Directory,
-                BaseDirectory = this.RazorViewFileInfo.Directory,
-                EnableAdd = false,
-                EnableCopy = true,
-                EnableModify = false,
-                EnablePrinting = true,
-            };
-
-            return pdfOptions;
-        }
-
-        #endregion
     }
 }

@@ -1,12 +1,14 @@
-﻿using PdfTemplating.WebMVC.MovieSearch;
-using PdfTemplating.XslFO.Razor.AspNet;
+﻿using System;
+using System.Configuration;
+using System.Reflection;
+using PdfTemplating.WebMvc.MovieSearch;
+using PdfTemplating.XslFO.Razor.AspNetMvc;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using PdfTemplating.XslFO;
 using System.Threading.Tasks;
-using XslFO.WebMVC.Reports.PdfRenderers.ApacheFOP.Serverless;
 
-namespace XslFO.WebMVC.Reports.PdfRenderers.Fonet
+namespace XslFO.WebMvc.Reports.PdfRenderers
 {
     /// <summary>
     /// This class implements both the sync and sync interfaces so that it can illustrate side-by-side the legacy Fonet (sync),
@@ -41,7 +43,19 @@ namespace XslFO.WebMVC.Reports.PdfRenderers.Fonet
             var xslFODoc = XDocument.Parse(renderResult.RenderOutput);
 
             //Create the Pdf Options for the XSL-FO Rendering engine to use
-            var pdfOptions = this.CreatePdfOptions();
+            var pdfOptions = new XslFOPdfOptions()
+            {
+                Author = Assembly.GetExecutingAssembly()?.GetName()?.Name ?? "PdfTemplating Renderer",
+                Title = $"Xsl-FO Pdf Templating Renderer [{this.GetType().Name}]",
+                Subject = $"Dynamic Razor Template Generated Xsl-FO Pdf Document [{DateTime.Now}]",
+                //SET the Base Directory for XslFO Images, Xslt Imports, etc.
+                //BaseDirectory = this.RazorViewFileInfo.Directory,
+                BaseDirectory = this.RazorViewFileInfo.Directory,
+                EnableAdd = false,
+                EnableCopy = true,
+                EnableModify = false,
+                EnablePrinting = true,
+            };
 
             //****************************************************************************
             //Execute the Transformation of the XSL-FO source to Binary Pdf via Fonet
@@ -82,5 +96,6 @@ namespace XslFO.WebMVC.Reports.PdfRenderers.Fonet
             var pdfBytes = await ApacheFOPServiceHelper.RenderXslFOToPdfAsync(xslFODoc);
             return pdfBytes;
         }
+
     }
 }
