@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj" />
-    <ProjectReference Include="..\PdfTemplating.Fonet.NetStandard\PdfTemplating.Fonet.NetStandard.csproj" />
   </ItemGroup>
 
 </Project>
