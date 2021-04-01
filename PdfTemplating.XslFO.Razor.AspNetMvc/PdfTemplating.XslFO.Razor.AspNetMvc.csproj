@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PdfTemplating.XslFO.Razor.AspNetMvc</RootNamespace>
-    <AssemblyName>PdfTemplating.XslFO.Razor.AspNet</AssemblyName>
+    <AssemblyName>PdfTemplating.XslFO.Razor.AspNetMvc</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

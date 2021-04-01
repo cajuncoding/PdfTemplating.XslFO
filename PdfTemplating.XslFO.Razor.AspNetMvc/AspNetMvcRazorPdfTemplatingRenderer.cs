@@ -56,7 +56,6 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// </summary>
         public FileInfo RazorViewFileInfo { get; set; }
 
-
         /// <summary>
         /// Returns a valid ControllerContext to use when executing the MVC Razor View; this is an 
         /// abstract method that must be implemented by inheriting classes.
