@@ -24,7 +24,7 @@ using System.Xml.Linq.Xslt.CustomExtensions;
 
 namespace PdfTemplating.XslFO.Xslt
 {
-    public class XsltPdfTemplatingRenderer<TViewModel>: IPdfTemplatingRenderer<TViewModel>
+    public abstract class XsltPdfTemplatingRenderer<TViewModel>
     {
         public XsltPdfTemplatingRenderer()
         {}
@@ -51,35 +51,6 @@ namespace PdfTemplating.XslFO.Xslt
         /// </summary>
         public FileInfo XsltFileInfo { get; protected set; }
 
-        #region IPdfTemplatingRenderer implementation
-
-        /// <summary>
-        /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
-        /// methods to simplify the implementations of all inheriting Razor View Renderer implementations.
-        /// 
-        /// This can be overridden by implementing classes to customize this behaviour as needed.
-        /// 
-        /// NOTE: This method orchestrates all logic to create the view model, execute the view template,
-        ///         and render the XSL-FO output, and then convert that XSL-FO output to a valid Pdf
-        ///         in one and only place and greatly simplifies all Razor View Renderer implementations to keep
-        ///         code very DRY.
-        /// </summary>
-        /// <param name="templateModel"></param>
-        /// <returns></returns>
-        public virtual byte[] RenderPdf(TViewModel templateModel)
-        {
-            //Render the XSL-FO output from the Razor Template and the View Model
-            var xslFODoc = this.RenderXslFOXml(templateModel);
-
-            //Create the Pdf Options for the XSL-FO Rendering engine to use
-            var pdfOptions = this.CreatePdfOptions();
-
-            //Finally conver the XSL-FO XDocument into valid Pdf Binary data
-            var pdfBytes = this.RenderXslFOPdfBytes(xslFODoc, pdfOptions);
-            return pdfBytes;
-        }
-
-        #endregion
 
         #region Helper Methods (each can be individually Overridden as needed)
 

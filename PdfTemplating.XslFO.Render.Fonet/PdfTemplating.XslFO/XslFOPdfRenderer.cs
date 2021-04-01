@@ -16,6 +16,7 @@ Copyright 2012 Brandon Bernard
 
 using PdfTemplating.XslFO.Fonet.CustomExtensions;
 using System;
+using System.CustomExtensions;
 using System.Xml.Linq;
 
 namespace PdfTemplating.XslFO
@@ -42,8 +43,8 @@ namespace PdfTemplating.XslFO
 
         public FONetXslFOPdfRenderer(XDocument xslFODoc, XslFOPdfOptions xslFOPdfOptions, EventHandler<XslFOEventArg> fnDebugEventHandler, EventHandler<XslFOErrorEventArg> fnErrorEventHandler)
         {
-            this.XslFODocument = xslFODoc;
-            this.XslFOPdfOptions = xslFOPdfOptions;
+            this.XslFODocument = xslFODoc.AssertArgumentIsNotNull(nameof(xslFODoc), "Valid XSL-FO Xml source document must be specified.");
+            this.XslFOPdfOptions = xslFOPdfOptions.AssertArgumentIsNotNull(nameof(xslFOPdfOptions), "XSL-FO Render options must be specified.");
             this.DebugEventHandler = fnDebugEventHandler;
             this.ErrorEventHandler = fnErrorEventHandler;
         }

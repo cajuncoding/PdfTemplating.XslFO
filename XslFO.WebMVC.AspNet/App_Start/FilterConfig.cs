@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 
-namespace PdfTemplating.WebMVC
+namespace PdfTemplating.WebMvc
 {
     public class FilterConfig
     {

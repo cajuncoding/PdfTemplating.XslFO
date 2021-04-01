@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace PdfTemplating.XslFO.Razor.AspNet
+namespace PdfTemplating.XslFO.Razor.AspNetMvc
 {
     /// <summary>
     /// BBernard - 08/02/2016

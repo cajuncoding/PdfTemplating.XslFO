@@ -64,8 +64,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.7.2\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -145,17 +145,17 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj">
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj">
       <Project>{cf96dce8-a93d-4d9a-a909-fca0be90b12b}</Project>
-      <Name>PdfTemplating.Common</Name>
+      <Name>PdfTemplating.XslFO.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PdfTemplating.XslFO.Render.Fonet\PdfTemplating.XslFO.Render.Fonet.csproj">
+      <Project>{23d05779-c655-4d1d-bc48-3678a4d0f84e}</Project>
+      <Name>PdfTemplating.XslFO.Render.Fonet</Name>
     </ProjectReference>
     <ProjectReference Include="..\PdfTemplating.XslFO.Xslt\PdfTemplating.XslFO.Xslt.csproj">
       <Project>{c17cf83e-e100-47a0-ba8d-13835d84deec}</Project>
       <Name>PdfTemplating.XslFO.Xslt</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PdfTemplating.XslFO\PdfTemplating.XslFO.csproj">
-      <Project>{23d05779-c655-4d1d-bc48-3678a4d0f84e}</Project>
-      <Name>PdfTemplating.XslFO</Name>
     </ProjectReference>
     <ProjectReference Include="..\XslFO.ControlLibrary\XslFO.ControlLibrary.csproj">
       <Project>{814f92f4-2cf8-45d4-97ac-4854ca465d15}</Project>

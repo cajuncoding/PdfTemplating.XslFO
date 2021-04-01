@@ -1,6 +1,4 @@
 ﻿@model PdfTemplating.WebMvc.MovieSearch.MovieSearchResponse
-@using PdfTemplating.WebMvc.MovieSearch
-
 @{
     Layout = "~/Reports.Razor/_PdfReportLayout.cshtml";
 }
@@ -32,7 +30,7 @@
             *@
             @foreach (var movie in Model.SearchResults.OrderBy(m => m.Year))
             {
-                @RenderMoviePage(movie, Model.FonetCompatibilityEnabled)
+                @RenderMoviePage(movie)
             }
 
             @*OUTPUT REFERENCES FOR LAST PAGE - MUST APPEAR AFTER ALL CONTENT HAS BEEN RENDERED via TEMPLATES *@
@@ -50,43 +48,30 @@
 @helper RenderCoverPage(String title)
 {
     <fo:block break-before="auto">
+        <fo:block text-align="center">
 
-        @* Vertical Alignment requires a full sized width/height Table with 1 Cell: https://sites.cs.ucsb.edu/~pconrad/github/ucsb-cs56-tutorials-fop/fop-1.1/docs/fo.html#fo-center-vertical *@
-        <fo:table table-layout="fixed" width="100%">
-            <fo:table-column column-width="proportional-column-width(1)" />
-            <fo:table-body>
-                <fo:table-row height="8.5in">
-                    <fo:table-cell display-align="center">
+            @* Generate a Horizontal Rule *@
+            <fo:block font-size="@FontSize.H1" space-before="2.5in" border-bottom="@Border.HorizontalRule"></fo:block>
 
-                        @* Output Title Page info *@
-                        <fo:block text-align="center">
-                            @* Generate a Horizontal Rule *@
-                            <fo:block font-size="@FontSize.H1" border-bottom="@Border.HorizontalRule"></fo:block>
+            <fo:block font-size="@FontSize.H1" space-before=".5in">
+                Movie Search for "@title"
+            </fo:block>
+            <fo:block font-size="@FontSize.H2" space-before=".5in">
+                BY: Brandon Bernard
+            </fo:block>
+            <fo:block font-size="@FontSize.H1" space-before=".5in">
+                Executed on: @dateTimeStamp
+            </fo:block>
 
-                            <fo:block font-size="@FontSize.H1" space-before=".5in">
-                                Movie Search for "@title"
-                            </fo:block>
-                            <fo:block font-size="@FontSize.H2" space-before=".5in">
-                                BY: Brandon Bernard
-                            </fo:block>
-                            <fo:block font-size="@FontSize.H1" space-before=".5in">
-                                Executed on: @dateTimeStamp
-                            </fo:block>
+            @* Generate a Horizontal Rule *@
+            <fo:block space-before=".5in" border-bottom="@Border.HorizontalRule"></fo:block>
 
-                            @* Generate a Horizontal Rule *@
-                            <fo:block space-before=".5in" border-bottom="@Border.HorizontalRule"></fo:block>
-                        </fo:block>
-
-                    </fo:table-cell>
-                </fo:table-row>
-            </fo:table-body>
-        </fo:table>
-
+        </fo:block>
     </fo:block>
 }
 
 
-@helper RenderMoviePage(SearchResult movie, bool fonetCompatibilityEnabled)
+@helper RenderMoviePage(PdfTemplating.WebMvc.MovieSearch.SearchResult movie)
 {
     @* Render Each Search Results with this template...
         NOTE: Each of the Search rendered items will be on it's own Page by including Page Breaks
@@ -107,25 +92,22 @@
                 <fo:table-body>
                     <fo:table-row>
                         <fo:table-cell padding="10px">
-                            <fo:block>
-                                @*
-                                //Render Image
-                                //NOTE: We use the Custom Property Logic here which makes the Templating Logic much easier and improves separation of presentation from data!
-                                *@
-                                @if (String.IsNullOrWhiteSpace(movie.Poster))
-                                {
-                                    <fo:block font-size="@FontSize.H1">No Image</fo:block>
-                                }
-                                else if (fonetCompatibilityEnabled)
-                                {
-                                    //Render External graphic without the content-width attribute; scaling is not configurable in legacy Fonet
-                                    <fo:external-graphic src="url('@movie.Poster')" width="3in" scaling="uniform" />
-                                }
-                                else
-                                {
+
+                            @* Render Image
+                               NOTE: We use the Custom Property Logic here which makes the Templating Logic much easier 
+                                     and improves separation of presentation from data!
+                            *@
+                            @if (String.IsNullOrWhiteSpace(movie.Poster))
+                            {
+                                <fo:block font-size="@FontSize.H1">No Image</fo:block>
+                            }
+                            else
+                            {
+                                <fo:block>
                                     <fo:external-graphic src="url('@movie.Poster')" width="3in" scaling="uniform" content-width="scale-to-fit" />
-                                }
-                            </fo:block>
+                                </fo:block>
+                            }
+
                         </fo:table-cell>
                         <fo:table-cell padding="10px">
 

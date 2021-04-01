@@ -52,15 +52,18 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="RestSharp, Version=106.2.1.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
-      <HintPath>..\packages\RestSharp.106.2.1\lib\net452\RestSharp.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.7\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Drawing.Common, Version=4.0.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Drawing.Common.4.7.0\lib\net461\System.Drawing.Common.dll</HintPath>
+    <Reference Include="System.Drawing.Common, Version=4.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Drawing.Common.4.7.2\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.InteropServices" />
@@ -127,9 +130,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.ApplicationInsights">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
     </Reference>
@@ -158,16 +158,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MoviePdfController.cs" />
-    <Compile Include="CustomExtensions\RestSharp.CustomExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MovieSearch\MovieSearchResponse.cs" />
+    <Compile Include="Reports.PdfRenderers\ApacheFOPServiceHelper.cs" />
     <Compile Include="Reports.PdfRenderers\RazorMoviePdfRenderer.cs" />
     <Compile Include="Reports.PdfRenderers\XsltMoviePdfRenderer.cs" />
     <Compile Include="MovieSearch\MovieSearch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reports.Razor\ReportUtilities.cs" />
+    <Compile Include="Reports.Razor\ReportStyles.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -197,6 +197,10 @@
     <Content Include="Reports.Razor\_PdfReportLayout.cshtml" />
     <Content Include="Reports.Razor\_PdfReportPageMasterSetsPartial.cshtml" />
     <Content Include="Reports.Razor\_MovieFooterPartial.cshtml" />
+    <Content Include="Reports.Razor\MoviePdfReport\MoviesReportForApacheFOP.cshtml" />
+    <Content Include="..\README.md">
+      <Link>README.md</Link>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -241,21 +245,25 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj">
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj">
       <Project>{CF96DCE8-A93D-4D9A-A909-FCA0BE90B12B}</Project>
-      <Name>PdfTemplating.Common</Name>
+      <Name>PdfTemplating.XslFO.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\PdfTemplating.XslFO.Razor.AspNetMvc\PdfTemplating.XslFO.Razor.AspNetMvc.csproj">
       <Project>{86678dea-1da7-4478-989a-05087a7a0158}</Project>
       <Name>PdfTemplating.XslFO.Razor.AspNetMvc</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PdfTemplating.XslFO.Render.ApacheFOP.Serverless\PdfTemplating.XslFO.Render.ApacheFOP.Serverless.csproj">
+      <Project>{04db393e-7868-4bfe-b69a-5aba00257940}</Project>
+      <Name>PdfTemplating.XslFO.Render.ApacheFOP.Serverless</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PdfTemplating.XslFO.Xslt\PdfTemplating.XslFO.Xslt.csproj">
       <Project>{C17CF83E-E100-47A0-BA8D-13835D84DEEC}</Project>
       <Name>PdfTemplating.XslFO.Xslt</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PdfTemplating.XslFO\PdfTemplating.XslFO.csproj">
+    <ProjectReference Include="..\PdfTemplating.XslFO.Render.Fonet\PdfTemplating.XslFO.Render.Fonet.csproj">
       <Project>{23d05779-c655-4d1d-bc48-3678a4d0f84e}</Project>
-      <Name>PdfTemplating.XslFO</Name>
+      <Name>PdfTemplating.XslFO.Render.Fonet</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

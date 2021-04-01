@@ -7,8 +7,8 @@
     <ProjectGuid>{86678DEA-1DA7-4478-989A-05087A7A0158}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PdfTemplating.XslFO.Razor.AspNet</RootNamespace>
-    <AssemblyName>PdfTemplating.XslFO.Razor.AspNet</AssemblyName>
+    <RootNamespace>PdfTemplating.XslFO.Razor.AspNetMvc</RootNamespace>
+    <AssemblyName>PdfTemplating.XslFO.Razor.AspNetMvc</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -75,13 +75,9 @@
     <None Include="PdfTemplating.XslFO.Razor.AspNetMvc.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj">
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj">
       <Project>{cf96dce8-a93d-4d9a-a909-fca0be90b12b}</Project>
-      <Name>PdfTemplating.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PdfTemplating.XslFO\PdfTemplating.XslFO.csproj">
-      <Project>{23D05779-C655-4D1D-BC48-3678A4D0F84E}</Project>
-      <Name>PdfTemplating.XslFO</Name>
+      <Name>PdfTemplating.XslFO.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -121,17 +121,17 @@
       <Project>{5222558b-c90b-4a8d-9081-9079d2e826d0}</Project>
       <Name>OpenSource.WinForms.Animations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.Common.csproj">
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj">
       <Project>{CF96DCE8-A93D-4D9A-A909-FCA0BE90B12B}</Project>
-      <Name>PdfTemplating.Common</Name>
+      <Name>PdfTemplating.XslFO.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PdfTemplating.XslFO.Render.Fonet\PdfTemplating.XslFO.Render.Fonet.csproj">
+      <Project>{23d05779-c655-4d1d-bc48-3678a4d0f84e}</Project>
+      <Name>PdfTemplating.XslFO.Render.Fonet</Name>
     </ProjectReference>
     <ProjectReference Include="..\PdfTemplating.XslFO.Xslt\PdfTemplating.XslFO.Xslt.csproj">
       <Project>{c17cf83e-e100-47a0-ba8d-13835d84deec}</Project>
       <Name>PdfTemplating.XslFO.Xslt</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PdfTemplating.XslFO\PdfTemplating.XslFO.csproj">
-      <Project>{23d05779-c655-4d1d-bc48-3678a4d0f84e}</Project>
-      <Name>PdfTemplating.XslFO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

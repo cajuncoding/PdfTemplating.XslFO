@@ -4,7 +4,7 @@ using RestSharp.CustomExtensions;
 using System;
 using System.Threading.Tasks;
 
-namespace PdfTemplating.WebMVC.MovieSearch
+namespace PdfTemplating.WebMvc.MovieSearch
 {
     public class MovieSearchService
     {

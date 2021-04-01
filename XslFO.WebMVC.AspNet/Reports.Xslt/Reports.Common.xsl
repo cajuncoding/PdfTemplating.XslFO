@@ -38,19 +38,19 @@
 		-->
 		<fo:layout-master-set>
 			<fo:simple-page-master master-name="US-Letter-Portrait" page-width="8.5in" page-height="11in" margin-top=".25in" margin-bottom=".25in" margin-left=".5in" margin-right=".5in">
+				<fo:region-body margin-top="{$headerHeight}" margin-bottom="{$footerHeight}" margin-left="{$leftWidth}" margin-right="{$rightWidth}" />
 				<fo:region-before extent="{$headerHeight}" />
 				<fo:region-after extent="{$footerHeight}" />
 				<fo:region-start extent="{$leftWidth}" />
 				<fo:region-end extent="{$rightWidth}" />
-				<fo:region-body margin-top="{$headerHeight}" margin-bottom="{$footerHeight}" margin-left="{$leftWidth}" margin-right="{$rightWidth}" />
 			</fo:simple-page-master>
 			
 			<fo:simple-page-master master-name="US-Letter-Landscape" page-width="11in" page-height="8.5in" margin-top=".25in" margin-bottom=".25in" margin-left=".25in" margin-right=".25in">
+				<fo:region-body margin-top="{$headerHeight}" margin-bottom="{$footerHeight}" margin-left="{$leftWidth}" margin-right="{$rightWidth}" />
 				<fo:region-before extent="{$headerHeight}" />
 				<fo:region-after extent="{$footerHeight}" />
 				<fo:region-start extent="{$leftWidth}" />
 				<fo:region-end extent="{$rightWidth}" />
-				<fo:region-body margin-top="{$headerHeight}" margin-bottom="{$footerHeight}" margin-left="{$leftWidth}" margin-right="{$rightWidth}" />
 			</fo:simple-page-master>
 			<!--
 			<fo:simple-page-master master-name="US-A-Portrait-Last" page-width="8.5in" page-height="11in" margin-top=".25in" margin-bottom=".1in" margin-left=".4in" margin-right=".4in">
