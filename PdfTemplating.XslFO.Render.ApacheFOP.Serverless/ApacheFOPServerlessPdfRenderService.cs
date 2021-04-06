@@ -18,8 +18,11 @@ using RestSharp;
 using RestSharp.CustomExtensions;
 using System;
 using System.CustomExtensions;
+using System.IO.CustomExtensions;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using PdfTemplating.XslFO.Render.ApacheFOP.Serverless;
 
 namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 {
@@ -41,7 +44,7 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             this.Options = apacheFopServerlessXslFoPdfRenderOptions.AssertArgumentIsNotNull(nameof(apacheFopServerlessXslFoPdfRenderOptions), "XSL-FO Render options must be specified.");
         }
 
-        public async Task<byte[]> RenderPdfBytesAsync()
+        public virtual async Task<ApacheFOPServerlessResponse> RenderPdfAsync()
         {
             //***********************************************************
             //Render the Xsl-FO source into a Pdf binary output
@@ -54,12 +57,32 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 
             //Create the REST request for the Apache FOP micro-service...
             var restRequest = new RestRequest(Options.ApacheFOPApi, Method.POST);
-            restRequest.AddRawTextBody(xslFoSource, ContentType.Xml);
+
+            //Manually add special case Gzip Compression Header for the Request (e.g. we are sending GZIP Encoded Content as a request)...
+            if (Options.EnableGzipCompressionForRequests)
+            {
+                
+                var xslFoCompressedBytes = await xslFoSource.GzipCompressAsync();
+
+                restRequest.AddHeader(ApacheFOPServerlessHeaders.ContentEncoding, ApacheFOPServerlessEncodings.GzipEncoding);
+                var fileName = $"ApacheFopServerless-RenderRequest-[{Guid.NewGuid()}].zip";
+                restRequest.AddRawBytesBase64Body(xslFoCompressedBytes, ContentType.Xml);
+            }
+            else
+            {
+                restRequest.AddRawTextBody(xslFoSource, ContentType.Xml);
+            }
 
             //Append Request Headers if defined...
             foreach (var item in this.Options.RequestHeaders)
             {
                 restRequest.AddHeader(item.Key, item.Value);
+            }
+
+            //Manually add special case Gzip Compression Header for Responses if not already defined (e.g. we Accept GZIP Encoding as a response)...
+            if (Options.EnableGzipCompressionForResponses && !this.Options.RequestHeaders.ContainsKey(ApacheFOPServerlessHeaders.AcceptEncoding))
+            {
+                restRequest.AddHeader(ApacheFOPServerlessHeaders.AcceptEncoding, ApacheFOPServerlessEncodings.GzipEncoding);
             }
 
             //Append Request Querystring Params if defined...
@@ -71,8 +94,32 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             //Execute the request to the service, validate, and retrieve the Raw Binary response...
             var restResponse = await restClient.ExecuteWithExceptionHandlingAsync(restRequest);
 
-            var pdfBytes = restResponse.RawBytes;
-            return pdfBytes;            
+            //Read Response Headers to return...
+            var headersDictionary = restResponse.Headers
+                .Where(p => p.Type == ParameterType.HttpHeader && p.Value != null)
+                .ToDictionary(p => p.Name, p => p.Value?.ToString());
+
+            //Determine if the Response was GZIP Encoded and handle properly to get the valid binary Pdf Byte Array...
+            bool isGzipEncodingEnabled = headersDictionary.TryGetValue(ApacheFOPServerlessHeaders.ContentEncoding, out string contentEncoding)
+                                             && contentEncoding.IndexOf(ApacheFOPServerlessEncodings.GzipEncoding, StringComparison.OrdinalIgnoreCase) >= 0;
+
+            //Read teh Pdf Bytes and return the Apache FOP Serverless response...
+            var pdfBytes = isGzipEncodingEnabled
+                ? await restResponse.RawBytes.GzipDecompressAsync()
+                : restResponse.RawBytes;
+
+            var apacheServerlessResponse = new ApacheFOPServerlessResponse(pdfBytes, headersDictionary);
+            return apacheServerlessResponse;            
+        }
+
+        /// <summary>
+        /// Implements the simplified interface for only rendering and returning only the binary Pdf Byte array.
+        /// </summary>
+        /// <returns></returns>
+        public virtual async Task<byte[]> RenderPdfBytesAsync()
+        {
+            var response = await RenderPdfAsync();
+            return response.PdfBytes;
         }
     }
 }

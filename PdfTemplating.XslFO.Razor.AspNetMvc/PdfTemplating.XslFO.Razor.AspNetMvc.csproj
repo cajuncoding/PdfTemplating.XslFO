@@ -71,6 +71,7 @@
     <Compile Include="RazorViewRenderResult.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="NugetPack.bat" />
     <None Include="packages.config" />
     <None Include="PdfTemplating.XslFO.Razor.AspNetMvc.nuspec" />
   </ItemGroup>

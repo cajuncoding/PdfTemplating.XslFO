@@ -21,17 +21,20 @@ namespace XslFO.WebMvc.Reports.PdfRenderers
                 .AppSettings["XslFO.ApacheFOP.Serverless.Host"]
                 .AssertArgumentIsNotNullOrBlank("XslFO.ApacheFOP.Serverless.Host", "Configuration value for ApacheFOP Service Host is missing or undefined.");
 
-            var apacheFOPServiceToken = ConfigurationManager
-                .AppSettings["XslFO.ApacheFOP.Serverless.Token"]
-                .AssertArgumentIsNotNullOrBlank("XslFO.ApacheFOP.Serverless.Token", "Configuration value for ApacheFOP Service Host is missing or undefined.");
+            var gzipRequestsEnabled = ConfigurationManager
+                .AppSettings["XslFO.ApacheFOP.Serverless.GzipRequestsEnabled"]?.EqualsIgnoreCase(bool.TrueString) ?? false;
 
+            var gzipResponsesEnabled = ConfigurationManager
+                .AppSettings["XslFO.ApacheFOP.Serverless.GzipResponsesEnabled"]?.EqualsIgnoreCase(bool.TrueString) ?? false;
 
             //Construct the REST request options and append the Security Token (as QuerystringParam):
-            var options = new ApacheFOPServerlessXslFORenderOptions(new Uri(apacheFOPServiceHostString));
-            options.QuerystringParams["code"] = apacheFOPServiceToken;
-
+            var options = new ApacheFOPServerlessXslFORenderOptions(new Uri(apacheFOPServiceHostString))
+            {
+                EnableGzipCompressionForRequests = gzipRequestsEnabled,
+                EnableGzipCompressionForResponses = gzipResponsesEnabled
+            };
+ 
             var xslFOPdfRenderer = new ApacheFOPServerlessPdfRenderService(xslFODoc, options);
-
             var pdfBytes = await xslFOPdfRenderer.RenderPdfBytesAsync();
             
             return pdfBytes;

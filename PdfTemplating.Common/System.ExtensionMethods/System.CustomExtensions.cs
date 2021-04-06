@@ -507,6 +507,17 @@ namespace System.CustomExtensions
 			return String.IsNullOrEmpty(objThis);
 		}
 
+		/// <summary>
+		/// Returns true if the referenced string is either a null or an empty string (i.e. "").
+		/// Exactly the same as String.IsNullOrEmpty(string1).
+		/// </summary>
+		/// <param name="objThis"></param>
+		/// <returns></returns>
+		public static bool IsNullOrWhiteSpace(this String objThis)
+		{
+			return String.IsNullOrWhiteSpace(objThis);
+		}
+
 		public static String ToNullSafe(this String objThis)
 		{
 			return objThis.ToNullSafe(String.Empty);
@@ -517,6 +528,15 @@ namespace System.CustomExtensions
 			if (String.IsNullOrEmpty(objThis))
 			{
 				return defaultIfNullOrEmpty;
+			}
+			return objThis;
+		}
+
+		public static String ToNullOrWhiteSpaceSafe(this String objThis, String defaultIfNullOrWhiteSpace)
+		{
+			if (String.IsNullOrWhiteSpace(objThis))
+			{
+				return defaultIfNullOrWhiteSpace;
 			}
 			return objThis;
 		}
@@ -601,7 +621,7 @@ namespace System.CustomExtensions
 		/// <returns></returns>
 		public static bool EqualsIgnoreCase(this String objThis, String stringToCompareWith)
 		{
-			return objThis.Equals(stringToCompareWith, StringComparison.CurrentCultureIgnoreCase);
+			return objThis?.Equals(stringToCompareWith, StringComparison.CurrentCultureIgnoreCase) ?? false;
 		}
 
 		/// <summary>
@@ -613,7 +633,7 @@ namespace System.CustomExtensions
 		/// <returns></returns>
 		public static bool EqualsIgnoreCaseInvariant(this String objThis, String stringToCompareWith)
 		{
-			return objThis.Equals(stringToCompareWith, StringComparison.InvariantCultureIgnoreCase);
+			return objThis?.Equals(stringToCompareWith, StringComparison.InvariantCultureIgnoreCase) ?? false;
 		}
 
 		/// <summary>

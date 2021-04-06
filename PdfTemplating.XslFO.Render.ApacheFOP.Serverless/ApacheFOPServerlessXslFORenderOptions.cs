@@ -17,21 +17,46 @@ Copyright 2020 Brandon Bernard
 using System;
 using System.Collections.Generic;
 using System.CustomExtensions;
+using System.Web;
 
 namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 {
     public class ApacheFOPServerlessXslFORenderOptions
     {
+        public const string DefaultApacheFopServerlessApiPath = "api/apache-fop/xslfo";
+
         public ApacheFOPServerlessXslFORenderOptions(Uri apacheFopServlessHostUri)
         {
-            this.ApacheFOPServiceHost = apacheFopServlessHostUri.AssertArgumentIsNotNull(nameof(apacheFopServlessHostUri), "A valid Uri to the Apache FOP service must be specified.");
+            
+            apacheFopServlessHostUri.AssertArgumentIsNotNull(nameof(apacheFopServlessHostUri), "A valid Uri to the Apache FOP service must be specified.");
+
+            //Safely parse the Host as we expect from the provided Uri.
+            var hostUrlString = apacheFopServlessHostUri
+                .GetComponents(UriComponents.SchemeAndServer, UriFormat.SafeUnescaped)
+                .AssertArgumentIsNotNullOrBlank(nameof(apacheFopServlessHostUri), "The Apache FOP service Uri provided is invalid; the Server Host and Scheme of the Uri are blank/empty.");
+            
+            this.ApacheFOPServiceHost = new Uri(hostUrlString);
+
+            //Safely parse the API Path as we expect from the provided Uri if included.
+            var apiPath = apacheFopServlessHostUri.GetComponents(UriComponents.Path, UriFormat.SafeUnescaped);
+            if (!string.IsNullOrWhiteSpace(apiPath))
+                this.ApacheFOPApi = apiPath;
+
+            //Safely initialize any pre-defined Querystring Params from the original Uri
+            var query = HttpUtility.ParseQueryString(apacheFopServlessHostUri.Query);
+            foreach (var key in query.AllKeys)
+            {
+                this.QuerystringParams[key] = query[key];
+            }
         }
 
-        public bool EnableGzipCompression { get; set; } = false;
+        public bool EnableGzipCompressionForRequests { get; set; } = false;
+
+        public bool EnableGzipCompressionForResponses { get; set; } = false;
 
         public Uri ApacheFOPServiceHost { get; private set; }
 
-        public String ApacheFOPApi { get; set; } = "api/apache-fop/xslfo";
+        public String ApacheFOPApi { get; set; } = DefaultApacheFopServerlessApiPath;
 
         public Dictionary<string, string> QuerystringParams { get; } = new Dictionary<string, string>();
 

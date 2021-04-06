@@ -5,7 +5,7 @@ Copyright 2012 Brandon Bernard
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-     http://www.apache.org/licenses/LICENSE-2.0
+	 http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,14 +17,16 @@ Copyright 2012 Brandon Bernard
 //using System.Configuration;
 using System.CustomExtensions;
 using System.Diagnostics;
+using System.IO.Compression;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace System.IO.CustomExtensions
 {
-    public static class SystemStreamReaderCustomExtensions
+	public static class SystemStreamReaderCustomExtensions
 	{
 		/// <summary>
 		/// Safely, resets the position to the Beginning of the stream (Position 0 / SeekOrigin.Begin) regardless of the Stream type and support for Seeking.  Streams that
@@ -305,6 +307,55 @@ namespace System.IO.CustomExtensions
 		}
 	}
 
+	public static class SystemCompressionCustomExtensions
+    {
+        public static async Task<byte[]> GzipCompressAsync(this string thisString, Encoding encoding = null)
+        {
+            var compressionEncoding = encoding ?? Encoding.UTF8;
+            var bytes = compressionEncoding.GetBytes(thisString);
+            var compressedBytes = await bytes.GzipCompressAsync();
+            return compressedBytes;
+        }
+
+        public static async Task<byte[]> GzipCompressAsync(this byte[] bytes)
+		{
+			byte[] compressedBytes;
+
+			using (var inputStream = new MemoryStream(bytes))
+			using (var outputStream = new MemoryStream())
+			{
+				//GZipStream must be disposed to ensure that all data is flushed!
+				using (var zipStream = new GZipStream(outputStream, CompressionLevel.Optimal))
+				{
+					await inputStream.CopyToAsync(zipStream);
+				}
+
+				compressedBytes = outputStream.ToArray();
+			}
+
+			return compressedBytes;
+		}
+
+		public static async Task<byte[]> GzipDecompressAsync(this byte[] bytes)
+		{
+			byte[] unzippedBytes;
+
+			using (var inputStream = new MemoryStream(bytes))
+			using (var outputStream = new MemoryStream())
+			{
+				//GZipStream must be disposed to ensure that all data is flushed!
+				using (var zipStream = new GZipStream(inputStream, CompressionMode.Decompress))
+				{
+					await zipStream.CopyToAsync(outputStream);
+				}
+
+				unzippedBytes = outputStream.ToArray();
+			}
+
+			return unzippedBytes;
+		}
+	}
+
 
 	/// <summary>
 	/// Allows launching of file in the following known Process contexts.
@@ -439,7 +490,7 @@ namespace System.IO.CustomExtensions
 		}
 
 		/// <summary>
-		/// Launch the file using the Specified avaialble known App Contexts.
+		/// Launch the file using the Specified available known App Contexts.
 		/// </summary>
 		/// <param name="fileInfo"></param>
 		/// <param name="enumLaunchApp"></param>

@@ -26,6 +26,17 @@ namespace RestSharp.CustomExtensions
             return request;
         }
 
+        public static IRestRequest AddRawBytesAsBase64Body(this IRestRequest request, byte[] body, string contentType)
+        {
+            #pragma warning disable CS0618 // Type or member is obsolete
+            request.RequestFormat = DataFormat.None;
+            #pragma warning restore CS0618 // Type or member is obsolete
+
+            var base64Body = Convert.ToBase64String(body);
+            request.AddParameter(contentType, base64Body, ParameterType.RequestBody);
+            return request;
+        }
+
         public static IRestRequest AddRawTextBody(this IRestRequest request, string body, string contentType)
         {
             //BBernard
