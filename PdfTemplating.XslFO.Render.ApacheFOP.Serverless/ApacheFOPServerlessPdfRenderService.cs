@@ -17,6 +17,7 @@ Copyright 2012 Brandon Bernard
 using RestSharp;
 using RestSharp.CustomExtensions;
 using System;
+using System.Collections.Generic;
 using System.CustomExtensions;
 using System.IO.CustomExtensions;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             var restResponse = await restClient.ExecuteWithExceptionHandlingAsync(restRequest).ConfigureAwait(false);
 
             //Read Response Headers to return...
-            var headersDictionary = restResponse.GetHeadersAsDictionary();
+            var headersDictionary = await GetHeadersDictionaryAsync(restResponse).ConfigureAwait(false);
 
             //Determine if the Response was GZIP Encoded and handle properly to get the valid binary Pdf Byte Array...
             bool isResponseGzipEncoded = headersDictionary.TryGetValue(ApacheFOPServerlessHeaders.ContentEncoding, out string contentEncoding)
@@ -81,36 +82,36 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
         public virtual async Task<IRestRequest> CreateRestRequest(string xslFoSource)
         {
             //Create the REST request for the Apache FOP micro-service...
-            var restRequest = new RestRequest(Options.ApacheFOPApi, Method.POST);
+            var restRequest = new RestRequest(Options.GetApacheFopApiPath(), Method.POST);
 
             //Always add the custom header denoting the content type of the payload for processing (e.g. Always Xml)
-            //NOTE: We provide this as as a fallback for reference if ever needed because ApacheFop.Serverless Azure Function will now
-            //      only receive raw bytes (lowest common denominator format for supporting both GZIP & String payloads), and therefore the normal 
-            //      ContentType header must be set to Binary Octet-Stream for proper handling by Azure Functions (or exceptions are thrown).
+            //NOTE: We provide this as as a fallback for reference if ever needed because ApacheFop.Serverless Azure Function now
+            //      supports both GZIP & String payloads, and therefore the normal ContentType header may be set to Binary Octet-Stream
+            //      for proper handling of GZIP requests by Azure Functions (or exceptions are thrown).
             restRequest.AddHeader(ApacheFOPServerlessHeaders.ApacheFopServerlessContentType, ContentType.Xml);
 
             //If specified handle GZIP Compression for the Request, otherwise just get the Raw Byte String...
-            byte[] xslFoPayloadBytes;
             if (Options.EnableGzipCompressionForRequests)
             {
                 //When sending GZip payload we must supply the proper Content-Encoding header to denote the compressed payload...
                 // More info here: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding
-                xslFoPayloadBytes = await xslFoSource.GzipCompressAsync().ConfigureAwait(false);
+                byte[] xslFoPayloadBytes = await xslFoSource.GzipCompressAsync().ConfigureAwait(false);
                 restRequest.AddHeader(ApacheFOPServerlessHeaders.ContentEncoding, ApacheFOPServerlessEncodings.GzipEncoding);
+
+                //Because ApacheFop.Serverless now supports both GZIP and String payloads the Azure Function will only receive
+                //  the raw bytes for GZIP requests and therefore we must specify the the ContentType for binary payload to avoid exceptions
+                //  from Azure Functions request body byte[] binding...
+                //NOTE: That's why we also supply the custom header (above) for ApacheFopXslFoContentType (as a fallback for reference if ever needed).
+                //NOTE: Binary Request Body MUST specify the proper Content-Type of Application/Octet-Stream
+                //      More info. on resolving this for Java Azure Functions here:
+                //      https://github.com/Azure/azure-functions-java-worker/issues/44#issuecomment-358068266
+                restRequest.AddRawBytesBody(xslFoPayloadBytes, ContentType.BinaryOctetStream);
             }
             else
             {
-                //Otherwise we supply the raw Bytes for the Xml source text...
-                xslFoPayloadBytes = xslFoSource.GetBytesUtf8();
+                //Otherwise we supply the raw Xml source text...
+                restRequest.AddRawTextBody(xslFoSource, ContentType.Xml);
             }
-
-            //Because ApacheFop.Serverless now supports both GZIP and String payloads the Azure Function will only recieve
-            //  the raw bytes (lowest common denominator format), and therefore we must specify the the ContentType for binary payload
-            //NOTE: That's why we also supply the custom header (above) for ApacheFopXslFoContentType (as a fallback for reference if ever needed).
-            //NOTE: Binary Request Body MUST specify the proper Content-Type of Application/Octet-Stream
-            //      More info. on resolving this for Java Azure Functions here:
-            //      https://github.com/Azure/azure-functions-java-worker/issues/44#issuecomment-358068266
-            restRequest.AddRawBytesBody(xslFoPayloadBytes, ContentType.BinaryOctetStream);
 
             //Append Request Headers if defined...
             foreach (var item in this.Options.RequestHeaders)
@@ -131,6 +132,25 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             }
 
             return restRequest;
+        }
+
+        public virtual async Task<Dictionary<string, string>> GetHeadersDictionaryAsync(IRestResponse restResponse)
+        {
+            var headersDictionary = restResponse.GetHeadersAsDictionary();
+
+            //NOW we post-process some special case handling of headers that might be GZIP compressed...
+            var eventLogEncoding = headersDictionary.TryGetValue(ApacheFOPServerlessHeaders.ApacheFopServerlessEventLogEncoding, out var encoding) ? encoding: string.Empty;
+            if (eventLogEncoding.EqualsIgnoreCase(ApacheFOPServerlessEncodings.GzipEncoding))
+            {
+                var eventLogHeaderValue = headersDictionary.TryGetValue(ApacheFOPServerlessHeaders.ApacheFopServerlessEventLog, out var eventLog) ? eventLog : string.Empty;
+                var eventLogText = await eventLogHeaderValue.GzipDecompressBase64Async().ConfigureAwait(false);
+                
+                //Overwrite the Compressed value with the Uncompressed value for consuming code to use...
+                headersDictionary[ApacheFOPServerlessHeaders.ApacheFopServerlessEventLogEncoding] = ApacheFOPServerlessEncodings.IdentityEncoding;
+                headersDictionary[ApacheFOPServerlessHeaders.ApacheFopServerlessEventLog] = eventLogText;
+            }
+
+            return headersDictionary;
         }
 
         /// <summary>

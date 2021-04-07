@@ -86,8 +86,7 @@ namespace System.CustomExtensions
 		}
 
 	}
-
-
+	
 	public static class SystemObjectCustomExtensions
 	{
 		/// <summary>
@@ -760,9 +759,22 @@ namespace System.CustomExtensions
 		/// <returns></returns>
 		public static String FromBase64(this String objThis, Encoding encoding)
 		{
-			byte[] byteArray = Convert.FromBase64String(objThis);
+			byte[] byteArray = objThis.FromBase64ToBytes();
 			return encoding.GetString(byteArray);
 		}
+
+		/// <summary>
+		/// Decode the string from Base64 with the specified encoding.
+		/// </summary>
+		/// <param name="objThis"></param>
+		/// <param name="encoding"></param>
+		/// <returns></returns>
+		public static byte[] FromBase64ToBytes(this String objThis)
+		{
+			byte[] byteArray = Convert.FromBase64String(objThis);
+			return byteArray;
+		}
+
 
 		/// <summary>
 		/// Encode the string into a valid Xml escaped value.
@@ -1353,7 +1365,7 @@ namespace System.CustomExtensions
 		}
 	}
 
-	public static class SystemTypeConversionExtesions
+	public static class SystemTypeConversionExtensions
 	{
 		/// <summary>
 		/// Intelligently converts data between types taking much more into account than the Convert Class -- ie. Handles Enums, Null, DBNull, and Nullable (Generic) types).

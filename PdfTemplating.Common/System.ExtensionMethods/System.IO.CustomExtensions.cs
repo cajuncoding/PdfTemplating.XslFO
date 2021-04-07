@@ -338,7 +338,7 @@ namespace System.IO.CustomExtensions
 
 		public static async Task<byte[]> GzipDecompressAsync(this byte[] bytes)
 		{
-			byte[] unzippedBytes;
+			byte[] decompressedBytes;
 
 			using (var inputStream = new MemoryStream(bytes))
 			using (var outputStream = new MemoryStream())
@@ -349,11 +349,20 @@ namespace System.IO.CustomExtensions
 					await zipStream.CopyToAsync(outputStream).ConfigureAwait(false);
 				}
 
-				unzippedBytes = outputStream.ToArray();
+				decompressedBytes = outputStream.ToArray();
 			}
 
-			return unzippedBytes;
+			return decompressedBytes;
 		}
+
+        public static async Task<String> GzipDecompressBase64Async(this String base64String)
+        {
+            var bytes = base64String.FromBase64ToBytes();
+            var decompressedBytes = await bytes.GzipDecompressAsync().ConfigureAwait(false);
+            var decompressedString = Encoding.UTF8.GetString(decompressedBytes);
+            return decompressedString;
+        }
+
 	}
 
 

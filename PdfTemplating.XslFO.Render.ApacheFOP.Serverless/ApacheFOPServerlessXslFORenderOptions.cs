@@ -23,7 +23,10 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 {
     public class ApacheFOPServerlessXslFORenderOptions
     {
-        public const string DefaultApacheFopServerlessApiPath = "api/apache-fop/xslfo";
+        public const string DefaultXslFoCommandName = "xslfo";
+        public const string DefaultGzipCommandName = "gzip";
+        public const string DefaultXslFoApiPath = "api/apache-fop/xslfo";
+        public const string DefaultGzipApiPath = "api/apache-fop/gzip";
 
         public ApacheFOPServerlessXslFORenderOptions(Uri apacheFopServlessHostUri)
         {
@@ -40,7 +43,11 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             //Safely parse the API Path as we expect from the provided Uri if included.
             var apiPath = apacheFopServlessHostUri.GetComponents(UriComponents.Path, UriFormat.SafeUnescaped);
             if (!string.IsNullOrWhiteSpace(apiPath))
-                this.ApacheFOPApi = apiPath;
+            {
+                this.ApacheFopXslFoApi = apiPath;
+                //TODO: Make this more robust with Regex Replace...
+                this.ApacheFopGzipApi = apiPath.Replace(DefaultXslFoCommandName, DefaultGzipCommandName);
+            }
 
             //Safely initialize any pre-defined Querystring Params from the original Uri
             var query = HttpUtility.ParseQueryString(apacheFopServlessHostUri.Query);
@@ -56,8 +63,17 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 
         public Uri ApacheFOPServiceHost { get; private set; }
 
-        public String ApacheFOPApi { get; set; } = DefaultApacheFopServerlessApiPath;
+        public String ApacheFopXslFoApi { get; set; } = DefaultXslFoApiPath;
 
+        public String ApacheFopGzipApi { get; set; } = DefaultGzipApiPath;
+
+        public String GetApacheFopApiPath()
+        {
+            return this.EnableGzipCompressionForRequests
+                ? this.ApacheFopGzipApi
+                : this.ApacheFopXslFoApi;
+        }
+        
         public Dictionary<string, string> QuerystringParams { get; } = new Dictionary<string, string>();
 
         public Dictionary<string, string> RequestHeaders { get; } = new Dictionary<string, string>();
