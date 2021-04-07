@@ -11,7 +11,7 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
             PdfBytes = pdfBytes;
             ResponseHeaders = headersDictionary ?? new Dictionary<string, string>();
 
-            EventLogText = GetHeaderValueSafely(ApacheFOPServerlessHeaders.EventLogHeaderName);
+            EventLogText = GetHeaderValueSafely(ApacheFOPServerlessHeaders.ApacheFopServerlessEventLog);
             EventLogEntries = EventLogText?.Split(';').Select(l => l.Trim()).ToList() ?? new List<string>();
         }
 

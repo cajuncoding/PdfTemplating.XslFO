@@ -621,7 +621,7 @@ namespace System.CustomExtensions
 		/// <returns></returns>
 		public static bool EqualsIgnoreCase(this String objThis, String stringToCompareWith)
 		{
-			return objThis?.Equals(stringToCompareWith, StringComparison.CurrentCultureIgnoreCase) ?? false;
+			return objThis?.Equals(stringToCompareWith, StringComparison.OrdinalIgnoreCase) ?? false;
 		}
 
 		/// <summary>
@@ -647,7 +647,7 @@ namespace System.CustomExtensions
 		public static bool IsIn(this String item, params String[] list)
 		{
 			if (item == null) throw new ArgumentNullException("String is null; Extension method String.IsIn() cannot search for a null string.");
-			return item.IsIn(StringComparer.InvariantCulture, list);
+			return item.IsIn(StringComparer.OrdinalIgnoreCase, list);
 		}
 
 		/// <summary>
@@ -661,7 +661,7 @@ namespace System.CustomExtensions
 		public static bool IsInIgnoreCase(this String item, params String[] list)
 		{
 			if (item == null) throw new ArgumentNullException("String is null; Extension method String.IsInIgnoreCase() cannot search for a null string.");
-			return item.IsIn(StringComparer.InvariantCultureIgnoreCase, list);
+			return item.IsIn(StringComparer.OrdinalIgnoreCase, list);
 		}
 
 		/// <summary>
@@ -669,7 +669,7 @@ namespace System.CustomExtensions
 		/// </summary>
 		/// <param name="objThis"></param>
 		/// <returns></returns>
-		public static byte[] GetBytes(this String objThis)
+		public static byte[] GetBytesUtf8(this String objThis)
 		{
 			return objThis.GetBytes(Encoding.UTF8);
 		}
