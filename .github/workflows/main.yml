@@ -1,0 +1,68 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Nuget Publish for Main Branch
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo Executing Main/Master Branch commit Workflow!
+
+      # Runs a set of commands using the runners shell
+      #- name: Run a multi-line script
+      #  run: |
+      #    echo Add other actions to build,
+      #    echo test, and deploy your project.
+      - name: "Publish NuGet: PdfTemplating.XslFO.Common"
+        uses: brandedoutcast/publish-nuget@v2.5.5
+        with:
+          # Filepath of the project to be packaged, relative to root of repository
+          PROJECT_FILE_PATH: PdfTemplating.Common/PdfTemplating.XslFO.Common.csproj
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      - name: "Publish NuGet: PdfTemplating.XslFO.Razor.AspNetMvc"
+        uses: brandedoutcast/publish-nuget@v2.5.5
+        with:
+          # Filepath of the project to be packaged, relative to root of repository
+          # **************************************************************************************************************************************
+          # NOTE:  THIS IS A .NET V4.8 PROJECT WITH A NUSPEC FILE (vs .Net Standard v2.1 project setup with package details in the Project file!
+          # **************************************************************************************************************************************
+          PROJECT_FILE_PATH: PdfTemplating.XslFO.Razor.AspNetMvc/PdfTemplating.XslFO.Razor.AspNetMvc.nuspec
+          VERSION_REGEX: "^\\s*<[Vv]ersion>(.*)<\\/[Vv]ersion>\\s*$"
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      - name: "Publish NuGet: "
+        uses: brandedoutcast/publish-nuget@v2.5.5
+        with:
+          # Filepath of the project to be packaged, relative to root of repository
+          PROJECT_FILE_PATH: PdfTemplating.XslFO.Xslt/PdfTemplating.XslFO.Xslt.csproj
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      - name: "Publish NuGet: "
+        uses: brandedoutcast/publish-nuget@v2.5.5
+        with:
+          # Filepath of the project to be packaged, relative to root of repository
+          PROJECT_FILE_PATH: PdfTemplating.XslFO.Render.ApacheFOP.Serverless/PdfTemplating.XslFO.Render.ApacheFOP.Serverless.csproj
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+      - name: "Publish NuGet: PdfTemplating.XslFO.Render.Fonet"
+        uses: brandedoutcast/publish-nuget@v2.5.5
+        with:
+          # Filepath of the project to be packaged, relative to root of repository
+          PROJECT_FILE_PATH: PdfTemplating.XslFO.Render.Fonet/PdfTemplating.XslFO.Render.Fonet.csproj
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
