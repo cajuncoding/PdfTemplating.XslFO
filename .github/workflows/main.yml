@@ -42,7 +42,10 @@ jobs:
         uses: brandedoutcast/publish-nuget@v2.5.5
         with:
           # Filepath of the project to be packaged, relative to root of repository
-          PROJECT_FILE_PATH: PdfTemplating.XslFO.Razor.AspNetMvc/PdfTemplating.XslFO.Razor.AspNetMvc.csproj
+          # **************************************************************************************************************************************
+          # NOTE:  THIS IS A .NET V4.8 PROJECT WITH A NUSPEC FILE (vs .Net Standard v2.1 project setup with package details in the Project file!
+          # **************************************************************************************************************************************
+          PROJECT_FILE_PATH: PdfTemplating.XslFO.Razor.AspNetMvc/PdfTemplating.XslFO.Razor.AspNetMvc.nuspec
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
       - name: "Publish NuGet: "
         uses: brandedoutcast/publish-nuget@v2.5.5
