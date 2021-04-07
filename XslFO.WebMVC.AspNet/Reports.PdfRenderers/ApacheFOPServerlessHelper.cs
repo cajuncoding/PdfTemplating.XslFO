@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace XslFO.WebMvc.Reports.PdfRenderers
 {
-    public class ApacheFOPServiceHelper
+    public class ApacheFOPServerlessHelper
     {
         public static async Task<byte[]> RenderXslFOToPdfAsync(XDocument xslFODoc)
         {
@@ -35,7 +35,7 @@ namespace XslFO.WebMvc.Reports.PdfRenderers
             };
  
             var xslFOPdfRenderer = new ApacheFOPServerlessPdfRenderService(xslFODoc, options);
-            var pdfBytes = await xslFOPdfRenderer.RenderPdfBytesAsync();
+            var pdfBytes = await xslFOPdfRenderer.RenderPdfBytesAsync().ConfigureAwait(false);
             
             return pdfBytes;
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.CustomExtensions;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using RestSharp;
 using System.Net.Http;
@@ -14,6 +15,7 @@ namespace RestSharp.CustomExtensions
         public const string Xml = "text/xml";
         public const string Json = "application/json";
         public const string PlainText = "text/plain";
+        public const string BinaryOctetStream = "application/octet-stream";
     }
 
     //BBernard - Added custom extensions for REST Sharp to provide similar simlified methods for Raw & Plain Text as the out-of-the-box package only provides convenience methods for Json & Xml
@@ -26,18 +28,24 @@ namespace RestSharp.CustomExtensions
             return request;
         }
 
-        public static IRestRequest AddRawBytesAsBase64Body(this IRestRequest request, byte[] body, string contentType)
+        public static IRestRequest AddRawBytesBody(this IRestRequest request, byte[] body, string contentType = ContentType.BinaryOctetStream)
         {
             #pragma warning disable CS0618 // Type or member is obsolete
             request.RequestFormat = DataFormat.None;
             #pragma warning restore CS0618 // Type or member is obsolete
 
-            var base64Body = Convert.ToBase64String(body);
-            request.AddParameter(contentType, base64Body, ParameterType.RequestBody);
+            request.AddParameter(contentType, body, ParameterType.RequestBody);
             return request;
         }
 
-        public static IRestRequest AddRawTextBody(this IRestRequest request, string body, string contentType)
+        public static IRestRequest AddRawBytesAsBase64Body(this IRestRequest request, byte[] body, string contentType = ContentType.PlainText)
+        {
+            var base64Body = Convert.ToBase64String(body);
+            request.AddRawTextBody(base64Body, contentType);
+            return request;
+        }
+
+        public static IRestRequest AddRawTextBody(this IRestRequest request, string body, string contentType = ContentType.PlainText)
         {
             //BBernard
             //NOTE: When using ParameterType.RequestBody then the `name` parameter is automatically used as the Content Type by RESTSharp;
@@ -86,6 +94,15 @@ namespace RestSharp.CustomExtensions
 
             return response;
         }
+
+        public static Dictionary<string, string> GetHeadersAsDictionary(this IRestResponse response)
+        {
+            var headersDictionary = response.Headers
+                .Where(p => p.Type == ParameterType.HttpHeader && p.Value != null)
+                .ToDictionary(p => p.Name, p => p.Value?.ToString());
+            
+            return headersDictionary;
+        }
     }
 
     public static class RestClientCustomExtensions
@@ -98,7 +115,7 @@ namespace RestSharp.CustomExtensions
             try
             {
                 requestUri = client.BuildUri(request);
-                response = await client.ExecuteAsync(request);
+                response = await client.ExecuteAsync(request).ConfigureAwait(false);
             }
             catch (Exception exc)
             {

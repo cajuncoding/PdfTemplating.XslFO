@@ -162,7 +162,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MovieSearch\MovieSearchResponse.cs" />
-    <Compile Include="Reports.PdfRenderers\ApacheFOPServiceHelper.cs" />
+    <Compile Include="Reports.PdfRenderers\ApacheFOPServerlessHelper.cs" />
     <Compile Include="Reports.PdfRenderers\RazorMoviePdfRenderer.cs" />
     <Compile Include="Reports.PdfRenderers\XsltMoviePdfRenderer.cs" />
     <Compile Include="MovieSearch\MovieSearch.cs" />

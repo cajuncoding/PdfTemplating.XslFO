@@ -308,16 +308,16 @@ namespace System.IO.CustomExtensions
 	}
 
 	public static class SystemCompressionCustomExtensions
-    {
-        public static async Task<byte[]> GzipCompressAsync(this string thisString, Encoding encoding = null)
-        {
-            var compressionEncoding = encoding ?? Encoding.UTF8;
-            var bytes = compressionEncoding.GetBytes(thisString);
-            var compressedBytes = await bytes.GzipCompressAsync();
-            return compressedBytes;
-        }
+	{
+		public static async Task<byte[]> GzipCompressAsync(this string thisString, Encoding encoding = null)
+		{
+			var compressionEncoding = encoding ?? Encoding.UTF8;
+			var bytes = compressionEncoding.GetBytes(thisString);
+			var compressedBytes = await bytes.GzipCompressAsync().ConfigureAwait(false);
+			return compressedBytes;
+		}
 
-        public static async Task<byte[]> GzipCompressAsync(this byte[] bytes)
+		public static async Task<byte[]> GzipCompressAsync(this byte[] bytes)
 		{
 			byte[] compressedBytes;
 
@@ -327,7 +327,7 @@ namespace System.IO.CustomExtensions
 				//GZipStream must be disposed to ensure that all data is flushed!
 				using (var zipStream = new GZipStream(outputStream, CompressionLevel.Optimal))
 				{
-					await inputStream.CopyToAsync(zipStream);
+					await inputStream.CopyToAsync(zipStream).ConfigureAwait(false);
 				}
 
 				compressedBytes = outputStream.ToArray();
@@ -346,7 +346,7 @@ namespace System.IO.CustomExtensions
 				//GZipStream must be disposed to ensure that all data is flushed!
 				using (var zipStream = new GZipStream(inputStream, CompressionMode.Decompress))
 				{
-					await zipStream.CopyToAsync(outputStream);
+					await zipStream.CopyToAsync(outputStream).ConfigureAwait(false);
 				}
 
 				unzippedBytes = outputStream.ToArray();
