@@ -5,7 +5,7 @@
     <RootNamespace>PdfTemplating</RootNamespace>
     <Authors>BBernard / CajunCoding</Authors>
     <Description>This project contains the common interfaces and shared foundational classes for the PdfTemplating.XslFO projects. The PdfTemplating.XslFO projects are It is based on the Xsl-FO standard for rendering robust paged media outputs as PDF Documents from using a templating approach.  They enable the use of Xslt or Razor Mvc templates combined with ApacheFOP.Serverless or Fonet rendering into Binary Pdf documents; and any combination between as well as custom implementations using these Common interfaces.</Description>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <Copyright>Copyright © 2020</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>

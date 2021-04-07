@@ -10,7 +10,7 @@
     <PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
     <PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop apache-fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
     <PackageReleaseNotes>- Initial package release for simplified facade to easily render XslFO as PDF binary outputs via ApacheFOP.Serverless.</PackageReleaseNotes>
-    <Version>2.0.0</Version>
+    <Version>2.1.0</Version>
     <RepositoryUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</RepositoryUrl>
   </PropertyGroup>
 
