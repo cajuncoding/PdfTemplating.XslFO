@@ -31,10 +31,13 @@ jobs:
         run: echo Executing Main/Master Branch commit Workflow!
 
       # **************************************************************************************************************************************
-      # NOTE: We often need to Restore because this Contains .NET V4.8 PROJECT WHICH REQUIRES NuGet.Build.Tasks.Pack to be restored!
+      # NOTE: We often need to use MSBuild to Restore because this Contains .NET V4.8 PROJECT WHICH REQUIRES NuGet.Build.Tasks.Pack to be restored!
       # **************************************************************************************************************************************
-      - name: Restore
-        run: dotnet restore
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1
+        
+      - name: MSBuild Restore!
+        run: msbuild -t:restore
 
       # Runs a set of commands using the runners shell
       #- name: Run a multi-line script
