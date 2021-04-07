@@ -14,6 +14,22 @@
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <!-- *************************************************************************************************************** -->
+    <!-- *************************************************************************************************************** -->
+    <!-- NUGET PACKAGE PROPERTIES -->
+    <!-- More Details Here: https://docs.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target -->
+    <!-- *************************************************************************************************************** -->
+    <PackageVersion>2.1.0</PackageVersion>
+    <Authors>BBernard / CajunCoding</Authors>
+    <!-- NOT SUPPORTED: <Owners>BBernard / CajunCoding</Owners> -->
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</RepositoryUrl>
+    <Description>This is a C#.Net solution that provides the capability to easily generate Pdf files with a templating approach using Razor Mvc templates; as opposed to extremely complex code based approaches most libraries provide. It's based on the Xsl-FO standard for rendering robust paged media outputs as PDF Documents.</Description>
+    <PackageReleaseNotes>- v2.0 Upgrade for PdfTemplating with AspNetMvc Razor Templates.
+- Contains Breaking changes to now fully decouple the Templeting from Rendering execution and to support ApacheFOP.Serverless (updated ApacheFOP Pdf Service approach) as well as legacy FONet (old in-memory engine).</PackageReleaseNotes>
+    <Copyright>Copyright © 2020</Copyright>
+    <Tags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop apache-fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</Tags>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +48,19 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <ItemGroup>
+    <!-- *************************************************************************************************************** -->
+    <!-- *************************************************************************************************************** -->
+    <!-- NUGET PACKAGE REFERENCES -->
+    <!-- More Details Here:  -->
+    <!-- *************************************************************************************************************** -->
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.3" />
+    <PackageReference Include="Microsoft.AspNet.Razor" Version="3.2.7" />
+    <PackageReference Include="Microsoft.AspNet.WebPages" Version="3.2.7" />
+    <PackageReference Include="Microsoft.Web.Infrastructure" Version="1.0.0.0" />
+    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="5.9.0" />
+    <!-- ... -->
+  </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -71,15 +100,17 @@
     <Compile Include="RazorViewRenderResult.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NugetPack.bat" />
-    <None Include="packages.config" />
-    <None Include="PdfTemplating.XslFO.Razor.AspNetMvc.nuspec" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj">
       <Project>{cf96dce8-a93d-4d9a-a909-fca0be90b12b}</Project>
       <Name>PdfTemplating.XslFO.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\NuGet.Build.Tasks.Pack.5.9.0\build\NuGet.Build.Tasks.Pack.targets" Condition="Exists('..\packages\NuGet.Build.Tasks.Pack.5.9.0\build\NuGet.Build.Tasks.Pack.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\NuGet.Build.Tasks.Pack.5.9.0\build\NuGet.Build.Tasks.Pack.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NuGet.Build.Tasks.Pack.5.9.0\build\NuGet.Build.Tasks.Pack.targets'))" />
+  </Target>
 </Project>
