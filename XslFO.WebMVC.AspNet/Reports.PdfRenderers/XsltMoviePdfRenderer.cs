@@ -89,7 +89,7 @@ namespace XslFO.WebMvc.Reports.PdfRenderers
             //******************************************************************************************
             //Execute the Transformation of the XSL-FO source to Binary Pdf via Apache FOP Service...
             //******************************************************************************************
-            var pdfBytes = await ApacheFOPServerlessHelper.RenderXslFOToPdfAsync(xslFODoc);
+            var pdfBytes = await ApacheFOPServerlessHelper.RenderXslFOToPdfAsync(xslFODoc).ConfigureAwait(false);
             return pdfBytes;
         }
 

@@ -76,7 +76,7 @@ namespace PdfTemplating.WebMvc.Controllers
                 // RAZOR + Apace FOP (async I/O request)
                 //*******************************************
                 var pdfRenderer = new RazorMoviePdfRenderer(ControllerContext);
-                var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse);
+                var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse).ConfigureAwait(false);
 
                 //Create the File Content Result from the Pdf byte data
                 return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
@@ -123,7 +123,7 @@ namespace PdfTemplating.WebMvc.Controllers
                 // XSLT + Apache FOP (async I/O request)
                 //*******************************************
                 var pdfRenderer = new XsltMoviePdfRenderer();
-                var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse);
+                var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse).ConfigureAwait(false);
 
                 //Create the File Content Result from the Pdf byte data
                 return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
