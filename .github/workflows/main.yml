@@ -46,6 +46,7 @@ jobs:
           # NOTE:  THIS IS A .NET V4.8 PROJECT WITH A NUSPEC FILE (vs .Net Standard v2.1 project setup with package details in the Project file!
           # **************************************************************************************************************************************
           PROJECT_FILE_PATH: PdfTemplating.XslFO.Razor.AspNetMvc/PdfTemplating.XslFO.Razor.AspNetMvc.nuspec
+          VERSION_REGEX: "^\\s*<[Vv]ersion>(.*)<\\/[Vv]ersion>\\s*$"
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
       - name: "Publish NuGet: "
         uses: brandedoutcast/publish-nuget@v2.5.5
