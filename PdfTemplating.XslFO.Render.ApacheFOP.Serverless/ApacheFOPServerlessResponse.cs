@@ -7,13 +7,19 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
 {
     public class ApacheFOPServerlessResponse
     {
+        public const string EventLogSeparator = "||";
+
         public ApacheFOPServerlessResponse(byte[] pdfBytes, Dictionary<string, string> headersDictionary)
         {
             PdfBytes = pdfBytes;
             ResponseHeaders = headersDictionary ?? new Dictionary<string, string>();
 
             EventLogText = ResponseHeaders.TryGetValue(ApacheFOPServerlessHeaders.ApacheFopServerlessEventLog, out var value) ? value : null;
-            EventLogEntries = EventLogText?.Split(';').Select(l => l.Trim()).ToList() ?? new List<string>();
+            EventLogEntries = EventLogText?
+                .Split(new string[] { EventLogSeparator }, StringSplitOptions.RemoveEmptyEntries)
+                .Where(l => !string.IsNullOrWhiteSpace(l))
+                .Select(l => l.Trim())
+                .ToList() ?? new List<string>();
         }
 
         public byte[] PdfBytes { get; }

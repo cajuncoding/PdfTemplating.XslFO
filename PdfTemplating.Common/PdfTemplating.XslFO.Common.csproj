@@ -13,6 +13,7 @@
     <PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop apache-fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
     <PackageReleaseNotes>- Initial relase of the common interfaces.
 - Initial support for fully de-coupling the Templating and Rendering processes thereby enabling the new ApacheFOP.Serverless rendering approach without any dependency on the legacy Fonet (in-memory) rendering.</PackageReleaseNotes>
+    <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
 </Project>
