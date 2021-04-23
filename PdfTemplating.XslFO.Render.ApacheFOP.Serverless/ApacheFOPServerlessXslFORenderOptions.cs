@@ -57,17 +57,21 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             }
         }
 
+        public int? RequestConnectTimeoutMillis { get; set; }
+
+        public int? RequestWaitTimeoutMillis { get; set; }
+
         public bool EnableGzipCompressionForRequests { get; set; } = false;
 
         public bool EnableGzipCompressionForResponses { get; set; } = false;
 
         public Uri ApacheFOPServiceHost { get; private set; }
 
-        public String ApacheFopXslFoApi { get; set; } = DefaultXslFoApiPath;
+        public string ApacheFopXslFoApi { get; set; } = DefaultXslFoApiPath;
 
-        public String ApacheFopGzipApi { get; set; } = DefaultGzipApiPath;
+        public string ApacheFopGzipApi { get; set; } = DefaultGzipApiPath;
 
-        public String GetApacheFopApiPath()
+        public string GetApacheFopApiPath()
         {
             return this.EnableGzipCompressionForRequests
                 ? this.ApacheFopGzipApi

@@ -6,6 +6,7 @@ using System.Text;
 using RestSharp;
 using System.Net.Http;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace RestSharp.CustomExtensions
@@ -108,14 +109,14 @@ namespace RestSharp.CustomExtensions
     public static class RestClientCustomExtensions
     {
 
-        public static async Task<IRestResponse> ExecuteWithExceptionHandlingAsync(this IRestClient client, IRestRequest request)
+        public static async Task<IRestResponse> ExecuteWithExceptionHandlingAsync(this IRestClient client, IRestRequest request, CancellationToken cancellationToken = default)
         {
             IRestResponse response = null;
             Uri requestUri = null;
             try
             {
                 requestUri = client.BuildUri(request);
-                response = await client.ExecuteAsync(request).ConfigureAwait(false);
+                response = await client.ExecuteAsync(request, cancellationToken).ConfigureAwait(false);
             }
             catch (Exception exc)
             {

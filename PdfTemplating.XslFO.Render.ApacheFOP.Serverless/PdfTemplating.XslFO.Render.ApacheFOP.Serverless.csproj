@@ -4,14 +4,18 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>BBernard / CajunCoding</Authors>
     <Company>BBernard / CajunCoding</Company>
-    <Version>2.1.1</Version>
+    <Version>2.1.2</Version>
     <Description>This is a C#.Net solution that provides the capability to easily render Pdf files with a templating approach using your choice of templating technology (e.g. Xslt, Razor Mvc templates, or custom) and the latest version of ApacheFOP.Serverless (PDF as a Service) for binary rendering. It's based on the Xsl-FO standard for robust paged media generation and ApacheFOP.Serverless is a separate project that enables the easy use of the latest version of Apache FOP as a PDF Rendering Service using Azure Functions.</Description>
     <Copyright>Copyright © 2020</Copyright>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
     <PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop apache-fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
-    <PackageReleaseNotes>- Changed EventLog Delimieter in Header to improve parsing reliability without loosing too much readability (from ';' to '||').
-      Prior Release Notes
+    <PackageReleaseNotes>
+      - Added support for REST Request Timeout configuration, and Async cancellation; backwards compatible.
+      - Fixed some public setters to be protected and fixed 'Async' naming covention (only breaking if you don't use the constructor params and/or subclass the ApacheFOPServerlessPdfRenderService).
+      
+      Prior Release Notes:
+      - Changed EventLog Delimieter in Header to improve parsing reliability without loosing too much readability (from ';' to '||').
       - Initial package release for simplified facade to easily render XslFO as PDF binary outputs via ApacheFOP.Serverless.
     </PackageReleaseNotes>
     <RepositoryUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</RepositoryUrl>

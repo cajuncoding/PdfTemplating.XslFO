@@ -22,6 +22,7 @@ using System.CustomExtensions;
 using System.IO.CustomExtensions;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using PdfTemplating.XslFO.Render.ApacheFOP.Serverless;
@@ -37,8 +38,8 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
     /// </summary>
     public class ApacheFOPServerlessPdfRenderService : IAsyncXslFOPdfRenderer
     {
-        public XDocument XslFODocument { get; set; }
-        public ApacheFOPServerlessXslFORenderOptions Options { get; set; }
+        public XDocument XslFODocument { get; protected set; }
+        public ApacheFOPServerlessXslFORenderOptions Options { get; protected set; }
 
         public ApacheFOPServerlessPdfRenderService(XDocument xslFODoc, ApacheFOPServerlessXslFORenderOptions apacheFopServerlessXslFoPdfRenderOptions)
         {
@@ -46,22 +47,29 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             this.Options = apacheFopServerlessXslFoPdfRenderOptions.AssertArgumentIsNotNull(nameof(apacheFopServerlessXslFoPdfRenderOptions), "XSL-FO Render options must be specified.");
         }
 
-        public virtual async Task<ApacheFOPServerlessResponse> RenderPdfAsync()
+        public virtual async Task<ApacheFOPServerlessResponse> RenderPdfAsync(CancellationToken cancellationToken = default)
         {
             //***********************************************************
             //Render the Xsl-FO source into a Pdf binary output
             //***********************************************************
             //Initialize the Xsl-FO micro-service via configuration...
-            var restClient = new RestClient(Options.ApacheFOPServiceHost);
+            var restClient = CreateRestClient();
+
+            //Initialize Client Timeouts if defined...
+            if (Options.RequestConnectTimeoutMillis.HasValue)
+                restClient.Timeout = Options.RequestConnectTimeoutMillis.Value;
+
+            if (Options.RequestWaitTimeoutMillis.HasValue)
+                restClient.ReadWriteTimeout = Options.RequestWaitTimeoutMillis.Value;
 
             //Get the Raw Xml Source for our Xsl-FO to be transformed into Pdf binary...
             var xslFoSource = this.XslFODocument.ToString();
 
             //Create the RESTSharp Request...
-            var restRequest = await CreateRestRequest(xslFoSource).ConfigureAwait(false);
+            var restRequest = await CreateRestRequestAsync(xslFoSource).ConfigureAwait(false);
 
             //Execute the request to the service, validate, and retrieve the Raw Binary response...
-            var restResponse = await restClient.ExecuteWithExceptionHandlingAsync(restRequest).ConfigureAwait(false);
+            var restResponse = await restClient.ExecuteWithExceptionHandlingAsync(restRequest, cancellationToken).ConfigureAwait(false);
 
             //Read Response Headers to return...
             var headersDictionary = await GetHeadersDictionaryAsync(restResponse).ConfigureAwait(false);
@@ -79,7 +87,21 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             return apacheServerlessResponse;            
         }
 
-        public virtual async Task<IRestRequest> CreateRestRequest(string xslFoSource)
+        public virtual RestClient CreateRestClient()
+        {
+            var restClient = new RestClient(Options.ApacheFOPServiceHost);
+
+            //Initialize Client Timeouts if defined...
+            if (Options.RequestConnectTimeoutMillis.HasValue)
+                restClient.Timeout = Options.RequestConnectTimeoutMillis.Value;
+
+            if (Options.RequestWaitTimeoutMillis.HasValue)
+                restClient.ReadWriteTimeout = Options.RequestWaitTimeoutMillis.Value;
+
+            return restClient;
+        }
+
+        public virtual async Task<IRestRequest> CreateRestRequestAsync(string xslFoSource)
         {
             //Create the REST request for the Apache FOP micro-service...
             var restRequest = new RestRequest(Options.GetApacheFopApiPath(), Method.POST);
