@@ -14,7 +14,7 @@
 - Contains Breaking changes to now fully decouple the Templeting from Rendering execution and to support ApacheFOP.Serverless (updated ApacheFOP Pdf Service approach) as well as legacy FONet (old in-memory engine).</PackageReleaseNotes>
     <Version>2.0.0</Version>
     <RepositoryUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</RepositoryUrl>
-    <Configurations>Debug;Release</Configurations>
+    <Configurations>Debug;Release;PublishToNuget</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
