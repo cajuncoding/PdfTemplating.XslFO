@@ -175,7 +175,7 @@
     <Compile Include="Reports.PdfRenderers\ApacheFOPServerlessHelper.cs" />
     <Compile Include="Reports.PdfRenderers\RazorMoviePdfRenderer.cs" />
     <Compile Include="Reports.PdfRenderers\XsltMoviePdfRenderer.cs" />
-    <Compile Include="MovieSearch\MovieSearch.cs" />
+    <Compile Include="MovieSearch\MovieSearchService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports.Razor\ReportStyles.cs" />
   </ItemGroup>

@@ -90,7 +90,6 @@
     <Compile Include="AspNetMvcRazorPdfTemplatingRenderer.cs" />
     <Compile Include="AspNetMvcRazorViewRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RazorViewRenderResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj">

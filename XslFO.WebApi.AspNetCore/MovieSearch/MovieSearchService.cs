@@ -1,8 +1,5 @@
-﻿using Newtonsoft.Json;
-using RestSharp;
-using RestSharp.CustomExtensions;
-using System;
-using System.Threading.Tasks;
+﻿using Flurl;
+using Flurl.Http;
 
 namespace PdfTemplating.WebMvc.MovieSearch
 {
@@ -12,8 +9,7 @@ namespace PdfTemplating.WebMvc.MovieSearch
 
         public async Task<MovieSearchResponse> SearchAsync(String title)
         {
-            var jsonText = await ExecuteMovieQueryRESTUri(title);
-            var searchResponse = JsonConvert.DeserializeObject<MovieSearchResponse>(jsonText);
+            var searchResponse = await ExecuteMovieQueryRESTUri(title);
             
             //Update other properties
             searchResponse.SearchTitle = title;
@@ -28,16 +24,15 @@ namespace PdfTemplating.WebMvc.MovieSearch
         /// </summary>
         /// <param name="uriPath"></param>
         /// <returns></returns>
-        protected async Task<String> ExecuteMovieQueryRESTUri(String movieTitle)
+        protected async Task<MovieSearchResponse> ExecuteMovieQueryRESTUri(String movieTitle)
         {
-            var client = new RestClient("http://www.omdbapi.com/");
-            var request = new RestRequest("/", Method.GET)
-                .AddQueryParameter("apikey", this.ApiKey)
-                .AddQueryParameter("r", "json")
-                .AddQueryParameter("s", movieTitle);
+            var movieResponse = await "http://www.omdbapi.com/"
+                .SetQueryParam("apikey", this.ApiKey)
+                .SetQueryParam("r", "json")
+                .SetQueryParam("s", movieTitle)
+                .GetJsonAsync<MovieSearchResponse>();
 
-            var response = await client.ExecuteWithExceptionHandlingAsync(request);
-            return response.Content;
+            return movieResponse;
         }
     }
 }

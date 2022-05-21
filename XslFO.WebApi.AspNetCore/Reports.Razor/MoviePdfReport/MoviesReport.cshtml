@@ -1,0 +1,154 @@
+﻿@using System.CustomExtensions
+@using PdfTemplating.WebMvc.MovieSearch
+@using PdfTemplating.WebMvc.Reports.Razor;
+@model PdfTemplating.WebMvc.MovieSearch.MovieSearchResponse
+
+@{
+    Layout = "~/Reports.Razor/_PdfReportLayout.cshtml";
+}
+
+@functions {
+    readonly string dateTimeStamp = DateTime.Now.ToLongDateAndTimeString();
+}
+
+@* OUTPUT PAGE SEQUENCE
+    NOTE: Use different Page Sequence Blocks if you need to Change Layout/Orientation of Pages
+*@
+<fo:page-sequence master-reference="report-master">
+
+    @* RENDER STATIC FOOTER REGION AS STATIC CONTENT; APPEARS ON EVERY PAGE*@
+    @* NOTE:  FOOTER AND HEADERS MUST BE DEFINED BEFORE THE BODY FOR VALID XslFO PROCESSING *@
+    @Html.PartialAsync("~/Reports.Razor/_MovieFooterPartial.cshtml", $"Movie Search for [{Model.SearchTitle}] on [{dateTimeStamp}]")
+
+    @* Render Content Flow element targeted to the 'xsl-region-body'*@
+    <fo:flow flow-name="xsl-region-body" font-size="@FontSize.Default" font-family="@FontFamily.Default">
+
+        @* Root Block Element *@
+        <fo:block font-size="@FontSize.Medium">
+
+            @* Render the Cover Page from the root Node Match *@
+            @{ RenderCoverPage(Model.SearchTitle); }
+
+            @* Render each Result
+                NOTE: We Sort the order by Year Ascending and then apply the template to each item!
+            *@
+            @foreach (var movie in Model.SearchResults.OrderBy(m => m.Year))
+            {
+                RenderMoviePage(movie, Model.FonetCompatibilityEnabled);
+            }
+
+            @*OUTPUT REFERENCES FOR LAST PAGE - MUST APPEAR AFTER ALL CONTENT HAS BEEN RENDERED via TEMPLATES *@
+            <fo:block>
+                <fo:marker marker-class-name="Marker.LastPageFooterContent" />
+            </fo:block>
+            <fo:block id="ref-last-page" />
+
+        </fo:block>
+    </fo:flow>
+
+</fo:page-sequence>
+
+
+
+@functions {
+    void RenderCoverPage(String title)
+    {
+        <fo:block break-before="auto">
+
+            @* Vertical Alignment requires a full sized width/height Table with 1 Cell: https://sites.cs.ucsb.edu/~pconrad/github/ucsb-cs56-tutorials-fop/fop-1.1/docs/fo.html#fo-center-vertical *@
+            <fo:table table-layout="fixed" width="100%">
+                <fo:table-column column-width="proportional-column-width(1)" />
+                <fo:table-body>
+                    <fo:table-row height="8.5in">
+                        <fo:table-cell display-align="center">
+
+                            @* Output Title Page info *@
+                            <fo:block text-align="center">
+                                @* Generate a Horizontal Rule *@
+                                <fo:block font-size="@FontSize.H1" border-bottom="@Border.HorizontalRule"></fo:block>
+
+                                <fo:block font-size="@FontSize.H1" space-before=".5in">
+                                    Movie Search for "@title"
+                                </fo:block>
+                                <fo:block font-size="@FontSize.H2" space-before=".5in">
+                                    BY: Brandon Bernard
+                                </fo:block>
+                                <fo:block font-size="@FontSize.H1" space-before=".5in">
+                                    Executed on: @dateTimeStamp
+                                </fo:block>
+
+                                @* Generate a Horizontal Rule *@
+                                <fo:block space-before=".5in" border-bottom="@Border.HorizontalRule"></fo:block>
+                            </fo:block>
+
+                        </fo:table-cell>
+                    </fo:table-row>
+                </fo:table-body>
+            </fo:table>
+
+        </fo:block>
+    }
+
+    void RenderMoviePage(SearchResult movie, bool fonetCompatibilityEnabled)
+    {
+        @*Render Each Search Results with this template...
+            NOTE: Each of the Search rendered items will be on it's own Page by including Page Breaks
+        *@
+        <fo:block break-before="page">
+
+            /* Output Heading info */
+            <fo:block text-align="center">
+                <fo:block font-size="@FontSize.H1" border-bottom="@Border.HorizontalRule">
+                    @movie.Title
+                </fo:block>
+            </fo:block>
+
+            <fo:block font-size="@FontSize.H3">
+                <fo:table width="100%">
+                    <fo:table-column column-width="proportional-column-width(1)" />
+                    <fo:table-column column-width="proportional-column-width(.75)" />
+                    <fo:table-body>
+                        <fo:table-row>
+                            <fo:table-cell padding="10px">
+                                <fo:block>
+                                    @*
+                                    //Render Image
+                                    //NOTE: We use the Custom Property Logic here which makes the Templating Logic much easier and improves separation of presentation from data!
+                                    *@
+                                    if (String.IsNullOrWhiteSpace(movie.Poster))
+                                    {
+                                        <fo:block font-size="@FontSize.H1">No Image</fo:block>
+                                    }
+                                    else if (fonetCompatibilityEnabled)
+                                    {
+                                        //Render External graphic without the content-width attribute; scaling is not configurable in legacy Fonet
+                                        <fo:external-graphic src="url('@movie.Poster')" width="3in" scaling="uniform" />
+                                    }
+                                    else
+                                    {
+                                        <fo:external-graphic src="url('@movie.Poster')" width="3in" scaling="uniform" content-width="scale-to-fit" />
+                                    }
+                                </fo:block>
+                            </fo:table-cell>
+                            <fo:table-cell padding="10px">
+
+                                @* Render Fields/Info *@
+                                <fo:block space-before="@Paragraph.SpaceBefore">
+                                    Title: @movie.Title
+                                </fo:block>
+                                <fo:block space-before="@Paragraph.SpaceBefore">
+                                    Year: @movie.Year
+                                </fo:block>
+                                <fo:block space-before="@Paragraph.SpaceBefore">
+                                    IMDB ID: @movie.ImdbID
+                                </fo:block>
+
+                            </fo:table-cell>
+                        </fo:table-row>
+                    </fo:table-body>
+                </fo:table>
+            </fo:block>
+
+        </fo:block>
+    }
+}

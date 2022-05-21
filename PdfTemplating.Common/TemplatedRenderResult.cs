@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace PdfTemplating.XslFO.Razor.AspNetMvc
+namespace PdfTemplating
 {
-    public class RazorViewRenderResult
+    public class TemplatedRenderResult
     {
-        public RazorViewRenderResult(string renderOutput)
+        public TemplatedRenderResult(string renderOutput)
         {
             this.RenderOutput = renderOutput;
         }

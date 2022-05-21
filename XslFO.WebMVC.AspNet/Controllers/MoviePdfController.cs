@@ -14,17 +14,16 @@ Copyright 2012 Brandon Bernard
    limitations under the License.
 */
 
-using PdfTemplating.XslFO;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
+using AspNetCoreMvc.MovieSearch;
 using Newtonsoft.Json;
 using PdfTemplating.WebMvc.MovieSearch;
 using RestSharp.CustomExtensions;
 using XslFO.WebMvc.Reports.PdfRenderers;
 
-namespace PdfTemplating.WebMvc.Controllers
+namespace AspNetCoreMvc.Controllers
 {
     [RoutePrefix("movies/pdf")]
     public class MoviePdfController : Controller

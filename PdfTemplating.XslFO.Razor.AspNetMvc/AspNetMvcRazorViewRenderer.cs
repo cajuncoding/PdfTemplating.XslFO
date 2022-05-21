@@ -66,7 +66,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// </param>
         /// <param name="model">The model to render the view with</param>
         /// <returns>String of the rendered view or null on error</returns>
-        public virtual RazorViewRenderResult RenderView(string viewPath, object model = null)
+        public virtual TemplatedRenderResult RenderView(string viewPath, object model = null)
         {
             // BBernard - 08/02/2016
             // Updated to take in ViewEngineResult reference and re-use GetView() internal method for greater flexibility and code re-use.
@@ -83,7 +83,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// </param>
         /// <param name="model">The model to pass to the viewRenderer</param>
         /// <returns>String of the rendered view or null on error</returns>
-        public virtual RazorViewRenderResult RenderPartialView(string viewPath, object model = null)
+        public virtual TemplatedRenderResult RenderPartialView(string viewPath, object model = null)
         {
             // BBernard - 08/02/2016
             // Updated to take in ViewEngineResult reference and re-use GetView() internal method for greater flexibility and code re-use.
@@ -103,7 +103,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         {
             // BBernard - 08/02/2016
             // Updated to take in ViewEngineResult reference and re-use GetView() internal method for greater flexibility and code re-use.
-            RenderViewToWriterInternal(GetViewInternal(viewPath), writer, model, false);
+            RenderViewToWriterInternal(viewPath, writer, model, false);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         {
             // BBernard - 08/02/2016
             // Updated to take in ViewEngineResult reference and re-use GetView() internal method for greater flexibility and code re-use.
-            RenderViewToWriterInternal(GetViewInternal(viewPath), writer, model, true);
+            RenderViewToWriterInternal(viewPath, writer, model, true);
         }
 
         /// <summary>
@@ -195,15 +195,13 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// <param name="model">Model to render the view with</param>
         /// <param name="partial">Determines whether to render a full or partial view</param>
         /// <returns>String of the rendered view</returns>
-        protected virtual RazorViewRenderResult RenderViewInternal(string viewPath, object model, bool partial = false)
+        protected virtual TemplatedRenderResult RenderViewInternal(string viewPath, object model, bool partial = false)
         {
-            var viewEngineResult = GetViewInternal(viewPath);
-            
-            //Get the physical mapped path for the Virtual Path...
-            //NOTE: This is needed to dynamically determine the parent Directory of the Physical View file to use
-            //      as context for relative path searches when rendering he Xsl-FO (e.g. Images, etc.)
-            var razorViewFilePath = HttpContext.Current.Server.MapPath(viewPath);
-            var razorViewFileInfo = new FileInfo(razorViewFilePath);
+            ////Get the physical mapped path for the Virtual Path...
+            ////NOTE: This is needed to dynamically determine the parent Directory of the Physical View file to use
+            ////      as context for relative path searches when rendering he Xsl-FO (e.g. Images, etc.)
+            //var razorViewFilePath = HttpContext.Current.Server.MapPath(viewPath);
+            //var razorViewFileInfo = new FileInfo(razorViewFilePath);
 
             //BBernard - 08/02/2016
             //Re-factored this code to remove duplicate logic and call the existing RenderViewToWriterInternal method which
@@ -211,12 +209,12 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
             string result = null;
             using (var sw = new StringWriter())
             {
-                RenderViewToWriterInternal(viewEngineResult, sw, model, partial);
+                RenderViewToWriterInternal(viewPath, sw, model, partial);
                 result = sw.ToString();
             }
 
             //Return a RenderResult response object...
-            var renderResult = new RazorViewRenderResult(result);
+            var renderResult = new TemplatedRenderResult(result);
             return renderResult;
         }
 
@@ -230,24 +228,29 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// </param>
         /// <param name="model">Model to render the view with</param>
         /// <param name="partial">Determines whether to render a full or partial view</param>
-        /// <param name="viewEngineResult"></param>
         /// <param name="writer">Text writer to render view to</param>
-        protected virtual void RenderViewToWriterInternal(ViewEngineResult viewEngineResult, TextWriter writer, object model = null, bool partial = false)
+        protected virtual void RenderViewToWriterInternal(string viewPath, TextWriter writer, object model = null, bool partial = false)
         {
+            var viewEngineResult = GetViewInternal(viewPath, partial);
+            
             //BBernard - 08/02/2016
             //NOTE:  Updated to remove dependency on project resource for this simple error message 
             //       and added additional details in the error message.
-            if (viewEngineResult == null || viewEngineResult.View == null)
-                throw new ArgumentNullException(String.Format("Rendering cannot completed because the ViewEngineResult is null; a valid ViewEngineResult must be specified."));
+            //Get the view and attach the model to view data
+            var view = viewEngineResult?.View
+                ?? throw new ArgumentNullException("Rendering cannot completed because the ViewEngineResult is null; a valid ViewEngineResult must be specified.");
 
-            // get the view and attach the model to view data
-            var view = viewEngineResult.View;
             Context.Controller.ViewData.Model = model;
+            var controller = Context.Controller;
 
-            var ctx = new ViewContext(Context, view,
-                                        Context.Controller.ViewData,
-                                        Context.Controller.TempData,
-                                        writer);
+            var ctx = new ViewContext(
+                Context, 
+                view,
+                controller.ViewData,
+                controller.TempData,
+                writer
+            );
+            
             view.Render(ctx, writer);
         }
 

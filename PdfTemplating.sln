@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslFO.ControlLibrary", "Xsl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSource.WinForms.Animations", "OpenSource.WinForms.Animations\OpenSource.WinForms.Animations.csproj", "{5222558B-C90B-4A8D-9081-9079D2E826D0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - WinForms", "04 - WinForms", "{0F510A11-E011-4C71-83D3-B9D1E7CF8954}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 - WinForms", "05 - WinForms", "{0F510A11-E011-4C71-83D3-B9D1E7CF8954}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms.Common", "WinForms.Common", "{37C7509C-D58F-4D9D-8058-5C260C57B9B6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - AspNetMVC Web Project", "03 - AspNetMVC Web Project", "{1EA3ED4F-BC0E-4D30-9173-CC07429538B0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - Asp .NET Web API Project (.NET 4.8)", "03 - Asp .NET Web API Project (.NET 4.8)", "{1EA3ED4F-BC0E-4D30-9173-CC07429538B0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfTemplating.XslFO.Render.Fonet", "PdfTemplating.XslFO.Render.Fonet\PdfTemplating.XslFO.Render.Fonet.csproj", "{23D05779-C655-4D1D-BC48-3678A4D0F84E}"
 EndProject
@@ -41,9 +41,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FONet", "FONet", "{0AC81778
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApacheFOP.Serverless", "ApacheFOP.Serverless", "{FA21E306-D722-4DFA-8B4B-D329FAFFBF15}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 - Console", "05 - Console", "{29955809-E2E7-4E53-9DAD-3848CE6F0742}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06 - Console", "06 - Console", "{29955809-E2E7-4E53-9DAD-3848CE6F0742}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslFO.Console", "XslFO.Console\XslFO.Console.csproj", "{C9EDD7AB-5A15-4970-B660-D981A020EA81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XslFO.Console", "XslFO.Console\XslFO.Console.csproj", "{C9EDD7AB-5A15-4970-B660-D981A020EA81}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Asp .NET Core Web API Project (.NET 6)", "04 - Asp .NET Core Web API Project (.NET 6)", "{02290664-0964-4EA5-AA17-20BE04327B71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslFO.WebApi.AspNetCore", "XslFO.WebApi.AspNetCore\XslFO.WebApi.AspNetCore.csproj", "{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfTemplating.XslFO.Razor.AspNetCoreMvc", "PdfTemplating.XslFO.Razor.AspNetCoreMvc\PdfTemplating.XslFO.Razor.AspNetCoreMvc.csproj", "{C2D01A08-6196-483E-B1BA-07EA7D13BD45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,12 +59,10 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{E6CD0C44-D07A-473E-BEBC-23125B762984}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{E6CD0C44-D07A-473E-BEBC-23125B762984}.Debug|Any CPU.Build.0 = Debug|x86
 		{E6CD0C44-D07A-473E-BEBC-23125B762984}.PublishToNuget (AspNetMvc Only)|Any CPU.ActiveCfg = PublishToNuget|x86
 		{E6CD0C44-D07A-473E-BEBC-23125B762984}.Release|Any CPU.ActiveCfg = Release|x86
 		{E6CD0C44-D07A-473E-BEBC-23125B762984}.Release|Any CPU.Build.0 = Release|x86
 		{814F92F4-2CF8-45D4-97AC-4854CA465D15}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{814F92F4-2CF8-45D4-97AC-4854CA465D15}.Debug|Any CPU.Build.0 = Debug|x86
 		{814F92F4-2CF8-45D4-97AC-4854CA465D15}.PublishToNuget (AspNetMvc Only)|Any CPU.ActiveCfg = PublishToNuget|x86
 		{814F92F4-2CF8-45D4-97AC-4854CA465D15}.Release|Any CPU.ActiveCfg = Release|x86
 		{814F92F4-2CF8-45D4-97AC-4854CA465D15}.Release|Any CPU.Build.0 = Release|x86
@@ -109,6 +113,18 @@ Global
 		{C9EDD7AB-5A15-4970-B660-D981A020EA81}.PublishToNuget (AspNetMvc Only)|Any CPU.Build.0 = Debug|Any CPU
 		{C9EDD7AB-5A15-4970-B660-D981A020EA81}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9EDD7AB-5A15-4970-B660-D981A020EA81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02}.PublishToNuget (AspNetMvc Only)|Any CPU.ActiveCfg = Debug|Any CPU
+		{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02}.PublishToNuget (AspNetMvc Only)|Any CPU.Build.0 = Debug|Any CPU
+		{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2D01A08-6196-483E-B1BA-07EA7D13BD45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2D01A08-6196-483E-B1BA-07EA7D13BD45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2D01A08-6196-483E-B1BA-07EA7D13BD45}.PublishToNuget (AspNetMvc Only)|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2D01A08-6196-483E-B1BA-07EA7D13BD45}.PublishToNuget (AspNetMvc Only)|Any CPU.Build.0 = Debug|Any CPU
+		{C2D01A08-6196-483E-B1BA-07EA7D13BD45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2D01A08-6196-483E-B1BA-07EA7D13BD45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +144,8 @@ Global
 		{0AC81778-F279-4F92-B1A9-E0932563C65E} = {A1D247C7-EDC4-452A-A90B-1F8EFBF216AE}
 		{FA21E306-D722-4DFA-8B4B-D329FAFFBF15} = {A1D247C7-EDC4-452A-A90B-1F8EFBF216AE}
 		{C9EDD7AB-5A15-4970-B660-D981A020EA81} = {29955809-E2E7-4E53-9DAD-3848CE6F0742}
+		{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02} = {02290664-0964-4EA5-AA17-20BE04327B71}
+		{C2D01A08-6196-483E-B1BA-07EA7D13BD45} = {3FC646FF-E262-4BEC-ABCE-465EF01DD551}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7A57A57D-1914-4887-A77D-2FCB32B09BBE}
