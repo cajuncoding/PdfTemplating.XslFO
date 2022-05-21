@@ -22,7 +22,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "movies/pdf/razor/apache-fop?title=star%20wars",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

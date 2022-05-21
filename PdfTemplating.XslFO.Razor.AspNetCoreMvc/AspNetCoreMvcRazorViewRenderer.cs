@@ -81,7 +81,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         /// <param name="writer"></param>
         /// <returns>String of the rendered view or null on error</returns>
         public virtual Task RenderViewToWriter(string viewPath, object model, TextWriter writer)
-            => RenderViewToWriterInternalAsync(viewPath, writer, model, false);
+            => TryRenderViewToWriterInternalAsync(viewPath, writer, model, false);
 
         /// <summary>
         /// Renders a partial MVC view to given Writer. Use this method to render a partial view that doesn't merge with _Layout and doesn't fire _ViewStart.
@@ -93,7 +93,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         /// <param name="model">The model to pass to the viewRenderer</param>
         /// <param name="writer">Writer to render the view to</param>
         public virtual Task RenderPartialViewToWriter(string viewPath, object model, TextWriter writer)
-            => RenderViewToWriterInternalAsync(viewPath, writer, model, true);
+            => TryRenderViewToWriterInternalAsync(viewPath, writer, model, true);
 
         /// <summary>
         /// Refactored this logic out so that it is not duplicated and can be called independently allowing
@@ -105,8 +105,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         /// <returns></returns>
         public virtual ViewEngineResult FindView(String viewPath, bool isPartial = false)
         {
-            // first find the ViewEngine for this view
-            var viewEngineResult = ViewEngine.FindView(MvcController.ControllerContext, viewPath, !isPartial);
+            var viewEngineResult = this.GetViewInternal(viewPath, isPartial, false);
             return viewEngineResult;
         }
 
@@ -121,7 +120,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         public virtual ViewEngineResult FindFirstValidView(List<String> viewsToSearch, bool isPartial = false)
         {
             //Search for the first valid view that we can find and return it if possible.
-            var validResult = viewsToSearch.Select(v => this.FindView(v, isPartial)).FirstOrDefault();
+            var validResult = viewsToSearch.Select(v => GetViewInternal(v, isPartial, false)).FirstOrDefault(v => v.Success);
             return validResult ?? throw new ArgumentException($"No valid view could be found in the list [count={viewsToSearch.Count}] of views specified.");
         }
 
@@ -129,14 +128,25 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         /// Refactored this logic out so that it is not duplicated across multiple internal methods; keeping code dry'er for 
         /// retrieving the view and raising exception when not found.
         /// </summary>
-        protected virtual ViewEngineResult GetViewInternal(String viewPath, bool isPartial = false)
+        protected virtual ViewEngineResult GetViewInternal(String viewPath, bool isPartial = false, bool throwExceptionIfNotFound = false)
         {
-            var viewEngineResult = this.FindView(viewPath, isPartial);
+            var rootPath = RazorPdfTemplating.WebAppRootPath;
+            var viewName = Path.GetFileNameWithoutExtension(viewPath);
 
-            if (viewEngineResult?.View == null)
+            var viewFindCommands = new Func<ViewEngineResult>[]
+            {
+                //Attempt to get the view using the explicit web root path and view path...
+                () => ViewEngine.GetView(rootPath, viewPath, !isPartial),
+                //Attempt to search for the View with built in search logic using Controller context data (e.g. /Views/{ControllerName, /View/Shared).
+                () => ViewEngine.FindView(MvcController.ControllerContext, viewName, !isPartial)
+            };
+
+            var viewEngineResult = viewFindCommands.Select(c => c.Invoke()).FirstOrDefault(v => v.Success);
+
+            if (throwExceptionIfNotFound && viewEngineResult?.View == null)
                 throw new FileNotFoundException($"View could not be found for view path [{viewPath}].");
 
-            return viewEngineResult;
+            return viewEngineResult!;
         }
 
         /// <summary>
@@ -158,8 +168,8 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         {
             await using var sw = new StringWriter();
 
-            await RenderViewToWriterInternalAsync(viewPath, sw, model, isPartial).ConfigureAwait(false);
-            
+            await TryRenderViewToWriterInternalAsync(viewPath, sw, model, isPartial).ConfigureAwait(false);
+
             var result = sw.ToString();
             
             var renderResult = new TemplatedRenderResult(result);
@@ -177,10 +187,12 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         /// <param name="model">Model to render the view with</param>
         /// <param name="isPartial">Determines whether to render a full or partial view</param>
         /// <param name="writer">Text writer to render view to</param>
-        protected virtual async Task RenderViewToWriterInternalAsync(string viewPath, TextWriter writer, object? model = null, bool isPartial = false)
+        protected virtual async Task<bool> TryRenderViewToWriterInternalAsync(string viewPath, TextWriter writer, object? model = null, bool isPartial = false)
         {
             var viewEngineResult = GetViewInternal(viewPath, isPartial);
-            var view = viewEngineResult.View;
+            var view = viewEngineResult?.View;
+            if (view == null) 
+                return false;
 
             MvcController.ViewData.Model = model;
 
@@ -194,6 +206,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
             );
 
             await view.RenderAsync(viewContext).ConfigureAwait(false);
+            return true;
         }
     }
 }

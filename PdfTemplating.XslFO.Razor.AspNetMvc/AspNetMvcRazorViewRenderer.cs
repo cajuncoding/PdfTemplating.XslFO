@@ -135,10 +135,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         public virtual ViewEngineResult FindView(String viewPath, bool partial = false)
         {
             // first find the ViewEngine for this view
-            var viewEngineResult = partial 
-                    ? ViewEngines.Engines.FindPartialView(Context, viewPath) 
-                    : ViewEngines.Engines.FindView(Context, viewPath, null);
-
+            var viewEngineResult = this.GetViewInternal(viewPath, partial);
             return viewEngineResult;
         }
 
@@ -169,7 +166,9 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
             //BBernard - 08/02/2016
             //NOTE:  Updated to use the new FindView method factored out for re-use.
             // get the view and attach the model to view data
-            var viewEngineResult = this.FindView(viewPath, partial);
+            var viewEngineResult = partial
+                ? ViewEngines.Engines.FindPartialView(Context, viewPath)
+                : ViewEngines.Engines.FindView(Context, viewPath, null);
 
             //BBernard - 08/02/2016
             //NOTE:  Updated to remove dependency on project resource for this simple error message 

@@ -1,3 +1,5 @@
+using PdfTemplating.XslFO.Razor.AspNetCoreMvc;
+
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
@@ -9,10 +11,11 @@ foreach (var c in configuration.GetChildren().Where(c => !string.IsNullOrWhiteSp
 
 builder.Services.AddControllersWithViews();
 
+RazorPdfTemplating.Initialize(builder.Environment.WebRootPath ?? builder.Environment.ContentRootPath);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
 app.UseAuthorization();
 
 app.MapControllers();
