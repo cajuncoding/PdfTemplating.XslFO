@@ -9,7 +9,7 @@ namespace PdfTemplating.WebMvc.MovieSearch
 
         public async Task<MovieSearchResponse> SearchAsync(String title)
         {
-            var searchResponse = await ExecuteMovieQueryRESTUri(title);
+            var searchResponse = await ExecuteMovieQueryRESTUri(title).ConfigureAwait(false);
             
             //Update other properties
             searchResponse.SearchTitle = title;
@@ -30,7 +30,8 @@ namespace PdfTemplating.WebMvc.MovieSearch
                 .SetQueryParam("apikey", this.ApiKey)
                 .SetQueryParam("r", "json")
                 .SetQueryParam("s", movieTitle)
-                .GetJsonAsync<MovieSearchResponse>();
+                .GetJsonAsync<MovieSearchResponse>()
+                .ConfigureAwait(false);
 
             return movieResponse;
         }

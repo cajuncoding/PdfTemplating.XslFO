@@ -158,7 +158,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         {
             await using var sw = new StringWriter();
 
-            await RenderViewToWriterInternalAsync(viewPath, sw, model, isPartial);
+            await RenderViewToWriterInternalAsync(viewPath, sw, model, isPartial).ConfigureAwait(false);
             
             var result = sw.ToString();
             

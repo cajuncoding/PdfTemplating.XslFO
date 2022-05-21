@@ -41,7 +41,7 @@ namespace PdfTemplating.AspNetCoreMvc.Controllers
         {
             try
             {
-                var searchResponse = await ExecuteMovieSearchHelperAsync(title);
+                var searchResponse = await ExecuteMovieSearchHelperAsync(title).ConfigureAwait(false);
 
                 //*******************************************
                 // RAZOR + Apace FOP (async I/O request)
@@ -93,7 +93,7 @@ namespace PdfTemplating.AspNetCoreMvc.Controllers
             //      Database REST call for JSON results, and convert to Xml dynamically to use efficiently
             //      with our templates.
             var movieSearchService = new MovieSearchService();
-            var searchResponse = await movieSearchService.SearchAsync(title);
+            var searchResponse = await movieSearchService.SearchAsync(title).ConfigureAwait(false);
             return searchResponse;
         }
 
