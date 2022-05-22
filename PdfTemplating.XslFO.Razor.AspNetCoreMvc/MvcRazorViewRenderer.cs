@@ -16,7 +16,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
     /// Class that renders MVC views to a string using the standard MVC View Engine to render the view. 
     /// NOTE: Designed to be used within the context of AspNet Core MVC and requires that ASP.NET Controller & HttpContext is present to work.
     /// </summary>
-    public class AspNetCoreMvcRazorViewRenderer
+    public class MvcRazorViewRenderer
     {
         /// <summary>
         /// Required Controller Context
@@ -32,7 +32,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         /// </summary>
         /// <param name="controller"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public AspNetCoreMvcRazorViewRenderer(Controller controller)
+        public MvcRazorViewRenderer(Controller controller)
         {
             //We MUST ensure that HttpContext is valid for the internal methods that depend on it.
             //NOTE: This is required because AspNet requires use of HttpContext for mapping virtual paths,
@@ -105,7 +105,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         /// <returns></returns>
         public virtual ViewEngineResult FindView(String viewPath, bool isPartial = false)
         {
-            var viewEngineResult = this.GetViewInternal(viewPath, isPartial, false);
+            var viewEngineResult = this.SearchForViewInternal(viewPath, isPartial, false);
             return viewEngineResult;
         }
 
@@ -120,7 +120,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         public virtual ViewEngineResult FindFirstValidView(List<String> viewsToSearch, bool isPartial = false)
         {
             //Search for the first valid view that we can find and return it if possible.
-            var validResult = viewsToSearch.Select(v => GetViewInternal(v, isPartial, false)).FirstOrDefault(v => v.Success);
+            var validResult = viewsToSearch.Select(v => SearchForViewInternal(v, isPartial, false)).FirstOrDefault(v => v.Success);
             return validResult ?? throw new ArgumentException($"No valid view could be found in the list [count={viewsToSearch.Count}] of views specified.");
         }
 
@@ -128,18 +128,18 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         /// Refactored this logic out so that it is not duplicated across multiple internal methods; keeping code dry'er for 
         /// retrieving the view and raising exception when not found.
         /// </summary>
-        protected virtual ViewEngineResult GetViewInternal(String viewPath, bool isPartial = false, bool throwExceptionIfNotFound = false)
+        protected virtual ViewEngineResult SearchForViewInternal(String viewPath, bool isPartial = false, bool throwExceptionIfNotFound = false)
         {
-            var rootPath = RazorPdfTemplating.WebAppRootPath;
             var viewName = Path.GetFileNameWithoutExtension(viewPath);
 
-            var viewFindCommands = new Func<ViewEngineResult>[]
-            {
-                //Attempt to get the view using the explicit web root path and view path...
-                () => ViewEngine.GetView(rootPath, viewPath, !isPartial),
-                //Attempt to search for the View with built in search logic using Controller context data (e.g. /Views/{ControllerName, /View/Shared).
-                () => ViewEngine.FindView(MvcController.ControllerContext, viewName, !isPartial)
-            };
+            //First Attempt to get/fined the view using the explicit search paths configured...
+            var viewFindCommands = RazorPdfTemplatingConfig.ViewSearchPaths
+                .Select(path => new Func<ViewEngineResult>(() => ViewEngine.GetView(path, viewPath, !isPartial)))
+                .ToList();
+
+            //Then (as a fallback or if none defined) we Attempt to search for the View with built in search logic using Controller context data
+            // such as: /Views/{ControllerName}, /View/Shared
+            viewFindCommands.Add(() => ViewEngine.FindView(MvcController.ControllerContext, viewName, !isPartial));
 
             var viewEngineResult = viewFindCommands.Select(c => c.Invoke()).FirstOrDefault(v => v.Success);
 
@@ -189,7 +189,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
         /// <param name="writer">Text writer to render view to</param>
         protected virtual async Task<bool> TryRenderViewToWriterInternalAsync(string viewPath, TextWriter writer, object? model = null, bool isPartial = false)
         {
-            var viewEngineResult = GetViewInternal(viewPath, isPartial);
+            var viewEngineResult = SearchForViewInternal(viewPath, isPartial);
             var view = viewEngineResult?.View;
             if (view == null) 
                 return false;

@@ -1,0 +1,78 @@
+<MovieSearchResponse>
+  <Response>True</Response>
+  <SearchDateTime>2018-12-02T17:00:19.3291058-06:00</SearchDateTime>
+  <SearchResults>
+    <SearchResult>
+      <ImdbID>tt0076759</ImdbID>
+      <Poster>https://m.media-amazon.com/images/M/MV5BNzVlY2MwMjktM2E4OS00Y2Y3LWE3ZjctYzhkZGM3YzA1ZWM2XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg</Poster>
+      <Title>Star Wars: Episode IV - A New Hope</Title>
+      <Type>movie</Type>
+      <Year>1977</Year>
+    </SearchResult>
+    <SearchResult>
+      <ImdbID>tt0080684</ImdbID>
+      <Poster>https://m.media-amazon.com/images/M/MV5BYmU1NDRjNDgtMzhiMi00NjZmLTg5NGItZDNiZjU5NTU4OTE0XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_SX300.jpg</Poster>
+      <Title>Star Wars: Episode V - The Empire Strikes Back</Title>
+      <Type>movie</Type>
+      <Year>1980</Year>
+    </SearchResult>
+    <SearchResult>
+      <ImdbID>tt0086190</ImdbID>
+      <Poster>https://m.media-amazon.com/images/M/MV5BOWZlMjFiYzgtMTUzNC00Y2IzLTk1NTMtZmNhMTczNTk0ODk1XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg</Poster>
+      <Title>Star Wars: Episode VI - Return of the Jedi</Title>
+      <Type>movie</Type>
+      <Year>1983</Year>
+    </SearchResult>
+    <SearchResult>
+      <ImdbID>tt2488496</ImdbID>
+      <Poster>https://m.media-amazon.com/images/M/MV5BOTAzODEzNDAzMl5BMl5BanBnXkFtZTgwMDU1MTgzNzE@._V1_SX300.jpg</Poster>
+      <Title>Star Wars: The Force Awakens</Title>
+      <Type>movie</Type>
+      <Year>2015</Year>
+    </SearchResult>
+    <SearchResult>
+      <ImdbID>tt0120915</ImdbID>
+      <Poster>https://m.media-amazon.com/images/M/MV5BYTRhNjcwNWQtMGJmMi00NmQyLWE2YzItODVmMTdjNWI0ZDA2XkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg</Poster>
+      <Title>Star Wars: Episode I - The Phantom Menace</Title>
+      <Type>movie</Type>
+      <Year>1999</Year>
+    </SearchResult>
+    <SearchResult>
+      <ImdbID>tt0121766</ImdbID>
+      <Poster>https://m.media-amazon.com/images/M/MV5BNTc4MTc3NTQ5OF5BMl5BanBnXkFtZTcwOTg0NjI4NA@@._V1_SX300.jpg</Poster>
+      <Title>Star Wars: Episode III - Revenge of the Sith</Title>
+      <Type>movie</Type>
+      <Year>2005</Year>
+    </SearchResult>
+    <SearchResult>
+      <ImdbID>tt0121765</ImdbID>
+      <Poster>https://m.media-amazon.com/images/M/MV5BMDAzM2M0Y2UtZjRmZi00MzVlLTg4MjEtOTE3NzU5ZDVlMTU5XkEyXkFqcGdeQXVyNDUyOTg3Njg@._V1_SX300.jpg</Poster>
+      <Title>Star Wars: Episode II - Attack of the Clones</Title>
+      <Type>movie</Type>
+      <Year>2002</Year>
+    </SearchResult>
+    <SearchResult>
+      <ImdbID>tt3748528</ImdbID>
+      <Poster>https://m.media-amazon.com/images/M/MV5BMjEwMzMxODIzOV5BMl5BanBnXkFtZTgwNzg3OTAzMDI@._V1_SX300.jpg</Poster>
+      <Title>Rogue One: A Star Wars Story</Title>
+      <Type>movie</Type>
+      <Year>2016</Year>
+    </SearchResult>
+    <SearchResult>
+      <ImdbID>tt2527336</ImdbID>
+      <Poster>https://m.media-amazon.com/images/M/MV5BMjQ1MzcxNjg4N15BMl5BanBnXkFtZTgwNzgwMjY4MzI@._V1_SX300.jpg</Poster>
+      <Title>Star Wars: The Last Jedi</Title>
+      <Type>movie</Type>
+      <Year>2017</Year>
+    </SearchResult>
+    <SearchResult>
+      <ImdbID>tt3778644</ImdbID>
+      <Poster>https://m.media-amazon.com/images/M/MV5BOTM2NTI3NTc3Nl5BMl5BanBnXkFtZTgwNzM1OTQyNTM@._V1_SX300.jpg</Poster>
+      <Title>Solo: A Star Wars Story</Title>
+      <Type>movie</Type>
+      <Year>2018</Year>
+    </SearchResult>
+  </SearchResults>
+  <SearchTitle>Star Wars</SearchTitle>
+  <TotalResults>448</TotalResults>
+</MovieSearchResponse>

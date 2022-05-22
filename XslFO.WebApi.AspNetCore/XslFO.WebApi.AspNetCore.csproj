@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,12 +8,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Reports.Xslt\MoviePdfReport\MoviesDataSample.xml" />
+    <None Remove="Reports.Xslt\MoviePdfReport\MoviesReport.xsl" />
+    <None Remove="Reports.Xslt\MoviePdfReport\Reports.Common.Movies.xsl" />
+    <None Remove="Reports.Xslt\Reports.Common.xsl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Reports.Xslt\MoviePdfReport\MoviesDataSample.xml" />
+    <Content Include="Reports.Xslt\MoviePdfReport\MoviesReport.xsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports.Xslt\MoviePdfReport\Reports.Common.Movies.xsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports.Xslt\Reports.Common.xsl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Flurl.Http" Version="3.2.4" />
-    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.8" />
   </ItemGroup>
 
   <ItemGroup>

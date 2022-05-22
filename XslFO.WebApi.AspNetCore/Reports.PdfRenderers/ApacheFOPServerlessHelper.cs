@@ -6,7 +6,10 @@ namespace XslFO.WebMvc.Reports.PdfRenderers
 {
     public class ApacheFOPServerlessHelper
     {
-        public static async Task<byte[]> RenderXslFOToPdfAsync(XDocument xslFODoc)
+        public static Task<byte[]> RenderXslFOToPdfAsync(XDocument xslFODoc)
+            => RenderXslFOToPdfAsync(xslFODoc.ToString());
+
+        public static async Task<byte[]> RenderXslFOToPdfAsync(string xslfoContent)
         {
             //************************************************************************************************
             //Execute the Transformation of the XSL-FO source to Binary Pdf via ApacheFOP Serverless Rendering
@@ -28,7 +31,7 @@ namespace XslFO.WebMvc.Reports.PdfRenderers
                 EnableGzipCompressionForResponses = gzipResponsesEnabled
             };
 
-            var xslFOPdfRenderer = new ApacheFOPServerlessPdfRenderService(xslFODoc, options);
+            var xslFOPdfRenderer = new ApacheFOPServerlessPdfRenderService(xslfoContent, options);
             var pdfBytes = await xslFOPdfRenderer.RenderPdfBytesAsync().ConfigureAwait(false);
 
             return pdfBytes;

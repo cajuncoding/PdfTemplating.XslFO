@@ -58,7 +58,7 @@ namespace XslFO.WebMvc.Reports.PdfRenderers
             };
 
             //****************************************************************************
-            //Execute the Trasnformation of the XSL-FO source to Binary Pdf via Fonet
+            //Execute the Transformation of the XSL-FO source to Binary Pdf via Fonet
             //****************************************************************************
             var xslFOPdfRenderer = new FONetXslFOPdfRenderer(xslFODoc, pdfOptions);
             var pdfBytes = xslFOPdfRenderer.RenderPdfBytes();

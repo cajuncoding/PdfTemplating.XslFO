@@ -16,11 +16,11 @@
 *@
 <fo:page-sequence master-reference="report-master">
 
-    @* RENDER STATIC FOOTER REGION AS STATIC CONTENT; APPEARS ON EVERY PAGE*@
+    @* RENDER STATIC FOOTER REGION AS STATIC CONTENT; APPEARS ON EVERY PAGE *@
     @* NOTE:  FOOTER AND HEADERS MUST BE DEFINED BEFORE THE BODY FOR VALID XslFO PROCESSING *@
     @Html.PartialAsync("~/Reports.Razor/_MovieFooterPartial.cshtml", $"Movie Search for [{Model.SearchTitle}] on [{dateTimeStamp}]")
 
-    @* Render Content Flow element targeted to the 'xsl-region-body'*@
+    @* Render Content Flow element targeted to the 'xsl-region-body' *@
     <fo:flow flow-name="xsl-region-body" font-size="@FontSize.Default" font-family="@FontFamily.Default">
 
         @* Root Block Element *@
@@ -96,7 +96,7 @@
         *@
         <fo:block break-before="page">
 
-            /* Output Heading info */
+            @* Output Heading info *@
             <fo:block text-align="center">
                 <fo:block font-size="@FontSize.H1" border-bottom="@Border.HorizontalRule">
                     @movie.Title
@@ -115,7 +115,7 @@
                                     //Render Image
                                     //NOTE: We use the Custom Property Logic here which makes the Templating Logic much easier and improves separation of presentation from data!
                                     *@
-                                    if (String.IsNullOrWhiteSpace(movie.Poster))
+                                    @if (String.IsNullOrWhiteSpace(movie.Poster))
                                     {
                                         <fo:block font-size="@FontSize.H1">No Image</fo:block>
                                     }

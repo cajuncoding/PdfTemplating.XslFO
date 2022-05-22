@@ -11,7 +11,11 @@ foreach (var c in configuration.GetChildren().Where(c => !string.IsNullOrWhiteSp
 
 builder.Services.AddControllersWithViews();
 
-RazorPdfTemplating.Initialize(builder.Environment.WebRootPath ?? builder.Environment.ContentRootPath);
+//OPTIONALLY you may Manually configure the base paths that will be searched for Views (when Relative Paths are provided...
+//RazorPdfTemplatingConfig
+//    .ClearViewSearchPaths() //Clear default search paths.
+//    .AddViewSearchPath(builder.Environment.WebRootPath); //Add a known path to the search list after existing entries
+//    .AddViewSearchPathAsTopPriority(builder.Environment.ContentRootPath) // Insert known path at the top of the Search List above existing entries
 
 var app = builder.Build();
 

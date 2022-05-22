@@ -87,8 +87,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AspNetMvcRazorPdfTemplatingRenderer.cs" />
-    <Compile Include="AspNetMvcRazorViewRenderer.cs" />
+    <Compile Include="BackwardsCompatibleShims\AspNetMvcRazorPdfTemplatingRenderer.cs" />
+    <Compile Include="BackwardsCompatibleShims\AspNetMvcRazorViewRenderer.cs" />
+    <Compile Include="BaseRazorPdfTemplate.cs" />
+    <Compile Include="MvcRazorViewRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +99,7 @@
       <Name>PdfTemplating.XslFO.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\NuGet.Build.Tasks.Pack.5.9.0\build\NuGet.Build.Tasks.Pack.targets" Condition="Exists('..\packages\NuGet.Build.Tasks.Pack.5.9.0\build\NuGet.Build.Tasks.Pack.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

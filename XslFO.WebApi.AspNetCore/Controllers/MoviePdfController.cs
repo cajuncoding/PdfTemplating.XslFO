@@ -29,10 +29,10 @@ namespace PdfTemplating.AspNetCoreMvc.Controllers
         [HttpGet]
         public async Task<ActionResult> Index(String title = "Star Wars", bool useRazor = true)
         {
-            //if (useRazor)
+            if (useRazor)
                 return await PdfWithRazorAndApacheFOP(title);
-            //else
-            //    return await PdfWithXsltAndApacheFOP(title);
+            else
+                return await PdfWithXsltAndApacheFOP(title);
         }
 
         [HttpGet]
@@ -59,29 +59,29 @@ namespace PdfTemplating.AspNetCoreMvc.Controllers
             }
         }
 
-        //[HttpGet]
-        //[Route("xslt/apache-fop")]
-        //public async Task<ActionResult> PdfWithXsltAndApacheFOP(String title = "Star Wars")
-        //{
-        //    try
-        //    {
-        //        var searchResponse = await ExecuteMovieSearchHelperAsync(title);
+        [HttpGet]
+        [Route("xslt/apache-fop")]
+        public async Task<ActionResult> PdfWithXsltAndApacheFOP(String title = "Star Wars")
+        {
+            try
+            {
+                var searchResponse = await ExecuteMovieSearchHelperAsync(title);
 
-        //        //*******************************************
-        //        // XSLT + Apache FOP (async I/O request)
-        //        //*******************************************
-        //        var pdfRenderer = new XsltMoviePdfRenderer();
-        //        var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse).ConfigureAwait(false);
+                //*******************************************
+                // XSLT + Apache FOP (async I/O request)
+                //*******************************************
+                var pdfRenderer = new XsltMoviePdfRenderer();
+                var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse).ConfigureAwait(false);
 
-        //        //Create the File Content Result from the Pdf byte data
-        //        return new FileContentResult(pdfBytes, WebContentType.Pdf);
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        //Bubble up the Error as Json for additional Details
-        //        return CreateJsonExceptionResult(exc);
-        //    }
-        //}
+                //Create the File Content Result from the Pdf byte data
+                return new FileContentResult(pdfBytes, WebContentType.Pdf);
+            }
+            catch (Exception exc)
+            {
+                //Bubble up the Error as Json for additional Details
+                return CreateJsonExceptionResult(exc);
+            }
+        }
 
         #region Helpers
 

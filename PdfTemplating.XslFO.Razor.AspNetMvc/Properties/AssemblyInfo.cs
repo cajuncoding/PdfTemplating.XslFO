@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("PdfTemplating.XslFO.Razor.AspNet")]
+[assembly: AssemblyTitle("PdfTemplating.XslFO.Razor.AspNetMvc")]
 [assembly: AssemblyDescription("This is a C#.Net solution that provides the capability to easily generate Pdf files with a templating approach using Razor Mvc templates; as opposed to extremely complex code based approaches most libraries provide. It's based on the Xsl-FO standard for rendering robust paged media outputs as PDF Documents.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Brandon Bernard/CajunCoding")]

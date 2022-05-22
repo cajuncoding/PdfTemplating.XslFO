@@ -12,7 +12,7 @@ namespace XslFO.WebMvc.Reports.PdfRenderers
     /// This class implements both the sync and sync interfaces so that it can illustrate side-by-side the legacy Fonet (sync),
     /// and teh new ApacheFOP.Serverless (async) approaches.
     /// </summary>
-    public class RazorMoviePdfRenderer : BaseAspNetCoreMvcRazorPdfTemplatingRenderer<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
+    public class RazorMoviePdfRenderer : BaseRazorPdfTemplate<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
     {
         public RazorMoviePdfRenderer(Controller mvcController)
             : base("~/Reports.Razor/MoviePdfReport/MoviesReport.cshtml", mvcController)
@@ -36,17 +36,21 @@ namespace XslFO.WebMvc.Reports.PdfRenderers
             //***********************************************************
             //Execute the Razor View to generate the XSL-FO output
             //***********************************************************
-            var razorViewRenderer = new AspNetCoreMvcRazorViewRenderer(this.MvcController);
-            var renderResult = await razorViewRenderer.RenderViewAsync(this.RazorViewVirtualPath, templateModel).ConfigureAwait(false);
+            var razorViewRenderer = new MvcRazorViewRenderer(this.MvcController);
+            var renderResult = await razorViewRenderer.RenderViewAsync(this.RazorViewPath, templateModel).ConfigureAwait(false);
 
+            //***********************************************************
+            //OPTIONALLY validate the Output by Loading the XSL-FO output into a fully validated XDocument...
+            //***********************************************************
             //Load the XSL-FO output into a fully validated XDocument.
             //NOTE: This template must generate valid Xsl-FO output -- via the well-formed xml we load into the XDocument return value -- to be rendered as a Pdf Binary!
-            var xslFODoc = XDocument.Parse(renderResult.RenderOutput);
+            //var xslFODoc = XDocument.Parse(renderResult.RenderOutput);
 
             //******************************************************************************************
             //Execute the Transformation of the XSL-FO source to Binary Pdf via Apache FOP Service...
             //******************************************************************************************
-            var pdfBytes = await ApacheFOPServerlessHelper.RenderXslFOToPdfAsync(xslFODoc).ConfigureAwait(false);
+            //var pdfBytes = await ApacheFOPServerlessHelper.RenderXslFOToPdfAsync(xslFODoc).ConfigureAwait(false);
+            var pdfBytes = await ApacheFOPServerlessHelper.RenderXslFOToPdfAsync(renderResult.RenderOutput).ConfigureAwait(false);
             return pdfBytes;
         }
 
