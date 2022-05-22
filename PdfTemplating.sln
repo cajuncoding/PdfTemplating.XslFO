@@ -47,9 +47,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XslFO.Console", "XslFO.Cons
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - Asp .NET Core Web API Project (.NET 6)", "04 - Asp .NET Core Web API Project (.NET 6)", "{02290664-0964-4EA5-AA17-20BE04327B71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslFO.WebApi.AspNetCore", "XslFO.WebApi.AspNetCore\XslFO.WebApi.AspNetCore.csproj", "{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XslFO.WebApi.AspNetCore", "XslFO.WebApi.AspNetCore\XslFO.WebApi.AspNetCore.csproj", "{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfTemplating.XslFO.Razor.AspNetCoreMvc", "PdfTemplating.XslFO.Razor.AspNetCoreMvc\PdfTemplating.XslFO.Razor.AspNetCoreMvc.csproj", "{C2D01A08-6196-483E-B1BA-07EA7D13BD45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfTemplating.XslFO.Razor.AspNetCoreMvc", "PdfTemplating.XslFO.Razor.AspNetCoreMvc\PdfTemplating.XslFO.Razor.AspNetCoreMvc.csproj", "{C2D01A08-6196-483E-B1BA-07EA7D13BD45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

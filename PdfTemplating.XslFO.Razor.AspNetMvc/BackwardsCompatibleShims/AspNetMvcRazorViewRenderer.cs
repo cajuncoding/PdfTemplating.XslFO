@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace PdfTemplating.XslFO.Razor.AspNetMvc
 {
-    public class AspNetMvcRazorViewRenderer
+    public class AspNetMvcRazorViewRenderer : MvcRazorViewRenderer
     {
+        public AspNetMvcRazorViewRenderer(ControllerContext controllerContext = null)
+            : base(controllerContext)
+        { }
     }
 }
