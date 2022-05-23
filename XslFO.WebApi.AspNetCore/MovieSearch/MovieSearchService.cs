@@ -1,7 +1,7 @@
 ﻿using Flurl;
 using Flurl.Http;
 
-namespace PdfTemplating.WebMvc.MovieSearch
+namespace PdfTemplating.AspNetCoreMvc.MovieSearch
 {
     public class MovieSearchService
     {

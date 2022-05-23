@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Web.Mvc;
 
-namespace PdfTemplating.XslFO.Razor.AspNetMvc.BackwardsCompatibleShims
+namespace PdfTemplating.XslFO.Razor.AspNetMvc
 {
     public class AspNetMvcRazorViewRenderer : MvcRazorViewRenderer
     {

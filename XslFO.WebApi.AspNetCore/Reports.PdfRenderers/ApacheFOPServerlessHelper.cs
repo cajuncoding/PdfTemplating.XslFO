@@ -2,7 +2,7 @@
 using PdfTemplating.XslFO.ApacheFOP.Serverless;
 using System.Xml.Linq;
 
-namespace XslFO.WebMvc.Reports.PdfRenderers
+namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
 {
     public class ApacheFOPServerlessHelper
     {

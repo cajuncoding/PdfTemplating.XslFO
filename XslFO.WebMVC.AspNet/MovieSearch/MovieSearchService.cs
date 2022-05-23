@@ -3,7 +3,7 @@ using RestSharp;
 using RestSharp.CustomExtensions;
 using System;
 using System.Threading.Tasks;
-using PdfTemplating.WebMvc.MovieSearch;
+using PdfTemplating.AspNetCoreMvc.MovieSearch;
 
 namespace AspNetCoreMvc.MovieSearch
 {
