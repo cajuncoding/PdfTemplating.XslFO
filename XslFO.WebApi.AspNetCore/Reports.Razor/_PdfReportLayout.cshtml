@@ -1,0 +1,22 @@
+﻿@* XslFO MUST HAVE A ROOT *@
+<fo:root xmlns:fo="http://www.w3.org/1999/XSL/Format">
+
+    @* MASTER SETS MUST BE DEFINED BEFORE WE RENDER CONTENT in XSL-FO *@
+    <fo:layout-master-set>
+        @Html.Partial("~/Reports.Razor/_PdfReportPageMasterSetsPartial.cshtml")
+
+        @* Initialize the Page Sequence of THIS REPORT using one of the Defined Page Master-sets... *@
+        <fo:page-sequence-master master-name="report-master">
+            <fo:repeatable-page-master-alternatives maximum-repeats="no-limit">
+                <fo:conditional-page-master-reference master-reference="US-Letter-Portrait" page-position="first" />
+                @*<fo:conditional-page-master-reference master-reference="US-Letter-Portrait" page-position="last" />*@
+                <fo:conditional-page-master-reference master-reference="US-Letter-Portrait" page-position="rest" />
+            </fo:repeatable-page-master-alternatives>
+        </fo:page-sequence-master>
+
+    </fo:layout-master-set>
+
+    @* Render the Report Body... *@
+    @RenderBody()
+
+</fo:root>

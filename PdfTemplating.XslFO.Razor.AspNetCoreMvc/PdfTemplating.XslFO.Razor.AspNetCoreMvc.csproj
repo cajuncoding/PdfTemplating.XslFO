@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<Nullable>enable</Nullable>
+		<RootNamespace>PdfTemplating.XslFO.Razor.AspNetCoreMvc</RootNamespace>
+		<Authors>BBernard / CajunCoding</Authors>
+		<Company>CajunCoding.com</Company>
+		<Description>This is a C#.Net solution that provides the capability to easily generate PDF documents with a templating approach using Razor MVC templates; as opposed to extremely complex code based approaches most libraries provide. It's based on the Xsl-FO standard for rendering robust paged media outputs as PDF Documents.</Description>
+		<Version>1.0.0</Version>
+		<Copyright>Copyright © 2022</Copyright>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</RepositoryUrl>
+		<PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop apache-fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
+		<PackageReleaseNotes>
+			- Initial relase of fully functioning Razor Template Renderer for Asp.NET Core; generally mirroring functionality fo the original Asp.NET MVC (legacy) version but now fully Async along with a few deviations necessiated by .NET Core best practices.
+			- Strongly encouraged use of de-coupled Templating and Rendering processes via ApacheFOP.Serverless; therefore sample projects for .NET Core no longer implement legacy Fonet; which likely has issues in non-Windows environements.
+		</PackageReleaseNotes>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj" />
+	</ItemGroup>
+
+</Project>

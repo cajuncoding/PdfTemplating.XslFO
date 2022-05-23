@@ -29,7 +29,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
     ///         Therefore this project must be a .Net Framework Library as .Net Core uses a very different paradigm, and
     ///         requires a different implementation.
     /// </summary>
-    public class AspNetMvcRazorViewRenderer
+    public class MvcRazorViewRenderer
     {
         /// <summary>
         /// Required Controller Context
@@ -44,7 +44,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// the controller's context. 
         /// Only leave out the context if no context is otherwise available.
         /// </param>
-        public AspNetMvcRazorViewRenderer(ControllerContext controllerContext = null)
+        public MvcRazorViewRenderer(ControllerContext controllerContext = null)
         {
             //We MUST ensure that HttpContext is valid for the internal methods that depend on it.
             //NOTE: This is required because AspNet requires use of HttpContext for mapping virtual paths,
@@ -66,7 +66,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// </param>
         /// <param name="model">The model to render the view with</param>
         /// <returns>String of the rendered view or null on error</returns>
-        public virtual RazorViewRenderResult RenderView(string viewPath, object model = null)
+        public virtual TemplatedRenderResult RenderView(string viewPath, object model = null)
         {
             // BBernard - 08/02/2016
             // Updated to take in ViewEngineResult reference and re-use GetView() internal method for greater flexibility and code re-use.
@@ -83,7 +83,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// </param>
         /// <param name="model">The model to pass to the viewRenderer</param>
         /// <returns>String of the rendered view or null on error</returns>
-        public virtual RazorViewRenderResult RenderPartialView(string viewPath, object model = null)
+        public virtual TemplatedRenderResult RenderPartialView(string viewPath, object model = null)
         {
             // BBernard - 08/02/2016
             // Updated to take in ViewEngineResult reference and re-use GetView() internal method for greater flexibility and code re-use.
@@ -103,7 +103,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         {
             // BBernard - 08/02/2016
             // Updated to take in ViewEngineResult reference and re-use GetView() internal method for greater flexibility and code re-use.
-            RenderViewToWriterInternal(GetViewInternal(viewPath), writer, model, false);
+            RenderViewToWriterInternal(viewPath, writer, model, false);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         {
             // BBernard - 08/02/2016
             // Updated to take in ViewEngineResult reference and re-use GetView() internal method for greater flexibility and code re-use.
-            RenderViewToWriterInternal(GetViewInternal(viewPath), writer, model, true);
+            RenderViewToWriterInternal(viewPath, writer, model, true);
         }
 
         /// <summary>
@@ -135,10 +135,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         public virtual ViewEngineResult FindView(String viewPath, bool partial = false)
         {
             // first find the ViewEngine for this view
-            var viewEngineResult = partial 
-                    ? ViewEngines.Engines.FindPartialView(Context, viewPath) 
-                    : ViewEngines.Engines.FindView(Context, viewPath, null);
-
+            var viewEngineResult = this.GetViewInternal(viewPath, partial);
             return viewEngineResult;
         }
 
@@ -146,6 +143,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// BBernard - 08/02/2016
         /// Support searching for Views from a specified list and returning the first valid view found.
         /// Used to provide generic fallback logic for a series of views that may or may not exist.
+        /// NOTE: Throws and ArgumentException if no matching view can be found.
         /// </summary>
         /// <param name="viewsToSearch"></param>
         /// <param name="partial"></param>
@@ -156,7 +154,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
             var validResult = viewsToSearch.Select(v => this.FindView(v, partial)).FirstOrDefault();
 
             //Raise an exception if no valid view can be found.
-            return validResult ?? throw new ArgumentNullException($"No valid view could be found in the list [count={viewsToSearch.Count}] of views specified.");
+            return validResult ?? throw new ArgumentException($"No valid view could be found in the list [count={viewsToSearch.Count}] of views specified.", nameof(viewsToSearch));
         }
 
         /// <summary>
@@ -169,7 +167,9 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
             //BBernard - 08/02/2016
             //NOTE:  Updated to use the new FindView method factored out for re-use.
             // get the view and attach the model to view data
-            var viewEngineResult = this.FindView(viewPath, partial);
+            var viewEngineResult = partial
+                ? ViewEngines.Engines.FindPartialView(Context, viewPath)
+                : ViewEngines.Engines.FindView(Context, viewPath, null);
 
             //BBernard - 08/02/2016
             //NOTE:  Updated to remove dependency on project resource for this simple error message 
@@ -191,32 +191,23 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// The path to the view to render. Either in same controller, shared by 
         /// name or as fully qualified ~/ path including extension
         /// </param>
-        /// <param name="viewEngineResult"></param>
         /// <param name="model">Model to render the view with</param>
         /// <param name="partial">Determines whether to render a full or partial view</param>
         /// <returns>String of the rendered view</returns>
-        protected virtual RazorViewRenderResult RenderViewInternal(string viewPath, object model, bool partial = false)
+        protected virtual TemplatedRenderResult RenderViewInternal(string viewPath, object model, bool partial = false)
         {
-            var viewEngineResult = GetViewInternal(viewPath);
-            
-            //Get the physical mapped path for the Virtual Path...
-            //NOTE: This is needed to dynamically determine the parent Directory of the Physical View file to use
-            //      as context for relative path searches when rendering he Xsl-FO (e.g. Images, etc.)
-            var razorViewFilePath = HttpContext.Current.Server.MapPath(viewPath);
-            var razorViewFileInfo = new FileInfo(razorViewFilePath);
-
             //BBernard - 08/02/2016
             //Re-factored this code to remove duplicate logic and call the existing RenderViewToWriterInternal method which
             //already used a TextWriter for which our StringWriter inherits from; eliminating duplicated code logic.
             string result = null;
             using (var sw = new StringWriter())
             {
-                RenderViewToWriterInternal(viewEngineResult, sw, model, partial);
+                RenderViewToWriterInternal(viewPath, sw, model, partial);
                 result = sw.ToString();
             }
 
             //Return a RenderResult response object...
-            var renderResult = new RazorViewRenderResult(result);
+            var renderResult = new TemplatedRenderResult(result);
             return renderResult;
         }
 
@@ -230,24 +221,29 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc
         /// </param>
         /// <param name="model">Model to render the view with</param>
         /// <param name="partial">Determines whether to render a full or partial view</param>
-        /// <param name="viewEngineResult"></param>
         /// <param name="writer">Text writer to render view to</param>
-        protected virtual void RenderViewToWriterInternal(ViewEngineResult viewEngineResult, TextWriter writer, object model = null, bool partial = false)
+        protected virtual void RenderViewToWriterInternal(string viewPath, TextWriter writer, object model = null, bool partial = false)
         {
+            var viewEngineResult = GetViewInternal(viewPath, partial);
+            
             //BBernard - 08/02/2016
             //NOTE:  Updated to remove dependency on project resource for this simple error message 
             //       and added additional details in the error message.
-            if (viewEngineResult == null || viewEngineResult.View == null)
-                throw new ArgumentNullException(String.Format("Rendering cannot completed because the ViewEngineResult is null; a valid ViewEngineResult must be specified."));
+            //Get the view and attach the model to view data
+            var view = viewEngineResult?.View
+                ?? throw new ArgumentException("The specified view path/name could not be found; rendering cannot be completed because the ViewEngineResult is null.", nameof(viewPath));
 
-            // get the view and attach the model to view data
-            var view = viewEngineResult.View;
             Context.Controller.ViewData.Model = model;
+            var controller = Context.Controller;
 
-            var ctx = new ViewContext(Context, view,
-                                        Context.Controller.ViewData,
-                                        Context.Controller.TempData,
-                                        writer);
+            var ctx = new ViewContext(
+                Context, 
+                view,
+                controller.ViewData,
+                controller.TempData,
+                writer
+            );
+            
             view.Render(ctx, writer);
         }
 

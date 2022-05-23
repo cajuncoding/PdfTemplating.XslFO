@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>warnings</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>PdfTemplating.AspNetCoreMvc</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Reports.Xslt\MoviePdfReport\MoviesDataSample.xml" />
+    <None Remove="Reports.Xslt\MoviePdfReport\MoviesReport.xsl" />
+    <None Remove="Reports.Xslt\MoviePdfReport\Reports.Common.Movies.xsl" />
+    <None Remove="Reports.Xslt\Reports.Common.xsl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Reports.Xslt\MoviePdfReport\MoviesDataSample.xml" />
+    <Content Include="Reports.Xslt\MoviePdfReport\MoviesReport.xsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports.Xslt\MoviePdfReport\Reports.Common.Movies.xsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Reports.Xslt\Reports.Common.xsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj" />
+    <ProjectReference Include="..\PdfTemplating.XslFO.Razor.AspNetCoreMvc\PdfTemplating.XslFO.Razor.AspNetCoreMvc.csproj" />
+    <ProjectReference Include="..\PdfTemplating.XslFO.Render.ApacheFOP.Serverless\PdfTemplating.XslFO.Render.ApacheFOP.Serverless.csproj" />
+    <ProjectReference Include="..\PdfTemplating.XslFO.Xslt\PdfTemplating.XslFO.Xslt.csproj" />
+    <ProjectReference Include="..\XslFO.MovieSearchService\XslFO.MovieSearchService.csproj" />
+  </ItemGroup>
+
+</Project>

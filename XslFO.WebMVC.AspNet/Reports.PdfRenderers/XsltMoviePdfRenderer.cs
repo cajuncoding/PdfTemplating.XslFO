@@ -1,13 +1,13 @@
 ﻿using System;
-using PdfTemplating.WebMvc.MovieSearch;
 using PdfTemplating.XslFO.Xslt;
 using PdfTemplating.XslFO;
 using System.IO;
 using System.Reflection;
 using System.Web;
 using System.Threading.Tasks;
+using XslFO.Samples.MovieSearchService;
 
-namespace XslFO.WebMvc.Reports.PdfRenderers
+namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
 {
     /// <summary>
     /// This class implements both the sync and sync interfaces so that it can illustrate side-by-side the legacy Fonet (sync),
@@ -58,7 +58,7 @@ namespace XslFO.WebMvc.Reports.PdfRenderers
             };
 
             //****************************************************************************
-            //Execute the Trasnformation of the XSL-FO source to Binary Pdf via Fonet
+            //Execute the Transformation of the XSL-FO source to Binary Pdf via Fonet
             //****************************************************************************
             var xslFOPdfRenderer = new FONetXslFOPdfRenderer(xslFODoc, pdfOptions);
             var pdfBytes = xslFOPdfRenderer.RenderPdfBytes();

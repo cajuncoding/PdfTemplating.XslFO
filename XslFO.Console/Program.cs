@@ -1,10 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
-
 using System.Diagnostics;
-using System.Net.Mime;
-using System.Text;
-using Flurl.Http;
-using XslFO.Console;
+using PdfTemplating.XslFO.Render.ApacheFOP.Serverless;
 
 var directoryInfo = new DirectoryInfo(@$"{Directory.GetCurrentDirectory()}\FOSamples");
 var fileInfo = directoryInfo.GetFiles("StarWarsMovies.fo").FirstOrDefault();

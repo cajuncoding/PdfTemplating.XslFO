@@ -14,23 +14,20 @@ Copyright 2012 Brandon Bernard
    limitations under the License.
 */
 
-using PdfTemplating.XslFO;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using Newtonsoft.Json;
-using PdfTemplating.WebMvc.MovieSearch;
+using PdfTemplating;
 using RestSharp.CustomExtensions;
-using XslFO.WebMvc.Reports.PdfRenderers;
+using PdfTemplating.AspNetMvc.Reports.PdfRenderers;
+using XslFO.Samples.MovieSearchService;
 
-namespace PdfTemplating.WebMvc.Controllers
+namespace AspNetCoreMvc.Controllers
 {
     [RoutePrefix("movies/pdf")]
     public class MoviePdfController : Controller
     {
-        private const string MIME_TYPE_PDF = "application/pdf";
-
         [Route]
         public async Task<ActionResult> Index(String title = "Star Wars", bool useRazor = true)
         {
@@ -54,7 +51,7 @@ namespace PdfTemplating.WebMvc.Controllers
                 var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
 
                 //Create the File Content Result from the Pdf byte data
-                return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
+                return new FileContentResult(pdfBytes, WebContentType.Pdf);
             }
             catch (Exception exc)
             {
@@ -79,7 +76,7 @@ namespace PdfTemplating.WebMvc.Controllers
                 var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse).ConfigureAwait(false);
 
                 //Create the File Content Result from the Pdf byte data
-                return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
+                return new FileContentResult(pdfBytes, WebContentType.Pdf);
             }
             catch (Exception exc)
             {
@@ -102,7 +99,7 @@ namespace PdfTemplating.WebMvc.Controllers
                 var pdfBytes = pdfRenderer.RenderPdf(searchResponse);
 
                 //Create the File Content Result from the Pdf byte data
-                return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
+                return new FileContentResult(pdfBytes, WebContentType.Pdf);
             }
             catch (Exception exc)
             {
@@ -126,7 +123,7 @@ namespace PdfTemplating.WebMvc.Controllers
                 var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse).ConfigureAwait(false);
 
                 //Create the File Content Result from the Pdf byte data
-                return new FileContentResult(pdfBytes, MIME_TYPE_PDF);
+                return new FileContentResult(pdfBytes, WebContentType.Pdf);
             }
             catch (Exception exc)
             {
@@ -145,7 +142,7 @@ namespace PdfTemplating.WebMvc.Controllers
             //      Database REST call for JSON results, and convert to Xml dynamically to use efficiently
             //      with our templates.
             var movieSearchService = new MovieSearchService();
-            var searchResponse = await movieSearchService.SearchAsync(title);
+            var searchResponse = await movieSearchService.SearchAsync(title).ConfigureAwait(false);
             return searchResponse;
         }
 

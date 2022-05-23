@@ -1,42 +1,44 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>BBernard / CajunCoding</Authors>
-    <Company>BBernard / CajunCoding</Company>
-    <Version>2.1.3</Version>
-    <Description>This is a C#.Net solution that provides the capability to easily render Pdf files with a templating approach using your choice of templating technology (e.g. Xslt, Razor Mvc templates, or custom) and the latest version of ApacheFOP.Serverless (PDF as a Service) for binary rendering. It's based on the Xsl-FO standard for robust paged media generation and ApacheFOP.Serverless is a separate project that enables the easy use of the latest version of Apache FOP as a PDF Rendering Service using Azure Functions.</Description>
-    <Copyright>Copyright © 2020</Copyright>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
-    <PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop apache-fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
-    <PackageReleaseNotes>- Bumped RESTSharp &amp; dependency versions due to security vulnerability warnings.
-      
-Prior Release Notes:
-      - Added support for REST Request Timeout configuration, and Async cancellation; backwards compatible.
-      - Fixed some public setters to be protected and fixed 'Async' naming covention (only breaking if you don't use the constructor params and/or subclass the ApacheFOPServerlessPdfRenderService).
-      - Changed EventLog Delimieter in Header to improve parsing reliability without loosing too much readability (from ';' to '||').
-      - Initial package release for simplified facade to easily render XslFO as PDF binary outputs via ApacheFOP.Serverless.
-</PackageReleaseNotes>
-    <RepositoryUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</RepositoryUrl>
-    <Configurations>Debug;Release;PublishToNuget</Configurations>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0;net48</TargetFrameworks>
+		<Authors>BBernard / CajunCoding</Authors>
+		<Company>CajunCoding</Company>
+		<Description>This is a C#.Net solution that provides the capability to easily render PDF documents with a templating approach using your choice of templating technology (e.g. Xslt, Razor Mvc templates, or custom) and the latest version of ApacheFOP.Serverless (PDF-as-a-Service) for binary rendering. It's based on the Xsl-FO standard for robust paged media generation and ApacheFOP.Serverless is a separate project that enables the easy use of the latest version of Apache FOP as a PDF Rendering Service using Azure Functions.</Description>
+		<Version>2.1.4</Version>
+		<Copyright>Copyright © 2020</Copyright>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
+		<PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop apache-fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
+		<PackageReleaseNotes>
+			- Fixed potential dependency resolving issues by Targeting Netstandard 2.0 and now also .NET Framework 4.8.
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
+			Prior Release Notes:
+			- Bumped RESTSharp &amp; dependency versions due to security vulnerability warnings.
+			- Added support for REST Request Timeout configuration, and Async cancellation; backwards compatible.
+			- Fixed some public setters to be protected and fixed 'Async' naming covention (only breaking if you don't use the constructor params and/or subclass the ApacheFOPServerlessPdfRenderService).
+			- Changed EventLog Delimieter in Header to improve parsing reliability without loosing too much readability (from ';' to '||').
+			- Initial package release for simplified facade to easily render XslFO as PDF binary outputs via ApacheFOP.Serverless.
+		</PackageReleaseNotes>
+		<RepositoryUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</RepositoryUrl>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\LICENSE" Link="LICENSE" />
-    <None Include="..\README.md" Link="README.md" />
-  </ItemGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<PlatformTarget>AnyCPU</PlatformTarget>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="RestSharp" Version="106.12.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\LICENSE" Link="LICENSE" />
+		<None Include="..\README.md" Link="README.md" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="RestSharp" Version="106.12.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj" />
+	</ItemGroup>
 
 </Project>

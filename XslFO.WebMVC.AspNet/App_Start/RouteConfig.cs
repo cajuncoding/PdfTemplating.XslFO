@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace PdfTemplating.WebMvc
+namespace AspNetCoreMvc
 {
     public class RouteConfig
     {

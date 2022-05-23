@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace PdfTemplating.WebMvc
+namespace AspNetCoreMvc
 {
     public class BundleConfig
     {

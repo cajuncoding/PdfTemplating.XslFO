@@ -1,40 +1,17 @@
-﻿/*
-Copyright 2012 Brandon Bernard
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
-using System;
+﻿using System;
 using System.IO;
 using System.Web;
 using System.Web.Mvc;
 
 namespace PdfTemplating.XslFO.Razor.AspNetMvc
 {
-    public abstract class AspNetMvcRazorPdfTemplatingRenderer<TViewModel>
+    public abstract class BaseRazorPdfTemplate<TViewModel>
     {
-        protected AspNetMvcRazorPdfTemplatingRenderer()
-        {}
-
-        protected AspNetMvcRazorPdfTemplatingRenderer(String razorViewVirtualPath, ControllerContext controllerContext = null)
+        protected BaseRazorPdfTemplate(String razorViewVirtualPath, ControllerContext controllerContext = null)
         {
             if(string.IsNullOrWhiteSpace(razorViewVirtualPath))
                 throw new ArgumentNullException(nameof(razorViewVirtualPath), "The virtual path to the Razor is null/empty; a valid virtual path must be specified.");
 
-            this.InitializeBase(razorViewVirtualPath, controllerContext);
-        }
-
-        protected void InitializeBase(String razorViewVirtualPath, ControllerContext controllerContext = null)
-        {
             //NOTE: The Local FileInfo for the Razor View template/file will have it's Directory used
             //  as the BaseDirectory for resolving locally referenced files/images within the XSL-FO processing.
             this.RazorViewVirtualPath = razorViewVirtualPath;

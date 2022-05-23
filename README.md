@@ -166,12 +166,12 @@ Provides a Web based client application based on ASP.Net MVC that can be used to
 		3. /movies/pdf?title=finding%20nemo
 3. The Razor Mediator reports that render the FO (Formatting Objects Xml markup) -- that is converted into Pdf format -- are 
 located in the MVC Project at:
-	* **XslFO.TestSolution/XslFO.WebMVC/Reports.Razor/...**
+	* **XslFO.TestSolution/XslFO.WebMvc.AspNet/Reports.Razor/...**
 	* You can always explicity run the Razor Templating engine by using the explicit route:
 	    1. /movies/pdf/razor?title=star%20wars
 4. The XSLT reports that render the FO  (Formatting Objects Xml markup) -- that is converted into Pdf format -- are 
 located in the MVC Project at:
-	* **XslFO.TestSolution/XslFO.WebMVC/Reports.XslFO/...**
+	* **XslFO.TestSolution/XslFO.WebMvc.AspNet/Reports.XslFO/...**
 	* You can always explicity run the XSLT Templating engine by using the explicit route:
 	    1. /movies/pdf/xslt?title=star%20wars
 5. The **ApacheFOP.Serverless Rendering engine** implementation in the Demo project utilizes either Xslt or Razore templates by appending
