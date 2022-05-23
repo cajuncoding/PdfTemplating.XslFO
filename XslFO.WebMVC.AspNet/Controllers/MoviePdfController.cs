@@ -19,9 +19,9 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using AspNetCoreMvc.MovieSearch;
 using Newtonsoft.Json;
-using PdfTemplating.WebMvc.MovieSearch;
+using PdfTemplating.AspNetCoreMvc.MovieSearch;
 using RestSharp.CustomExtensions;
-using XslFO.WebMvc.Reports.PdfRenderers;
+using PdfTemplating.AspNetMvc.Reports.PdfRenderers;
 
 namespace AspNetCoreMvc.Controllers
 {

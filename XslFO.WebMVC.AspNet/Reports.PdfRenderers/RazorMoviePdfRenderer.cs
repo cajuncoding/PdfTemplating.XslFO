@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Configuration;
 using System.Reflection;
-using PdfTemplating.WebMvc.MovieSearch;
+using PdfTemplating.AspNetCoreMvc.MovieSearch;
 using PdfTemplating.XslFO.Razor.AspNetMvc;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using PdfTemplating.XslFO;
 using System.Threading.Tasks;
 
-namespace XslFO.WebMvc.Reports.PdfRenderers
+namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
 {
     /// <summary>
     /// This class implements both the sync and sync interfaces so that it can illustrate side-by-side the legacy Fonet (sync),

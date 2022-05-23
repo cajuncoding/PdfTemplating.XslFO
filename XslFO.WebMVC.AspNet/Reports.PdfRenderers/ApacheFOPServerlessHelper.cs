@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace XslFO.WebMvc.Reports.PdfRenderers
+namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
 {
     public class ApacheFOPServerlessHelper
     {

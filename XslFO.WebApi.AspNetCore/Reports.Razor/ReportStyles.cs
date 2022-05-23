@@ -1,4 +1,4 @@
-﻿namespace PdfTemplating.WebMvc.Reports.Razor
+﻿namespace PdfTemplating.AspNetCoreMvc.Reports.Razor
 {
     public static class FontFamily
     {

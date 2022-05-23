@@ -2,12 +2,12 @@
 using System;
 using System.Collections.Generic;
 
-namespace PdfTemplating.WebMvc.MovieSearch
+namespace PdfTemplating.AspNetCoreMvc.MovieSearch
 {
     public class MovieSearchResponse
     {
         //NOTE: Flag to denote if we want the Templating engine to enable Fonet Compatibility mode
-        //          because the syntax for generating some FO has changed, with tigher restrictions in ApacheFOP.
+        //          because the syntax for generating some FO has changed, with tighter restrictions in ApacheFOP.
         //NOTE: We default to True for compatibility with prior functionality.
         public bool FonetCompatibilityEnabled { get; set; } = true;
 

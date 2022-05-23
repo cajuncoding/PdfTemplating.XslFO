@@ -17,8 +17,8 @@ Copyright 2012 Brandon Bernard
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using PdfTemplating.WebMvc.MovieSearch;
-using XslFO.WebMvc.Reports.PdfRenderers;
+using PdfTemplating.AspNetCoreMvc.MovieSearch;
+using PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers;
 
 namespace PdfTemplating.AspNetCoreMvc.Controllers
 {
