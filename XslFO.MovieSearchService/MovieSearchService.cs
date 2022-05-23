@@ -1,7 +1,9 @@
-﻿using Flurl;
+﻿using System;
+using System.Threading.Tasks;
+using Flurl;
 using Flurl.Http;
 
-namespace PdfTemplating.AspNetCoreMvc.MovieSearch
+namespace XslFO.Samples.MovieSearchService
 {
     public class MovieSearchService
     {

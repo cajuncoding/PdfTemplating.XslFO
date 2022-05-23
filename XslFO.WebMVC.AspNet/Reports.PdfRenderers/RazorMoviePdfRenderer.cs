@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Configuration;
 using System.Reflection;
-using PdfTemplating.AspNetCoreMvc.MovieSearch;
 using PdfTemplating.XslFO.Razor.AspNetMvc;
 using System.Web.Mvc;
 using System.Xml.Linq;
 using PdfTemplating.XslFO;
 using System.Threading.Tasks;
+using XslFO.Samples.MovieSearchService;
 
 namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
 {

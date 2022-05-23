@@ -1,5 +1,5 @@
-﻿@model PdfTemplating.AspNetCoreMvc.MovieSearch.MovieSearchResponse
-@using PdfTemplating.AspNetCoreMvc.MovieSearch
+﻿@using XslFO.Samples.MovieSearchService
+@model MovieSearchResponse
 
 @{
     Layout = "~/Reports.Razor/_PdfReportLayout.cshtml";
@@ -109,8 +109,8 @@
                         <fo:table-cell padding="10px">
                             <fo:block>
                                 @*
-                                //Render Image
-                                //NOTE: We use the Custom Property Logic here which makes the Templating Logic much easier and improves separation of presentation from data!
+                                    //Render Image
+                                    //NOTE: We use the Custom Property Logic here which makes the Templating Logic much easier and improves separation of presentation from data!
                                 *@
                                 @if (String.IsNullOrWhiteSpace(movie.Poster))
                                 {

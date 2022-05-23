@@ -17,13 +17,13 @@
   <ItemGroup>
     <Content Include="Reports.Xslt\MoviePdfReport\MoviesDataSample.xml" />
     <Content Include="Reports.Xslt\MoviePdfReport\MoviesReport.xsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Reports.Xslt\MoviePdfReport\Reports.Common.Movies.xsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Reports.Xslt\Reports.Common.xsl">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
@@ -32,14 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flurl.Http" Version="3.2.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj" />
     <ProjectReference Include="..\PdfTemplating.XslFO.Razor.AspNetCoreMvc\PdfTemplating.XslFO.Razor.AspNetCoreMvc.csproj" />
     <ProjectReference Include="..\PdfTemplating.XslFO.Render.ApacheFOP.Serverless\PdfTemplating.XslFO.Render.ApacheFOP.Serverless.csproj" />
     <ProjectReference Include="..\PdfTemplating.XslFO.Xslt\PdfTemplating.XslFO.Xslt.csproj" />
+    <ProjectReference Include="..\XslFO.MovieSearchService\XslFO.MovieSearchService.csproj" />
   </ItemGroup>
 
 </Project>

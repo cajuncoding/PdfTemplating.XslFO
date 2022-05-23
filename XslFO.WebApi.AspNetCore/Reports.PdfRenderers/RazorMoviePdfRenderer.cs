@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Reflection;
-using PdfTemplating.AspNetCoreMvc.MovieSearch;
 using System.Xml.Linq;
 using PdfTemplating.XslFO;
 using Microsoft.AspNetCore.Mvc;
 using PdfTemplating.XslFO.Razor.AspNetCoreMvc;
+using XslFO.Samples.MovieSearchService;
 
 namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
 {

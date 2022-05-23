@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Web;
 using System.Threading.Tasks;
-using PdfTemplating.AspNetCoreMvc.MovieSearch;
+using XslFO.Samples.MovieSearchService;
 
 namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
 {

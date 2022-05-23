@@ -2,7 +2,7 @@
 using PdfTemplating.XslFO.Xslt;
 using PdfTemplating.XslFO;
 using System.Reflection;
-using PdfTemplating.AspNetCoreMvc.MovieSearch;
+using XslFO.Samples.MovieSearchService;
 
 namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
 {
