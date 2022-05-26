@@ -11,11 +11,15 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
     /// This class implements both the sync and sync interfaces so that it can illustrate side-by-side the legacy Fonet (sync),
     /// and teh new ApacheFOP.Serverless (async) approaches.
     /// </summary>
-    public class RazorMoviePdfRenderer : BaseRazorPdfTemplate<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
+    public class RazorMoviePdfRenderer : BaseRazorPdfTemplate, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
     {
+        public Controller MvcController { get; set; }
+
         public RazorMoviePdfRenderer(Controller mvcController)
-            : base("~/Reports.Razor/MoviePdfReport/MoviesReport.cshtml", mvcController)
-        {}
+            : base("~/Reports.Razor/MoviePdfReport/MoviesReport.cshtml")
+        {
+            this.MvcController = mvcController;
+        }
 
         /// <summary>
         /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
@@ -26,6 +30,7 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
         ///         code very DRY.
         /// </summary>
         /// <param name="templateModel"></param>
+        /// <param name="mvcController"></param>
         /// <returns></returns>
         public virtual async Task<byte[]> RenderPdfAsync(MovieSearchResponse templateModel)
         {
@@ -35,8 +40,11 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
             //***********************************************************
             //Execute the Razor View to generate the XSL-FO output
             //***********************************************************
-            var razorViewRenderer = new MvcRazorViewRenderer(this.MvcController);
-            var renderResult = await razorViewRenderer.RenderViewAsync(this.RazorViewPath, templateModel).ConfigureAwait(false);
+            //***********************************************************
+            //Execute the Razor View to generate the XSL-FO output
+            //***********************************************************
+            var razorViewRenderer = new MvcRazorViewRenderer();
+            var renderResult = await razorViewRenderer.RenderViewAsync(this.RazorViewPath, this.MvcController, templateModel).ConfigureAwait(false);
 
             //***********************************************************
             //OPTIONALLY validate the Output by Loading the XSL-FO output into a fully validated XDocument...

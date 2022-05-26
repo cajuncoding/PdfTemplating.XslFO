@@ -2,7 +2,7 @@
 
 namespace PdfTemplating.XslFO
 {
-    public interface IAsyncPdfTemplatingRenderer<TViewModel>
+    public interface IAsyncPdfTemplatingRenderer<in TViewModel>
     {
         Task<byte[]> RenderPdfAsync(TViewModel templateModel);
     }
