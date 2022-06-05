@@ -23,7 +23,7 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
                 .SetQueryParam("code", AzFuncAuthCode, NullValueHandling.Remove);
             
             using var response = await pdfServiceUrl.PostAsync(
-                new StringContent(xslfoMarkup, Encoding.UTF8, MediaTypeNames.Application.Xml)
+                new StringContent(xslfoMarkup, Encoding.UTF8, MediaTypeNames.Text.Xml)
             );
             
             var pdfBytes = await response.GetBytesAsync();

@@ -60,8 +60,8 @@ namespace System.Linq.CustomExtensions
 		}
 
 		/// <summary>
-		/// Efficient implementation of Distinct processing logic by mplementing lightweight HashSet internally for performance.
-		/// Provides simplified functionality not inheritly provided by the normal Distinct LINQ extension as a separate comparer interface is not required.
+		/// Efficient implementation of Distinct processing logic by implementing lightweight HashSet internally for performance.
+		/// Provides simplified functionality not inherently provided by the normal Distinct LINQ extension as a separate comparer interface is not required.
 		/// </summary>
 		/// <typeparam name="TSource"></typeparam>
 		/// <typeparam name="TKey"></typeparam>

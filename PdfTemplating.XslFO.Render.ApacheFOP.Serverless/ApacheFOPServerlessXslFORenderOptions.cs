@@ -57,8 +57,6 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             }
         }
 
-        public int? RequestConnectTimeoutMillis { get; set; }
-
         public int? RequestWaitTimeoutMillis { get; set; }
 
         public bool EnableGzipCompressionForRequests { get; set; } = false;
