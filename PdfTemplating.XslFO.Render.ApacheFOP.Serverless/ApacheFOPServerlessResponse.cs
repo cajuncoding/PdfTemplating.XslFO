@@ -1,7 +1,9 @@
 ﻿using System;
 using System.CustomExtensions;
 using System.Collections.Generic;
+using System.IO.CustomExtensions;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
 {
@@ -9,25 +11,46 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
     {
         public const string EventLogSeparator = "||";
 
-        public ApacheFOPServerlessResponse(byte[] pdfBytes, Dictionary<string, string> headersDictionary)
+        protected ApacheFOPServerlessResponse()
         {
-            PdfBytes = pdfBytes;
-            ResponseHeaders = headersDictionary ?? new Dictionary<string, string>();
-
-            EventLogText = ResponseHeaders.TryGetValue(ApacheFOPServerlessHeaders.ApacheFopServerlessEventLog, out var value) ? value : null;
-            EventLogEntries = EventLogText?
-                .Split(new string[] { EventLogSeparator }, StringSplitOptions.RemoveEmptyEntries)
-                .Where(l => !string.IsNullOrWhiteSpace(l))
-                .Select(l => l.Trim())
-                .ToList() ?? new List<string>();
         }
 
-        public byte[] PdfBytes { get; }
+        public static async Task<ApacheFOPServerlessResponse> CreateAsync(byte[] pdfBytes, Dictionary<string, string> headersDictionary)
+        {
+            var responseHeadersDictionary = headersDictionary ?? new Dictionary<string, string>();
+            var apacheFOPServerlessResponse = new ApacheFOPServerlessResponse
+            {
+                PdfBytes = pdfBytes,
+                ResponseHeaders = responseHeadersDictionary,
+                EventLogText = responseHeadersDictionary.TryGetValue(ApacheFOPServerlessHeaders.ApacheFopServerlessEventLog, out var eventLog) 
+                    ? eventLog 
+                    : null
+            };
 
-        public IReadOnlyDictionary<string, string> ResponseHeaders { get; }
+            if (!string.IsNullOrWhiteSpace(apacheFOPServerlessResponse.EventLogText))
+            {
+                if (apacheFOPServerlessResponse.ResponseHeaders.TryGetValue(ApacheFOPServerlessHeaders.ApacheFopServerlessEventLogEncoding, out var eventLogEncoding)
+                    && eventLogEncoding.IndexOf(ApacheFOPServerlessEncodings.GzipEncoding, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    apacheFOPServerlessResponse.EventLogText = await apacheFOPServerlessResponse.EventLogText.GzipDecompressBase64Async().ConfigureAwait(false);
+                }
 
-        public string EventLogText { get; }
+                apacheFOPServerlessResponse.EventLogEntries = apacheFOPServerlessResponse.EventLogText
+                    .Split(new string[] { EventLogSeparator }, StringSplitOptions.RemoveEmptyEntries)
+                    .Where(l => !string.IsNullOrWhiteSpace(l))
+                    .Select(l => l.Trim())
+                    .ToList();
+            }
 
-        public IReadOnlyList<string> EventLogEntries { get; }
+            return apacheFOPServerlessResponse;
+        }
+
+        public byte[] PdfBytes { get; protected set; }
+
+        public IReadOnlyDictionary<string, string> ResponseHeaders { get; protected set; }
+
+        public string EventLogText { get; protected set; }
+
+        public IReadOnlyList<string> EventLogEntries { get; protected set; }
     }
 }

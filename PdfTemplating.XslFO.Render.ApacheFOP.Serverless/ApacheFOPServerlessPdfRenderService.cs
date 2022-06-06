@@ -65,7 +65,7 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
                 ? await rawResponseBytes.GzipDecompressAsync().ConfigureAwait(false)
                 : rawResponseBytes;
 
-            var apacheServerlessResponse = new ApacheFOPServerlessResponse(pdfBytes, headersDictionary);
+            var apacheServerlessResponse = await ApacheFOPServerlessResponse.CreateAsync(pdfBytes, headersDictionary);
             return apacheServerlessResponse;            
         }
 
