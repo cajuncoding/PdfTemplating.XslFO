@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using RestSharp.CustomExtensions;
 
 namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
 {

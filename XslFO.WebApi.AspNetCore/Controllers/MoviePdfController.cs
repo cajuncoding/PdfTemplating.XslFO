@@ -15,6 +15,7 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
+using System.CustomExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers;
@@ -99,7 +100,7 @@ namespace PdfTemplating.AspNetCoreMvc.Controllers
 
         private ContentResult CreateJsonExceptionResult(Exception exc)
         {
-            var exceptionJson = JsonConvert.SerializeObject(exc);
+            var exceptionJson = exc.ToJson();
             var resultContent = Content(exceptionJson, WebContentType.Json);
             return resultContent;
         }

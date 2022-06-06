@@ -20,4 +20,8 @@
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	</ItemGroup>
+
 </Project>

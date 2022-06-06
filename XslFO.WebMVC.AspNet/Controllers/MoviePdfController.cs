@@ -19,7 +19,6 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using PdfTemplating;
-using RestSharp.CustomExtensions;
 using PdfTemplating.AspNetMvc.Reports.PdfRenderers;
 using XslFO.Samples.MovieSearchService;
 
@@ -149,7 +148,7 @@ namespace AspNetCoreMvc.Controllers
         private ContentResult CreateJsonExceptionResult(Exception exc)
         {
             var exceptionJson = JsonConvert.SerializeObject(exc);
-            var resultContent = Content(exceptionJson, ContentType.Json);
+            var resultContent = Content(exceptionJson, ContentTypes.Json);
             return resultContent;
         }
 

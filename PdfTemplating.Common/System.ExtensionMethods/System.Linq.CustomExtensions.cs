@@ -43,23 +43,6 @@ namespace System.Linq.CustomExtensions
 		}
 
 		/// <summary>
-		/// Chainable Loop Extension for initialization or execution within Linq Chains
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="source"></param>
-		/// <param name="act"></param>
-		/// <returns>IEnumerable</returns>
-		public static IEnumerable<T> ForEachNow<T>(this IEnumerable<T> source, Action<T> act)
-		{
-			if (source == null) throw new ArgumentNullException("source");
-			foreach (T item in source)
-			{
-				item.With(act);
-			}
-			return source;
-		}
-
-		/// <summary>
 		/// Efficient implementation of Distinct processing logic by implementing lightweight HashSet internally for performance.
 		/// Provides simplified functionality not inherently provided by the normal Distinct LINQ extension as a separate comparer interface is not required.
 		/// </summary>
@@ -80,7 +63,34 @@ namespace System.Linq.CustomExtensions
 			}
 		}
 
-		public static IEnumerable<TSource> WhereNotNull<TSource>(this IEnumerable<TSource> source)
+        /// <summary>
+        /// Efficient implementation to convert an IEnumerable into a Dictionary safely without errors, resulting in a distinct set of Keys without exceptions
+        /// as the first item encountered will be used.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="keySelector"></param>
+        /// <returns></returns>
+        public static Dictionary<TKey, TValue> ToDictionarySafely<TSource, TKey, TValue>(
+            this IEnumerable<TSource> source, 
+            Func<TSource, TKey> keySelector, 
+            Func<TSource, TValue> valueSelector
+        )
+        {
+            var resultsDictionary = new Dictionary<TKey, TValue>();
+            foreach (var item in source)
+            {
+                var key = keySelector(item);
+				if(!resultsDictionary.ContainsKey(key))
+					resultsDictionary.Add(key, valueSelector(item));
+
+            }
+            return resultsDictionary;
+        }
+
+        public static IEnumerable<TSource> WhereNotNull<TSource>(this IEnumerable<TSource> source)
 		{
 			return source.Where(obj => obj != null);
 		}

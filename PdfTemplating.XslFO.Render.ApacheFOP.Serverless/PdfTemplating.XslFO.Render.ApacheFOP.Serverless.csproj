@@ -35,6 +35,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Flurl.Http" Version="3.2.4" />
+	  <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -11,7 +11,7 @@ Console.WriteLine($"{Environment.NewLine}[{xslfoMarkup.Length}] Bytes loaded suc
 
 var pdfServiceClient = new ApacheFOPServerlessClient(
     new Uri("https://apachefop-serverless.azurewebsites.net/api/apache-fop/xslfo"),
-    "AOwzwaHl8eiHMywNdIb5DC7oy8BJmfpl2X6oPYDxWUpIM9AiJHsh6g=="
+    "{{AZ_FUNC_TOKEN_GOES_HERE}}"
 );
 
 Console.WriteLine($"{Environment.NewLine}Rendering into PDF via ApacheFOP.Serverless at [{pdfServiceClient.ApacheFOPServerlessUri}]...");

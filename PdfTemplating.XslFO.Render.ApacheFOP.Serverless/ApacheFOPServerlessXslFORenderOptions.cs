@@ -17,7 +17,7 @@ Copyright 2020 Brandon Bernard
 using System;
 using System.Collections.Generic;
 using System.CustomExtensions;
-using System.Web;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 {
@@ -50,10 +50,10 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             }
 
             //Safely initialize any pre-defined Querystring Params from the original Uri
-            var query = HttpUtility.ParseQueryString(apacheFopServlessHostUri.Query);
-            foreach (var key in query.AllKeys)
+            var query = QueryHelpers.ParseQuery(apacheFopServlessHostUri.Query);
+            foreach (var key in query.Keys)
             {
-                this.QuerystringParams[key] = query[key];
+                this.QuerystringParams[key] = query[key].ToString();
             }
         }
 
