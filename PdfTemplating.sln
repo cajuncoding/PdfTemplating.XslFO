@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - Templating", "01 - Tem
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfTemplating.XslFO.Xslt", "PdfTemplating.XslFO.Xslt\PdfTemplating.XslFO.Xslt.csproj", "{C17CF83E-E100-47A0-BA8D-13835D84DEEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfTemplating.XslFO.Razor.AspNetMvc", "PdfTemplating.XslFO.Razor.AspNetMvc\PdfTemplating.XslFO.Razor.AspNetMvc.csproj", "{86678DEA-1DA7-4478-989A-05087A7A0158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfTemplating.XslFO.Razor.AspNetMvc", "PdfTemplating.XslFO.Razor.AspNetMvc\PdfTemplating.XslFO.Razor.AspNetMvc.csproj", "{86678DEA-1DA7-4478-989A-05087A7A0158}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "99 - __Original Fonet Project", "99 - __Original Fonet Project", "{01CB0DD8-FBCA-4617-954E-B163BE4B344E}"
 EndProject
@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XslFO.WebApi.AspNetCore", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfTemplating.XslFO.Razor.AspNetCoreMvc", "PdfTemplating.XslFO.Razor.AspNetCoreMvc\PdfTemplating.XslFO.Razor.AspNetCoreMvc.csproj", "{C2D01A08-6196-483E-B1BA-07EA7D13BD45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XslFO.MovieSearchService", "XslFO.MovieSearchService\XslFO.MovieSearchService.csproj", "{8AC82C3F-B3AA-486C-A445-A0A79DE410F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XslFO.MovieSearchService", "XslFO.MovieSearchService\XslFO.MovieSearchService.csproj", "{8AC82C3F-B3AA-486C-A445-A0A79DE410F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

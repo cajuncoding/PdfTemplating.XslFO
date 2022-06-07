@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CustomExtensions;
 using PdfTemplating.XslFO.Xslt;
 using PdfTemplating.XslFO;
 using System.Reflection;
@@ -12,8 +13,12 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
     /// </summary>
     public class XsltMoviePdfRenderer : BaseXsltPdfRenderingTemplate<MovieSearchResponse>, IPdfTemplatingRenderer<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
     {
-        public XsltMoviePdfRenderer()
+        private readonly ApacheFOPServerlessHelperClient _apacheFopHelperClient;
+
+        public XsltMoviePdfRenderer(ApacheFOPServerlessHelperClient apacheFopHelperClient)
         {
+            _apacheFopHelperClient = apacheFopHelperClient.AssertArgumentIsNotNull(nameof(apacheFopHelperClient));
+
             //Initialize the fully qualified path to the Razor View that is linked to this specific Pdf Templating Renderer!
             //var fullyQualifiedPath = HttpContext.Current.Server.MapPath("~/Reports.Xslt/MoviePdfReport/MoviesReport.xsl");
             var fullyQualifiedPath = Path.GetFullPath("./Reports.Xslt/MoviePdfReport/MoviesReport.xsl");
@@ -86,7 +91,7 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
             //******************************************************************************************
             //Execute the Transformation of the XSL-FO source to Binary Pdf via Apache FOP Service...
             //******************************************************************************************
-            var pdfBytes = await ApacheFOPServerlessHelper.RenderXslFOToPdfAsync(xslFODoc).ConfigureAwait(false);
+            var pdfBytes = await _apacheFopHelperClient.RenderXslFOToPdfAsync(xslFODoc).ConfigureAwait(false);
             return pdfBytes;
         }
 

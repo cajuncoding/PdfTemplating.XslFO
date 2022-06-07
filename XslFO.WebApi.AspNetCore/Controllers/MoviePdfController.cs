@@ -27,6 +27,13 @@ namespace PdfTemplating.AspNetCoreMvc.Controllers
     [Route("movies/pdf")]
     public class MoviePdfController : Controller
     {
+        private readonly ApacheFOPServerlessHelperClient _apacheFopHelperClient;
+
+        public MoviePdfController(ApacheFOPServerlessHelperClient apacheFopHelperClient)
+        {
+            _apacheFopHelperClient = apacheFopHelperClient;
+        }
+
         [HttpGet]
         public async Task<ActionResult> Index(String title = "Star Wars", bool useRazor = true)
         {
@@ -47,7 +54,7 @@ namespace PdfTemplating.AspNetCoreMvc.Controllers
                 //*******************************************
                 // RAZOR + Apace FOP (async I/O request)
                 //*******************************************
-                var pdfRenderer = new RazorMoviePdfRenderer(this);
+                var pdfRenderer = new RazorMoviePdfRenderer(this, _apacheFopHelperClient);
                 var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse).ConfigureAwait(false);
 
                 //Create the File Content Result from the Pdf byte data
@@ -71,7 +78,7 @@ namespace PdfTemplating.AspNetCoreMvc.Controllers
                 //*******************************************
                 // XSLT + Apache FOP (async I/O request)
                 //*******************************************
-                var pdfRenderer = new XsltMoviePdfRenderer();
+                var pdfRenderer = new XsltMoviePdfRenderer(_apacheFopHelperClient);
                 var pdfBytes = await pdfRenderer.RenderPdfAsync(searchResponse).ConfigureAwait(false);
 
                 //Create the File Content Result from the Pdf byte data

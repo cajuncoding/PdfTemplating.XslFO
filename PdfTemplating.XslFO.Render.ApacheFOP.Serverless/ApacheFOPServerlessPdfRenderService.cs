@@ -21,7 +21,7 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
     /// NOTE: This may be more suitable, than direct Custom Extension use, for code patterns that use 
     ///         Dependency Injection, etc.
     /// </summary>
-    public class ApacheFOPServerlessPdfRenderService : IAsyncXslFOPdfRenderer
+    public class ApacheFOPServerlessPdfRenderService : IAsyncXslFOPdfRenderer, IAsyncXslFOImageConverter
     {
         public ApacheFOPServerlessXslFORenderOptions Options { get; protected set; }
 
@@ -157,5 +157,32 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 
             return headersDictionary;
         }
+
+        public Task<ApacheFOPServerlessResponse> ConvertImageToPdfAsync(
+            Uri imageUrl, 
+            ImageType imageType, 
+            PageSizeInfo pageSizeInfo, 
+            string imageWidth = ImageConversion.DefaultImageWidth, 
+            string imageHeight = ImageConversion.DefaultImageHeight, 
+            ImageConversionPageLayout pageLayout = ImageConversionPageLayout.ImagePerPageCentered, 
+            ImageConversionPageOrientation pageOrientation = ImageConversionPageOrientation.DynamicallyOptimize
+        )
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ApacheFOPServerlessResponse> ConvertImageToPdfAsync(
+            byte[] imageBytes,
+            ImageType imageType,
+            PageSizeInfo pageSizeInfo,
+            string imageWidth = ImageConversion.DefaultImageWidth,
+            string imageHeight = ImageConversion.DefaultImageHeight,
+            ImageConversionPageLayout pageLayout = ImageConversionPageLayout.ImagePerPageCentered,
+            ImageConversionPageOrientation pageOrientation = ImageConversionPageOrientation.DynamicallyOptimize
+        )
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
