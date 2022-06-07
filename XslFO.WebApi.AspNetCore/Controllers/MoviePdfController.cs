@@ -100,7 +100,7 @@ namespace PdfTemplating.AspNetCoreMvc.Controllers
 
         private ContentResult CreateJsonExceptionResult(Exception exc)
         {
-            var exceptionJson = exc.ToJson();
+            var exceptionJson = exc.ToJson(includeStackTrace: true);
             var resultContent = Content(exceptionJson, WebContentType.Json);
             return resultContent;
         }

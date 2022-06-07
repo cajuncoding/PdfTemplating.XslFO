@@ -10,7 +10,7 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
     /// This class implements both the sync and sync interfaces so that it can illustrate side-by-side the legacy Fonet (sync),
     /// and teh new ApacheFOP.Serverless (async) approaches.
     /// </summary>
-    public class XsltMoviePdfRenderer : XsltPdfTemplatingRenderer<MovieSearchResponse>, IPdfTemplatingRenderer<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
+    public class XsltMoviePdfRenderer : BaseXsltPdfRenderingTemplate<MovieSearchResponse>, IPdfTemplatingRenderer<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
     {
         public XsltMoviePdfRenderer()
         {
@@ -24,8 +24,7 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
         }
 
         /// <summary>
-        /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
-        /// methods to simplify the implementations of all inheriting Razor View Renderer implementations.
+        /// Implements the IPdfTemplatingRenderer interface with FO.NET in-memory rendering engine for illustration purposes!
         /// NOTE: This method orchestrates all logic to create the view model, execute the view template,
         ///         and render the XSL-FO output, and then convert that XSL-FO output to a valid Pdf
         ///         in one and only place and greatly simplifies all Razor View Renderer implementations to keep
@@ -39,7 +38,7 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
             //Execute the XSLT Transform to generate the XSL-FO output
             //***********************************************************
             //Render the XSL-FO output from the Razor Template and the View Model
-            var xslFODoc = this.RenderXslFOXml(templateModel);
+            var xslfoContent = this.RenderXslFOContent(templateModel);
 
             //Create the Pdf Options for the XSL-FO Rendering engine to use
             var pdfOptions = new XslFOPdfOptions()
@@ -58,14 +57,14 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
             //****************************************************************************
             //Execute the Transformation of the XSL-FO source to Binary Pdf via Fonet
             //****************************************************************************
-            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(xslFODoc, pdfOptions);
-            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes();
+            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(pdfOptions);
+            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes(xslfoContent);
             return pdfBytes;
         }
 
         /// <summary>
-        /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
-        /// methods to simplify the implementations of all inheriting Razor View Renderer implementations.
+        /// Implements the IAsyncPdfTemplatingRenderer interface with ApacheFOP.Serverless (pdf-as-a-service) rendering
+        /// engine for illustration purposes!
         /// NOTE: This method orchestrates all logic to create the view model, execute the view template,
         ///         and render the XSL-FO output, and then convert that XSL-FO output to a valid Pdf
         ///         in one and only place and greatly simplifies all Razor View Renderer implementations to keep
@@ -82,7 +81,7 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
             //Execute the XSLT Transform to generate the XSL-FO output
             //***********************************************************
             //Render the XSL-FO output from the Razor Template and the View Model
-            var xslFODoc = this.RenderXslFOXml(templateModel);
+            var xslFODoc = this.RenderXslFOContent(templateModel);
 
             //******************************************************************************************
             //Execute the Transformation of the XSL-FO source to Binary Pdf via Apache FOP Service...

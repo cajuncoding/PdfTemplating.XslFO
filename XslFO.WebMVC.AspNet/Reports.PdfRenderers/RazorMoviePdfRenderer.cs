@@ -14,15 +14,14 @@ namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
     /// This class implements both the sync and sync interfaces so that it can illustrate side-by-side the legacy Fonet (sync),
     /// and teh new ApacheFOP.Serverless (async) approaches.
     /// </summary>
-    public class RazorMoviePdfRenderer : BaseRazorPdfTemplate<MovieSearchResponse>, IPdfTemplatingRenderer<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
+    public class RazorMoviePdfRenderer : BaseRazorPdfTemplate, IPdfTemplatingRenderer<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
     {
         public RazorMoviePdfRenderer(ControllerContext controllerContext)
             : base("~/Reports.Razor/MoviePdfReport/MoviesReport.cshtml", controllerContext)
         {}
 
         /// <summary>
-        /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
-        /// methods to simplify the implementations of all inheriting Razor View Renderers.
+        /// Implements the IPdfTemplatingRenderer interface with FO.NET in-memory rendering engine for illustration purposes!
         /// NOTE: This method orchestrates all logic to create the view model, execute the view template,
         ///         and render the XSL-FO output, and then convert that XSL-FO output to a valid Pdf
         ///         in one and only place and greatly simplifies all Razor View Renderers to keep
@@ -37,10 +36,7 @@ namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
             //***********************************************************
             var razorViewRenderer = new MvcRazorViewRenderer(this.ControllerContext);
             var renderResult = razorViewRenderer.RenderView(this.RazorViewVirtualPath, templateModel);
-
-            //Load the XSL-FO output into a fully validated XDocument.
-            //NOTE: This template must generate valid Xsl-FO output -- via the well-formed xml we load into the XDocument return value -- to be rendered as a Pdf Binary!
-            var xslFODoc = XDocument.Parse(renderResult.RenderOutput);
+            var xslfoContent = renderResult.RenderOutput;
 
             //Create the Pdf Options for the XSL-FO Rendering engine to use
             var pdfOptions = new XslFOPdfOptions()
@@ -60,14 +56,14 @@ namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
             //****************************************************************************
             //Execute the Transformation of the XSL-FO source to Binary Pdf via Fonet
             //****************************************************************************
-            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(xslFODoc, pdfOptions);
-            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes();
+            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(pdfOptions);
+            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes(xslfoContent);
             return pdfBytes;
         }
 
         /// <summary>
-        /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
-        /// methods to simplify the implementations of all inheriting Razor View Renderers.
+        /// Implements the IAsyncPdfTemplatingRenderer interface with ApacheFOP.Serverless (pdf-as-a-service) rendering
+        /// engine for illustration purposes!
         /// NOTE: This method orchestrates all logic to create the view model, execute the view template,
         ///         and render the XSL-FO output, and then convert that XSL-FO output to a valid Pdf
         ///         in one and only place and greatly simplifies all Razor View Renderers to keep

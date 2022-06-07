@@ -9,7 +9,7 @@ namespace PdfTemplating.XslFO.Razor.AspNetMvc.BackwardsCompatibleShims
     /// </summary>
     /// <typeparam name="TViewModel"></typeparam>
     [Obsolete("Recommended to use MvcRazorViewRenderer instead.")]
-    public class AspNetMvcRazorPdfTemplatingRenderer<TViewModel> : BaseRazorPdfTemplate<TViewModel>
+    public class AspNetMvcRazorPdfTemplatingRenderer: BaseRazorPdfTemplate
     {
         public AspNetMvcRazorPdfTemplatingRenderer(string razorViewVirtualPath, ControllerContext controllerContext = null)
             : base(razorViewVirtualPath, controllerContext)

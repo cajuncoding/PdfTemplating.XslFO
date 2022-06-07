@@ -18,8 +18,8 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
         {}
 
         /// <summary>
-        /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
-        /// methods to simplify the implementations of all inheriting Razor View Renderers.
+        /// Implements the IAsyncPdfTemplatingRenderer interface with ApacheFOP.Serverless (pdf-as-a-service) rendering
+        /// engine for illustration purposes!
         /// NOTE: This method orchestrates all logic to create the view model, execute the view template,
         ///         and render the XSL-FO output, and then convert that XSL-FO output to a valid Pdf
         ///         in one and only place and greatly simplifies all Razor View Renderers to keep
