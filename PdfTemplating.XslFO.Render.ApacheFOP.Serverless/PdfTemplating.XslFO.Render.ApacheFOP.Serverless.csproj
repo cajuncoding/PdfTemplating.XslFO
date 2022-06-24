@@ -15,7 +15,7 @@
 			- Refactored Interfaces to better support Dependency Injection; some small breaking changes to method signatures.
 			- Refactored all Http requests to now use Flurl.Http instead of RESTSharp -- simplified code and improved reliability and future stability.
 
-			Prior Release Notes:
+      Prior Release Notes:
 			- Fixed potential dependency resolving issues by Targeting Netstandard 2.0 and now also .NET Framework 4.8.
 			- Bumped RESTSharp &amp; dependency versions due to security vulnerability warnings.
 			- Added support for REST Request Timeout configuration, and Async cancellation; backwards compatible.
