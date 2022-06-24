@@ -2,7 +2,6 @@ using System.CustomExtensions;
 using PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers;
 using PdfTemplating.XslFO;
 using PdfTemplating.XslFO.ApacheFOP.Serverless;
-using PdfTemplating.XslFO.Razor.AspNetCoreMvc;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;

@@ -28,10 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj" />
     <ProjectReference Include="..\PdfTemplating.XslFO.Razor.AspNetCoreMvc\PdfTemplating.XslFO.Razor.AspNetCoreMvc.csproj" />
     <ProjectReference Include="..\PdfTemplating.XslFO.Render.ApacheFOP.Serverless\PdfTemplating.XslFO.Render.ApacheFOP.Serverless.csproj" />
