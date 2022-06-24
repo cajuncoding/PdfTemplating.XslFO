@@ -32,6 +32,9 @@ using System.CustomExtensions;
 using System.Diagnostics;
 using System.Globalization;
 using System.Xml.Linq.CustomExtensions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Formatting = System.Xml.Formatting;
 
 namespace System.CustomExtensions
 {
@@ -222,54 +225,112 @@ namespace System.CustomExtensions
 
 	public static class SystemExceptionCustomExtensions
 	{
-		/// <summary>
-		/// Retrieve a string containing ALL descendent Exception Messages using the default format of "{message}; [InnerException] {inner_message}; [InnerException] {innerException]...
-		/// It traversing all nested exceptions as necessary.
+        private const string _nestedExceptionFormatString = "[{0}] {1}";
+
+        /// <summary>
+        /// Retrieve a string containing ALL descendent Exception Messages using the specified format string; traversing all nested exceptions as necessary.
+        /// </summary>
+        /// <param name="thisException"></param>
+        /// <returns></returns>
+        public static String GetMessagesRecursively(this Exception thisException)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            string exceptionMessage = String.Empty;
+
+            if (thisException != null)
+            {
+                exceptionMessage = TerminateMessageHelper(thisException.Message);
+                stringBuilder.AppendFormat(_nestedExceptionFormatString, thisException.GetType().Name, exceptionMessage);
+
+                //Traverse all InnerExceptions
+                Exception innerException = thisException.InnerException;
+                while (innerException != null)
+                {
+                    exceptionMessage = TerminateMessageHelper(innerException.Message);
+                    stringBuilder.AppendFormat(_nestedExceptionFormatString, innerException.GetType().Name, exceptionMessage);
+                    innerException = innerException.InnerException;
+                }
+
+                //Handle New .Net 4.0 Aggregate Exception Type as a special Case because
+                //AggregateExceptions contain a list of Exceptions thrown by background threads.
+                if (thisException is AggregateException aggregateExc)
+                {
+                    foreach (var exc in aggregateExc.InnerExceptions)
+                    {
+                        //exceptionMessage = TerminateMessageHelper(exc.Message);
+                        exceptionMessage = TerminateMessageHelper(exc.GetMessagesRecursively());
+                        stringBuilder.AppendFormat(_nestedExceptionFormatString, exc.GetType().Name, exceptionMessage);
+                    }
+                }
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        private static string TerminateMessageHelper(string message)
+        {
+            if (!string.IsNullOrEmpty(message) && !message.EndsWith(".") && !message.EndsWith(";"))
+            {
+                return string.Concat(message, ";");
+            }
+
+            return message;
+        }
+
+        /// <summary>
+		/// Provides a simplified Json object model that can be safely used and serialized with no risk of
+		/// recursive reference errors that the Exception class.
 		/// </summary>
-		/// <param name="objThis"></param>
+		/// <param name="exc"></param>
+		/// <param name="includeStackTrace"></param>
 		/// <returns></returns>
-		public static String GetMessages(this Exception objThis)
-		{
-			return objThis.GetMessages("[{0}] {1}", ";");
-		}
+        public static JObject ToSimplifiedJObjectModel(this Exception exc, bool includeStackTrace = false)
+        {
+            var type = exc.GetType();
+            var exceptionJson = JObject.FromObject(new
+            {
+                ExceptionType = type.FullName,
+                ExceptionTypeName = type.Name,
+                AllMessages = exc.GetMessagesRecursively(),
+                Data = exc.Data,
+                HResult = exc.HResult,
+                Source = exc.Source,
+            });
+
+            if (includeStackTrace)
+                exceptionJson[nameof(exc.StackTrace)] = exc.StackTrace;
+
+            return exceptionJson;
+        }
 
 		/// <summary>
-		/// Retrieve a string containing ALL descendent Exception Messages using the specified format string; traversing all nested exceptions as necessary.
+		/// Safely convert the Exception to Json without issues relating to recursive references;
+		/// handles all nested inner exceptions and ensures that we get all relevant data and messages with
+		/// optional StackTraces included.
 		/// </summary>
-		/// <param name="objThis"></param>
-		/// <param name="exceptionFormatString"></param>
+		/// <param name="exc"></param>
+		/// <param name="includeStackTrace"></param>
 		/// <returns></returns>
-		public static String GetMessages(this Exception objThis, String exceptionFormatString, String delimiter)
-		{
-			StringBuilder stringBuilder = new StringBuilder();
-			Exception excInner = null;
-			if (objThis != null)
-			{
-				stringBuilder.AppendFormat(exceptionFormatString, objThis.GetType().Name, objThis.Message);
-				
-				//Traverse all InnerExceptions
-				exceptionFormatString = String.Concat(delimiter, " ", exceptionFormatString);
-				excInner = objThis.InnerException;
-				while (excInner != null)
-				{
-					stringBuilder.AppendFormat(exceptionFormatString, excInner.GetType().Name, excInner.Message);
-					excInner = excInner.InnerException;
-				}
+        public static string ToJson(this Exception exc, bool includeStackTrace = false)
+        {
+            //Simplify and map the Exception Model for Serialization...
+            var exceptionJson = ToSimplifiedJObjectModel(exc, includeStackTrace);
 
-				//Handle New .Net 4.0 Aggregate Exception Type as a special Case because
-				//AggregateExceptions contain a list of Exceptions thrown by background threads.
-				if (objThis is AggregateException)
-				{
-					foreach (var exc in ((AggregateException)objThis).InnerExceptions)
-					{
-						stringBuilder.AppendFormat(exceptionFormatString, exc.GetType().Name, exc.Message);
-					}
-				}
-			}
+            var innerException = exc.InnerException;
+            var parentExceptionJson = exceptionJson;
+            while (innerException != null)
+            {
+                var newInnerException = ToSimplifiedJObjectModel(innerException, includeStackTrace);
+				//Set the Inner Exception into the Parent...
+                parentExceptionJson[nameof(exc.InnerException)] = newInnerException;
+				//Now Re-set the Parent to the new Inner Exception, and see if there are any further Inner Exceptions to handle; so we keep crawling the tree...
+                parentExceptionJson = newInnerException;
+                innerException = innerException.InnerException;
+            }
 
-			return stringBuilder.ToString();
-		}
-	}
+            return exceptionJson.ToString();
+        }
+    }
 
 	public static class SystemStringCustomExtensions
 	{
@@ -1662,7 +1723,7 @@ namespace System.CustomExtensions
 			}
 			catch(Exception exc)
 			{
-				System.Diagnostics.Debug.Write(exc.GetMessages());
+				System.Diagnostics.Debug.Write(exc.GetMessagesRecursively());
 			}
 			return false;
 		}

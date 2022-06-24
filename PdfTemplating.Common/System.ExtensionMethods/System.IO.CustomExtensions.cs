@@ -357,6 +357,9 @@ namespace System.IO.CustomExtensions
 
         public static async Task<String> GzipDecompressBase64Async(this String base64String)
         {
+            if (string.IsNullOrEmpty(base64String))
+                return null;
+
             var bytes = base64String.FromBase64ToBytes();
             var decompressedBytes = await bytes.GzipDecompressAsync().ConfigureAwait(false);
             var decompressedString = Encoding.UTF8.GetString(decompressedBytes);

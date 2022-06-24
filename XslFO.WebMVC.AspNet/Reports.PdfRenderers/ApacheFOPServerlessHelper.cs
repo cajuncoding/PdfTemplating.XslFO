@@ -36,8 +36,8 @@ namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
                 EnableGzipCompressionForResponses = gzipResponsesEnabled
             };
  
-            var xslFOPdfRenderer = new ApacheFOPServerlessPdfRenderService(xslfoContent, options);
-            var pdfBytes = await xslFOPdfRenderer.RenderPdfBytesAsync().ConfigureAwait(false);
+            var xslFOPdfRenderer = new ApacheFOPServerlessPdfRenderService(options);
+            var pdfBytes = await xslFOPdfRenderer.RenderPdfBytesAsync(xslfoContent).ConfigureAwait(false);
             
             return pdfBytes;
         }

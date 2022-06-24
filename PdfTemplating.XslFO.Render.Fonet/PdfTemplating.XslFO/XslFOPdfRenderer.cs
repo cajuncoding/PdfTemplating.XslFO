@@ -30,26 +30,24 @@ namespace PdfTemplating.XslFO
     /// </summary>
     public class FONetXslFOPdfRenderer : IXslFOPdfRenderer
     {
-        public XDocument XslFODocument { get; set; }
         public XslFOPdfOptions XslFOPdfOptions { get; set; }
 
         public EventHandler<XslFOEventArg> DebugEventHandler { get; protected set; }
         public EventHandler<XslFOErrorEventArg> ErrorEventHandler { get; protected set; }
 
-        public FONetXslFOPdfRenderer(XDocument xslFODoc, XslFOPdfOptions xslFOPdfOptions)
-            : this(xslFODoc, xslFOPdfOptions, null, null)
+        public FONetXslFOPdfRenderer(XslFOPdfOptions xslFOPdfOptions)
+            : this(xslFOPdfOptions, null, null)
         {
         }
 
-        public FONetXslFOPdfRenderer(XDocument xslFODoc, XslFOPdfOptions xslFOPdfOptions, EventHandler<XslFOEventArg> fnDebugEventHandler, EventHandler<XslFOErrorEventArg> fnErrorEventHandler)
+        public FONetXslFOPdfRenderer(XslFOPdfOptions xslFOPdfOptions, EventHandler<XslFOEventArg> fnDebugEventHandler, EventHandler<XslFOErrorEventArg> fnErrorEventHandler)
         {
-            this.XslFODocument = xslFODoc.AssertArgumentIsNotNull(nameof(xslFODoc), "Valid XSL-FO Xml source document must be specified.");
             this.XslFOPdfOptions = xslFOPdfOptions.AssertArgumentIsNotNull(nameof(xslFOPdfOptions), "XSL-FO Render options must be specified.");
             this.DebugEventHandler = fnDebugEventHandler;
             this.ErrorEventHandler = fnErrorEventHandler;
         }
 
-        public byte[] RenderPdfBytes()
+        public byte[] RenderPdfBytes(string xslfoContent)
         {
             //***********************************************************
             //Render the Xsl-FO results into a Pdf binary output
@@ -62,10 +60,11 @@ namespace PdfTemplating.XslFO
                 RenderErrorHandler = this.ErrorEventHandler
             };
 
+            var xXslFoDoc = XDocument.Parse(xslfoContent);
             //Initialize the render options for the FONET process and Execute the Render 
             //  using the Custom Extensions on XDocument
             //NOTE: The work to accomplish this is fully encapsulated in XDocument Custom Extension Methods.
-            using (var xslFOStreamOutput = this.XslFODocument.RenderXslFOToPdf(xslFORenderOptions))
+            using (var xslFOStreamOutput = xXslFoDoc.RenderXslFOToPdf(xslFORenderOptions))
             {
                 var pdfBytes = xslFOStreamOutput.ReadBytes();
                 return pdfBytes;

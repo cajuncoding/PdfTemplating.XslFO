@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CustomExtensions;
 using System.Xml.Linq;
 using PdfTemplating.XslFO;
 using Microsoft.AspNetCore.Mvc;
@@ -11,15 +12,19 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
     /// This class implements both the sync and sync interfaces so that it can illustrate side-by-side the legacy Fonet (sync),
     /// and teh new ApacheFOP.Serverless (async) approaches.
     /// </summary>
-    public class RazorMoviePdfRenderer : BaseRazorPdfTemplate<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
+    public class RazorMoviePdfRenderer : BaseRazorPdfTemplate, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
     {
-        public RazorMoviePdfRenderer(Controller mvcController)
+        private readonly ApacheFOPServerlessHelperClient _apacheFopHelperClient;
+
+        public RazorMoviePdfRenderer(Controller mvcController, ApacheFOPServerlessHelperClient apacheFopHelperClient)
             : base("~/Reports.Razor/MoviePdfReport/MoviesReport.cshtml", mvcController)
-        {}
+        {
+            _apacheFopHelperClient = apacheFopHelperClient.AssertArgumentIsNotNull(nameof(apacheFopHelperClient));
+        }
 
         /// <summary>
-        /// Implements the IRazorPdfRenderer interface and delegate the specific logic to the abstract
-        /// methods to simplify the implementations of all inheriting Razor View Renderers.
+        /// Implements the IAsyncPdfTemplatingRenderer interface with ApacheFOP.Serverless (pdf-as-a-service) rendering
+        /// engine for illustration purposes!
         /// NOTE: This method orchestrates all logic to create the view model, execute the view template,
         ///         and render the XSL-FO output, and then convert that XSL-FO output to a valid Pdf
         ///         in one and only place and greatly simplifies all Razor View Renderers to keep
@@ -49,7 +54,7 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
             //Execute the Transformation of the XSL-FO source to Binary Pdf via Apache FOP Service...
             //******************************************************************************************
             //var pdfBytes = await ApacheFOPServerlessHelper.RenderXslFOToPdfAsync(xslFODoc).ConfigureAwait(false);
-            var pdfBytes = await ApacheFOPServerlessHelper.RenderXslFOToPdfAsync(renderResult.RenderOutput).ConfigureAwait(false);
+            var pdfBytes = await _apacheFopHelperClient.RenderXslFOToPdfAsync(renderResult.RenderOutput).ConfigureAwait(false);
             return pdfBytes;
         }
 

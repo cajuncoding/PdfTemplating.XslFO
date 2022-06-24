@@ -8,7 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flurl.Http" Version="3.2.3" />
+    <PackageReference Include="Flurl.Http" Version="3.2.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PdfTemplating.XslFO.Render.ApacheFOP.Serverless\PdfTemplating.XslFO.Render.ApacheFOP.Serverless.csproj" />
   </ItemGroup>
 
   <ItemGroup>

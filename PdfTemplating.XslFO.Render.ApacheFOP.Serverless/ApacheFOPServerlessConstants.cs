@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using RestSharp.CustomExtensions;
 
 namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
 {
@@ -9,6 +8,7 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
     {
         public const string AcceptEncoding = "Accept-Encoding";
         public const string ContentEncoding = "Content-Encoding";
+        public const string ContentType = "Content-Type";
         public const string ApacheFopServerlessEventLog = "X-ApacheFOP-Serverless-EventLog";
         public const string ApacheFopServerlessEventLogEncoding = "X-ApacheFOP-Serverless-EventLog-Encoding";
         public const string ApacheFopServerlessContentType = "X-ApacheFOP-Serverless-ContentType";
