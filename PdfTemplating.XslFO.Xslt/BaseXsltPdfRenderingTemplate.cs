@@ -16,7 +16,6 @@ Copyright 2012 Brandon Bernard
 using System;
 using System.IO;
 using System.IO.CustomExtensions;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
 using System.Xml.Linq.CustomExtensions;
@@ -24,12 +23,12 @@ using System.Xml.Linq.Xslt.CustomExtensions;
 
 namespace PdfTemplating.XslFO.Xslt
 {
-    public abstract class XsltPdfTemplatingRenderer<TViewModel>
+    public abstract class BaseXsltPdfRenderingTemplate<TViewModel>
     {
-        public XsltPdfTemplatingRenderer()
+        public BaseXsltPdfRenderingTemplate()
         {}
 
-        public XsltPdfTemplatingRenderer(FileInfo xsltFileInfo)
+        public BaseXsltPdfRenderingTemplate(FileInfo xsltFileInfo)
         {
             this.InitializeBase(xsltFileInfo);
         }
@@ -60,10 +59,10 @@ namespace PdfTemplating.XslFO.Xslt
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        protected virtual XDocument RenderXslFOXml(TViewModel viewModel)
+        protected virtual string RenderXslFOContent(TViewModel viewModel)
         {
             //***********************************************************
-            //Execute the XSLT Tempalte to generate the XSL-FO output
+            //Execute the XSLT Template to generate the XSL-FO output
             //***********************************************************
             //Convert the Model to Xml
             var xmlDataDoc = ConvertModelToXDocument(viewModel).RemoveNamespaces();
@@ -81,48 +80,8 @@ namespace PdfTemplating.XslFO.Xslt
 
             //Execute the Xslt Transformation to generate Xsl-FO Source
             //NOTE: This template must generate valid Xsl-FO output -- via the well-formed xml via XDocument return value -- to be rendered as a Pdf Binary!
-            var xslFODoc = xslTransformer.TransformToXDocument(xmlDataDoc);
-            return xslFODoc;
-        }
-
-        /// <summary>
-        /// Helper method to convert the XSL-FO into a valid Pdf
-        /// This can be overridden by implementing classes to customize this behaviour as needed.
-        /// </summary>
-        /// <param name="xslFODoc"></param>
-        /// <param name="xslFOPdfOptions"></param>
-        /// <returns></returns>
-        protected virtual byte[] RenderXslFOPdfBytes(XDocument xslFODoc, XslFOPdfOptions xslFOPdfOptions)
-        {
-            //***********************************************************
-            //Render the Xsl-FO results into a Pdf binary output
-            //***********************************************************
-            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(xslFODoc, xslFOPdfOptions);
-            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes();
-            return pdfBytes;
-        }
-
-        /// <summary>
-        /// Helper method to Create the PdfOptions for the XSL-FO Rendering engine to use.
-        /// </summary>
-        /// <returns></returns>
-        protected virtual XslFOPdfOptions CreatePdfOptions()
-        {
-            //Initialize the Pdf rendering options for the XSL-FO Pdf Engine
-            var pdfOptions = new XslFOPdfOptions()
-            {
-                Author = Assembly.GetExecutingAssembly()?.GetName()?.Name ?? "PdfTemplating Renderer",
-                Title = $"Xsl-FO Pdf Templating Renderer [{this.GetType().Name}]",
-                Subject = $"Dynamic Xslt Generated Xsl-FO Pdf Document [{DateTime.Now}]",
-                //SET the Base Directory for XslFO Images, Xslt Imports, etc.
-                BaseDirectory = this.XsltFileInfo.Directory,
-                EnableAdd = false,
-                EnableCopy = true,
-                EnableModify = false,
-                EnablePrinting = true,
-            };
-
-            return pdfOptions;
+            var xslfoContent = xslTransformer.TransformToString(xmlDataDoc);
+            return xslfoContent;
         }
 
         /// <summary>

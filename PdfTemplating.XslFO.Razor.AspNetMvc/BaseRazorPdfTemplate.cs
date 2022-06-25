@@ -5,7 +5,7 @@ using System.Web.Mvc;
 
 namespace PdfTemplating.XslFO.Razor.AspNetMvc
 {
-    public abstract class BaseRazorPdfTemplate<TViewModel>
+    public abstract class BaseRazorPdfTemplate
     {
         protected BaseRazorPdfTemplate(String razorViewVirtualPath, ControllerContext controllerContext = null)
         {

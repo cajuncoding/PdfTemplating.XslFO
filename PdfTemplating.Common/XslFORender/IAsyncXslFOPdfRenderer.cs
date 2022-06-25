@@ -1,4 +1,6 @@
-﻿namespace PdfTemplating.XslFO
+﻿using System.Threading.Tasks;
+
+namespace PdfTemplating.XslFO
 {
     /// <summary>
     /// BBernard
@@ -7,7 +9,8 @@
     /// NOTE: This may be more suitable, than direct Custom Extension use, for code patterns that use 
     ///         Dependency Injection, etc.
     /// </summary>
-    public interface IAsyncXslFOPdfRenderer : IAsyncPdfRenderer
+    public interface IAsyncXslFOPdfRenderer
     {
+        Task<byte[]> RenderPdfBytesAsync(string xslfoContent);
     }
 }

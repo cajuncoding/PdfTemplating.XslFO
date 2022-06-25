@@ -13,7 +13,7 @@ namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
     /// This class implements both the sync and sync interfaces so that it can illustrate side-by-side the legacy Fonet (sync),
     /// and teh new ApacheFOP.Serverless (async) approaches.
     /// </summary>
-    public class XsltMoviePdfRenderer : XsltPdfTemplatingRenderer<MovieSearchResponse>, IPdfTemplatingRenderer<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
+    public class XsltMoviePdfRenderer : BaseXsltPdfRenderingTemplate<MovieSearchResponse>, IPdfTemplatingRenderer<MovieSearchResponse>, IAsyncPdfTemplatingRenderer<MovieSearchResponse>
     {
         public XsltMoviePdfRenderer()
         {
@@ -41,7 +41,7 @@ namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
             //Execute the XSLT Transform to generate the XSL-FO output
             //***********************************************************
             //Render the XSL-FO output from the Razor Template and the View Model
-            var xslFODoc = this.RenderXslFOXml(templateModel);
+            var xslfoContent = this.RenderXslFOContent(templateModel);
 
             //Create the Pdf Options for the XSL-FO Rendering engine to use
             var pdfOptions = new XslFOPdfOptions()
@@ -60,8 +60,8 @@ namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
             //****************************************************************************
             //Execute the Transformation of the XSL-FO source to Binary Pdf via Fonet
             //****************************************************************************
-            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(xslFODoc, pdfOptions);
-            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes();
+            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(pdfOptions);
+            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes(xslfoContent);
             return pdfBytes;
         }
 
@@ -84,7 +84,7 @@ namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
             //Execute the XSLT Transform to generate the XSL-FO output
             //***********************************************************
             //Render the XSL-FO output from the Razor Template and the View Model
-            var xslFODoc = this.RenderXslFOXml(templateModel);
+            var xslFODoc = this.RenderXslFOContent(templateModel);
 
             //******************************************************************************************
             //Execute the Transformation of the XSL-FO source to Binary Pdf via Apache FOP Service...

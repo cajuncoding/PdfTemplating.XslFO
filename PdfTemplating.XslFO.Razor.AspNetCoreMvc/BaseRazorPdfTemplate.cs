@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc
 {
-    public abstract class BaseRazorPdfTemplate<TViewModel>
+    public abstract class BaseRazorPdfTemplate
     {
         protected BaseRazorPdfTemplate(String razorViewPath, Controller mvcController)
         {

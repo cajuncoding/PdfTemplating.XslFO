@@ -7,7 +7,8 @@
     /// NOTE: This may be more suitable, than direct Custom Extension use, for code patterns that use 
     ///         Dependency Injection, etc.
     /// </summary>
-    public interface IXslFOPdfRenderer : IPdfRenderer
+    public interface IXslFOPdfRenderer
     {
+        byte[] RenderPdfBytes(string xslfoContent);
     }
 }

@@ -1,4 +1,7 @@
-using PdfTemplating.XslFO.Razor.AspNetCoreMvc;
+using System.CustomExtensions;
+using PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers;
+using PdfTemplating.XslFO;
+using PdfTemplating.XslFO.ApacheFOP.Serverless;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -10,6 +13,25 @@ foreach (var c in configuration.GetChildren().Where(c => !string.IsNullOrWhiteSp
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+
+//************************************************************************************************
+//Configure ApacheFOP.Serverless Client via DI
+//************************************************************************************************
+//NOTE: Configuration values are piped into the Environment at application startup!
+var apacheFOPServiceHostString = Environment.GetEnvironmentVariable("XslFO.ApacheFOP.Serverless.Host")
+    .AssertArgumentIsNotNullOrBlank("XslFO.ApacheFOP.Serverless.Host", "Configuration value for ApacheFOP Service Host is missing or undefined.");
+
+//Construct the REST request options and append the Security Token (as QuerystringParam):
+builder.Services.AddSingleton(s => new ApacheFOPServerlessXslFORenderOptions(new Uri(apacheFOPServiceHostString))
+{
+    EnableGzipCompressionForRequests = Environment.GetEnvironmentVariable("XslFO.ApacheFOP.Serverless.GzipRequestsEnabled").EqualsIgnoreCase(bool.TrueString),
+    EnableGzipCompressionForResponses = Environment.GetEnvironmentVariable("XslFO.ApacheFOP.Serverless.GzipResponsesEnabled").EqualsIgnoreCase(bool.TrueString)
+});
+
+builder.Services.AddSingleton<IAsyncXslFOPdfRenderer, ApacheFOPServerlessPdfRenderService>();
+
+//Finally add our own Helper Client that encapsulates working with the ApacheFOP Service for our App (always a good idea to encapsulate):
+builder.Services.AddSingleton<ApacheFOPServerlessHelperClient>();
 
 //OPTIONALLY you may Manually configure the base paths that will be searched for Views (when Relative Paths are provided...
 //RazorPdfTemplatingConfig

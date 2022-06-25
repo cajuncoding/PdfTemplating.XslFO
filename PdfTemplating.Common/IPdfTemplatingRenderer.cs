@@ -1,6 +1,6 @@
 ﻿namespace PdfTemplating.XslFO
 {
-    public interface IPdfTemplatingRenderer<TViewModel>
+    public interface IPdfTemplatingRenderer<in TViewModel>
     {
         byte[] RenderPdf(TViewModel templateModel);
     }

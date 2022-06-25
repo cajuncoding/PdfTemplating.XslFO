@@ -82,7 +82,7 @@ namespace System.Xml.Linq.CustomExtensions
         private void LogHelper(string message, Exception exc, params object[] arguments)
         {
             String strMessage = String.Format(message, arguments);
-            XsltErrorEventArgs eventArgs = new XsltErrorEventArgs("{0} -- {1}{2}{2}{3}", strMessage, exc.GetMessages(), Environment.NewLine, exc.StackTrace);
+            XsltErrorEventArgs eventArgs = new XsltErrorEventArgs("{0} -- {1}{2}{2}{3}", strMessage, exc.GetMessagesRecursively(), Environment.NewLine, exc.StackTrace);
 
             if (exc != null && !XsltExtensionEvent.Raise(this, eventArgs))
             {
@@ -131,7 +131,7 @@ namespace System.Xml.Linq.CustomExtensions
             }
             catch (Exception exc)
             {
-                LogHelper("Error formatting DateTime value [{0}] into specified format [{1}] -- {2}", dateInput.ToString(), format, exc.GetMessages());
+                LogHelper("Error formatting DateTime value [{0}] into specified format [{1}] -- {2}", dateInput.ToString(), format, exc.GetMessagesRecursively());
             }
 
             return formattedOutput;
@@ -221,7 +221,7 @@ namespace System.Xml.Linq.CustomExtensions
                     input.Substring(0, input.Length > 20 ? 20 : input.Length - 1) + "...",
                     bRemoveNamespaces,
                     Environment.NewLine,
-                    exc.GetMessages());
+                    exc.GetMessagesRecursively());
 
                 LogHelper(exc.StackTrace);
             }
