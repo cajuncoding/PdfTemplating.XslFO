@@ -15,7 +15,7 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers;

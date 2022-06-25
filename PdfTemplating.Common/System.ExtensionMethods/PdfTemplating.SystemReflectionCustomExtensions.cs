@@ -17,14 +17,13 @@ Copyright 2012 Brandon Bernard
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Reflection;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using System.Diagnostics;
 
-namespace System.Reflection.CustomExtensions
+namespace PdfTemplating.SystemReflectionCustomExtensions
 {
     public static class AssemblyCustomExtensions
     {
@@ -44,7 +43,7 @@ namespace System.Reflection.CustomExtensions
             Debug.WriteLine("Matched Resource Names:");
             foreach (var name in resourceNames)
             {
-                System.Console.WriteLine(" - {0}".FormatArgs(name));
+                Console.WriteLine(" - {0}".FormatArgs(name));
             }
 
             return resourceNames.ToList();

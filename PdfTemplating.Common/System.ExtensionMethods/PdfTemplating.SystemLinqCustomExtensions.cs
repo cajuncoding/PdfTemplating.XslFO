@@ -15,13 +15,13 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
 using System.Text;
 
-namespace System.Linq.CustomExtensions
+namespace PdfTemplating.SystemLinqCustomExtensions
 {
 	public static class LinqToObjectGeneralExtensions
 	{

@@ -15,16 +15,18 @@ Copyright 2012 Brandon Bernard
 */
 
 using System.Collections.Generic;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using System.IO;
-using System.IO.CustomExtensions;
+using PdfTemplating.SystemIOCustomExtensions;
 using System.Linq;
-//using System.Collections.CustomExtensions;
 using System.Text;
 using System.Xml.Serialization;
 using System.Xml.XPath;
+using System.Xml.Linq;
+using System;
+using System.Xml;
 
-namespace System.Xml.Linq.CustomExtensions
+namespace PdfTemplating.SystemXmlLinqCustomExtensions
 {
 
     public static class XmlLinqExtensions
@@ -979,7 +981,7 @@ namespace System.Xml.Linq.CustomExtensions
                 OmitXmlDeclaration = true,
                 ConformanceLevel = ConformanceLevel.Fragment,
                 CloseOutput = false,
-                Encoding = System.Text.ASCIIEncoding.UTF8
+                Encoding = ASCIIEncoding.UTF8
             };
 
             //Create the XmlWriter object

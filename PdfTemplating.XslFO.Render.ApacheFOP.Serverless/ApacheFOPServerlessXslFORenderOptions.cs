@@ -16,7 +16,7 @@ Copyright 2020 Brandon Bernard
 
 using System;
 using System.Collections.Generic;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using Microsoft.AspNetCore.WebUtilities;
 using Flurl;
 

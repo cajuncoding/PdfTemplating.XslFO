@@ -24,7 +24,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.CustomExtensions;
 using System.IO;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using PdfTemplating.XslFO.Fonet.CustomExtensions;
 using System.Diagnostics;
 using PdfTemplating.XslFO;
@@ -172,7 +172,7 @@ namespace XslFO.ViewerApplication
                 this.Cursor = Cursors.Default;
                 this.LoadType = XslFOLoadType.LoadedFromXslt;
 
-                //MessageBox.Show(String.Format("Error occurred loading Xml-FO from Xml FO File:  {0}{1}", Environment.NewLine, exc.GetMessages()));
+                //MessageBox.Show(String.Format("Error occurred loading Xml-FO from Xml FO File:  {0}{1}", Environment.NewLine, exc.GetMessagesRecursively()));
             }
         }
 
@@ -212,7 +212,7 @@ namespace XslFO.ViewerApplication
             }
             catch (Exception exc)
             {
-                MessageBox.Show(String.Format("Error occurred loading Xml-FO from Xslt:  {0}{1}", Environment.NewLine, exc.GetMessages()));
+                MessageBox.Show(String.Format("Error occurred loading Xml-FO from Xslt:  {0}{1}", Environment.NewLine, exc.GetMessagesRecursively()));
             }
         }
 
@@ -247,7 +247,7 @@ namespace XslFO.ViewerApplication
             }
             catch (Exception exc)
             {
-                MessageBox.Show(String.Format("Error occurred loading Xml-FO from Xslt:  {0}{1}", Environment.NewLine, exc.GetMessages()));
+                MessageBox.Show(String.Format("Error occurred loading Xml-FO from Xslt:  {0}{1}", Environment.NewLine, exc.GetMessagesRecursively()));
             }
         }
 
@@ -270,7 +270,7 @@ namespace XslFO.ViewerApplication
             }
             catch (Exception exc)
             {
-                ConsoleWriteLine("Error occurred re-loading [{0}]:  {1}{2}", this.LoadType.ToString(), Environment.NewLine, exc.GetMessages());
+                ConsoleWriteLine("Error occurred re-loading [{0}]:  {1}{2}", this.LoadType.ToString(), Environment.NewLine, exc.GetMessagesRecursively());
                 //MessageBox.Show(String.Format());
             }
         }

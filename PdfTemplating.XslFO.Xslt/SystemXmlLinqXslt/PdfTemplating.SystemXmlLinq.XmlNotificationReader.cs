@@ -15,14 +15,15 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
+using System.Xml;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using System.Xml.Linq.CustomExtensions;
+using PdfTemplating.SystemXmlLinqXsltCustomExtensions;
 using System.Text;
 
 
-namespace System.Xml.Linq.CustomExtensions
+namespace PdfTemplating.SystemXmlLinqXsltCustomExtensions
 {
     public class XmlNotificationReader : XmlReader
     {

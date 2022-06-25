@@ -19,7 +19,7 @@ using Fonet.Render.Pdf;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.IO.CustomExtensions;
+using PdfTemplating.SystemIOCustomExtensions;
 using System.Xml;
 using System.Xml.Linq;
 
