@@ -14,11 +14,13 @@ Copyright 2012 Brandon Bernard
    limitations under the License.
 */
 
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
+using System;
 using System.IO;
+using System.Xml;
 using System.Xml.Xsl;
 
-namespace System.Xml.Linq.CustomExtensions
+namespace PdfTemplating.SystemXmlLinqXsltCustomExtensions
 {
     #region XmlUrlExtendedResolver Classes
 

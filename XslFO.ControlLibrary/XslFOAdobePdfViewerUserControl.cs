@@ -15,7 +15,7 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -253,7 +253,7 @@ namespace XslFO.ControlLibrary
             }
             catch (Exception exc)
             {
-                System.Diagnostics.Debug.WriteLine("Error Trapped Refreshing UI Elements -- {0}".FormatArgs(exc.GetMessages()));
+                System.Diagnostics.Debug.WriteLine("Error Trapped Refreshing UI Elements -- {0}".FormatArgs(exc.GetMessagesRecursively()));
             }
             finally
             {
@@ -315,7 +315,7 @@ namespace XslFO.ControlLibrary
             }
             catch (Exception exc)
             {
-                MessageBox.Show("Error occurred Loading Xsl FO Report: " + exc.GetMessages());
+                MessageBox.Show("Error occurred Loading Xsl FO Report: " + exc.GetMessagesRecursively());
             }
         }
        
@@ -471,7 +471,7 @@ namespace XslFO.ControlLibrary
         {
             MessageBox.Show("Initialization Exception Details:{0}{0}{1}".FormatArgs(
                 Environment.NewLine, 
-                initException.GetMessages()), 
+                initException.GetMessagesRecursively()), 
                 "Pdf Viewer Init Error", 
                 MessageBoxButtons.OK, 
                 MessageBoxIcon.Exclamation

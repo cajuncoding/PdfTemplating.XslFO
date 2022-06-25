@@ -19,16 +19,16 @@ using PdfTemplating.XslFO.Fonet.CustomExtensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using System.Diagnostics;
 using System.IO;
-using System.IO.CustomExtensions;
+using PdfTemplating.SystemIOCustomExtensions;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Xml.Linq.CustomExtensions;
-using System.Xml.Linq.Xslt.CustomExtensions;
+using PdfTemplating.SystemXmlLinqCustomExtensions;
+using PdfTemplating.SystemXmlLinqXsltCustomExtensions;
 using TE.Library;
 
 namespace XslFO.ControlLibrary
@@ -276,7 +276,7 @@ namespace XslFO.ControlLibrary
                 }
                 catch (Exception exc)
                 {
-                    LogItem("Temp File is Locked and cannot be cleaned up [{0}]: ", _tempFileInfo.FullName, exc.GetMessages());
+                    LogItem("Temp File is Locked and cannot be cleaned up [{0}]: ", _tempFileInfo.FullName, exc.GetMessagesRecursively());
                 }
             }
         }
@@ -314,7 +314,7 @@ namespace XslFO.ControlLibrary
                 }
                 catch (Exception exc)
                 {
-                    LogItem("Orphaned Temp File is Locked and cannot be cleaned up [{0}]: ", fileInfo.FullName, exc.GetMessages());
+                    LogItem("Orphaned Temp File is Locked and cannot be cleaned up [{0}]: ", fileInfo.FullName, exc.GetMessagesRecursively());
                 }
             }
         }
@@ -405,7 +405,7 @@ namespace XslFO.ControlLibrary
             catch (Exception exc)
             {
                 this.LoadStatus = XslFOViewerControlState.Unloaded;
-                RaiseViewerError(new XslFOViewerEventArgs("Error occurred Loading the Rendered Output Pdf File; {0}; Pdf Output File Path [{1}]".FormatArgs(exc.GetMessages(), renderedOutput.PdfFileInfo.FullName), renderedOutput.XslFODocument.ToString()));
+                RaiseViewerError(new XslFOViewerEventArgs("Error occurred Loading the Rendered Output Pdf File; {0}; Pdf Output File Path [{1}]".FormatArgs(exc.GetMessagesRecursively(), renderedOutput.PdfFileInfo.FullName), renderedOutput.XslFODocument.ToString()));
             }
             finally
             {
@@ -548,7 +548,7 @@ namespace XslFO.ControlLibrary
                         }
 
                         this.LoadStatus = XslFOViewerControlState.Unloaded;
-                        RaiseViewerError(new XslFOViewerEventArgs("Exception Occurred Processing the Transformer.  Inner Exception Details: {0}".FormatArgs(workTask.Exception.GetMessages()), renderSource));
+                        RaiseViewerError(new XslFOViewerEventArgs("Exception Occurred Processing the Transformer.  Inner Exception Details: {0}".FormatArgs(workTask.Exception.GetMessagesRecursively()), renderSource));
                     }
                     else
                     {
@@ -639,7 +639,7 @@ namespace XslFO.ControlLibrary
                             renderSource = innerException.As<XslFORenderException>().RenderSource;
                         }
 
-                        RaiseViewerError(new XslFOViewerEventArgs("Exception Occurred Processing the Transformer.  Inner Exception Details: {0}".FormatArgs(workTask.Exception.GetMessages()), renderSource));
+                        RaiseViewerError(new XslFOViewerEventArgs("Exception Occurred Processing the Transformer.  Inner Exception Details: {0}".FormatArgs(workTask.Exception.GetMessagesRecursively()), renderSource));
                     }
                     else
                     {

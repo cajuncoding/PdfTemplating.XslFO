@@ -15,28 +15,23 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.CustomExtensions;
+using PdfTemplating.SystemLinqCustomExtensions;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Text.RegularExpressions.CustomExtensions;
+using PdfTemplating.SystemTextRegularExpressionsCustomExtensions;
 using System.IO;
-using System.IO.CustomExtensions;
 using System.Security;
 using System.Xml;
-using System.Xml.Linq;
 using System.Web;
-//using System.Collections.CustomExtensions;
-using System.CustomExtensions;
-using System.Diagnostics;
+using PdfTemplating.SystemCustomExtensions;
 using System.Globalization;
-using System.Xml.Linq.CustomExtensions;
-using Newtonsoft.Json;
+using PdfTemplating.SystemXmlLinqCustomExtensions;
 using Newtonsoft.Json.Linq;
-using Formatting = System.Xml.Formatting;
 
-namespace System.CustomExtensions
+namespace PdfTemplating.SystemCustomExtensions
 {
 
 	public static class SystemValidationCustomExtensions
@@ -1723,7 +1718,7 @@ namespace System.CustomExtensions
 			}
 			catch(Exception exc)
 			{
-				System.Diagnostics.Debug.Write(exc.GetMessagesRecursively());
+				Debug.Write(exc.GetMessagesRecursively());
 			}
 			return false;
 		}

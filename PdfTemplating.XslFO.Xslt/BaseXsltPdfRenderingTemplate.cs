@@ -15,11 +15,11 @@ Copyright 2012 Brandon Bernard
 */
 using System;
 using System.IO;
-using System.IO.CustomExtensions;
+using PdfTemplating.SystemIOCustomExtensions;
 using System.Runtime.Serialization;
 using System.Xml.Linq;
-using System.Xml.Linq.CustomExtensions;
-using System.Xml.Linq.Xslt.CustomExtensions;
+using PdfTemplating.SystemXmlLinqCustomExtensions;
+using PdfTemplating.SystemXmlLinqXsltCustomExtensions;
 
 namespace PdfTemplating.XslFO.Xslt
 {
