@@ -5,7 +5,7 @@
 		<Authors>BBernard / CajunCoding</Authors>
 		<Company>CajunCoding</Company>
 		<Description>This is a C#.Net solution that provides the capability to easily render PDF documents with a templating approach using your choice of templating technology (e.g. Xslt, Razor Mvc templates, or custom) and the latest version of ApacheFOP.Serverless (PDF-as-a-Service) for binary rendering. It's based on the Xsl-FO standard for robust paged media generation and ApacheFOP.Serverless is a separate project that enables the easy use of the latest version of Apache FOP as a PDF Rendering Service using Azure Functions.</Description>
-		<Version>3.1.0</Version>
+		<Version>3.1</Version>
 		<Copyright>Copyright © 2020</Copyright>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>

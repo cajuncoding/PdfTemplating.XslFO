@@ -7,7 +7,7 @@
 		<Authors>BBernard / CajunCoding</Authors>
 		<Company>CajunCoding.com</Company>
 		<Description>This is a C#.Net solution that provides the capability to easily generate PDF documents with a templating approach using Razor MVC templates; as opposed to extremely complex code based approaches most libraries provide. It's based on the Xsl-FO standard for rendering robust paged media outputs as PDF Documents.</Description>
-		<Version>3.1.0</Version>
+		<Version>3.1</Version>
 		<Copyright>Copyright © 2022</Copyright>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>

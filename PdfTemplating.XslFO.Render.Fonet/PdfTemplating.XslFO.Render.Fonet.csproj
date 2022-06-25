@@ -5,7 +5,7 @@
 		<Authors>BBernard / CajunCoding</Authors>
 		<Company>CajunCoding.com</Company>
 		<Description>This is a C#.Net solution that provides the capability to easily render PDF documents with a templating approach using your choice of templating technology (e.g. Xslt, Razor Mvc templates, or custom) and the legacy Fonet XslFO in-memory rendering egine. It's based on the Xsl-FO standard for robust paged media generation and currently is dependent on an old but still functional libray "Fonet" -- which is port of an old version of Apache FOP to C#.</Description>
-		<Version>3.1.0</Version>
+		<Version>3.1</Version>
 		<Copyright>Copyright © 2020</Copyright>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
