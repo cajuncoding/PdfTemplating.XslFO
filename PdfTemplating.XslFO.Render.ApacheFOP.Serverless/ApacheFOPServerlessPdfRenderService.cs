@@ -2,9 +2,9 @@
 using PdfTemplating.XslFO.Render.ApacheFOP.Serverless;
 using System;
 using System.Collections.Generic;
-using System.CustomExtensions;
-using System.IO.CustomExtensions;
-using System.Linq.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
+using PdfTemplating.SystemIOCustomExtensions;
+using PdfTemplating.SystemLinqCustomExtensions;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Text;

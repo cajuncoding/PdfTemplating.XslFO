@@ -17,13 +17,10 @@ Copyright 2012 Brandon Bernard
 using System;
 using System.Linq;
 using System.Xml.Linq;
-using System.Xml.Linq.CustomExtensions;
-using System.Web;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 
-namespace System.Text.RegularExpressions.CustomExtensions
+namespace PdfTemplating.SystemTextRegularExpressionsCustomExtensions
 {
     public static class RegExPatterns
     {

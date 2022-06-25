@@ -15,8 +15,10 @@ Copyright 2012 Brandon Bernard
 */
 
 //using System.Configuration;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
+using System;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Compression;
 using System.IO.IsolatedStorage;
 using System.Linq;
@@ -24,7 +26,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace System.IO.CustomExtensions
+namespace PdfTemplating.SystemIOCustomExtensions
 {
 	public static class SystemStreamReaderCustomExtensions
 	{

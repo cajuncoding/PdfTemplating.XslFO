@@ -15,24 +15,16 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
-using System.CustomExtensions;
-using System.Collections.Generic;
+using PdfTemplating.SystemCustomExtensions;
 using System.Globalization;
-using System.Linq;
 using System.Text;
-using System.Xml;
-using System.Xml.Xsl;
 using System.Xml.XPath;
 using System.Xml.Linq;
-using System.Xml.Linq.CustomExtensions;
+using PdfTemplating.SystemXmlLinqCustomExtensions;
 using System.Text.RegularExpressions;
-using System.Text.RegularExpressions.CustomExtensions;
-using System.Security;
-using System.Web;
-using System.IO;
-using System.IO.CustomExtensions;
+using PdfTemplating.SystemTextRegularExpressionsCustomExtensions;
 
-namespace System.Xml.Linq.CustomExtensions
+namespace PdfTemplating.SystemXmlLinqXsltCustomExtensions
 {
     /// <summary>
     /// Custom Extension Methods / Utility Methods for using when executing Xslt with .Net to give the Xsl Developer
@@ -553,7 +545,7 @@ namespace System.Xml.Linq.CustomExtensions
             catch (Exception exc)
             {
                 LogHelper(@"Error trapped in Xslt Custom Extension FormatDate(""{0}"", ""{1}"", ""{2}"", ""{3}"")".FormatArgs(inputDate, format, countryCode, languageCode), exc);
-                //LogHelper("Error parsing DateTime value [{0}] -- {1}", inputDate, exc.GetMessages());
+                //LogHelper("Error parsing DateTime value [{0}] -- {1}", inputDate, exc.GetMessagesRecursively());
             }
 
             return formattedOutput;

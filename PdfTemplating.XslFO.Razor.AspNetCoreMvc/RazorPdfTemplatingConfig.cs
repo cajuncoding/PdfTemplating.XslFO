@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using System.IO;
 
 namespace PdfTemplating.XslFO.Razor.AspNetCoreMvc

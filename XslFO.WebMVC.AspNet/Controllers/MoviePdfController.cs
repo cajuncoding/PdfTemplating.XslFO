@@ -15,7 +15,7 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using Newtonsoft.Json;
