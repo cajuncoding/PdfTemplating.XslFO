@@ -85,7 +85,9 @@ namespace PdfTemplating.AspNetMvc.Reports.PdfRenderers
             //***********************************************************
             //OPTIONALLY validate the Output by Loading the XSL-FO output into a fully validated XDocument...
             //***********************************************************
-            //NOTE: This template must generate valid Xsl-FO output which can be validated as well-formed xml we load into the XDocument return value -- to be rendered as a Pdf Binary!
+            //Load the XSL-FO output into a fully validated XDocument.
+            //NOTE: This template must generate valid Xsl-FO output to be rendered as a Pdf Binary! 
+            //      This is optional, but parsing the output into XML will validate that it is well-formed!
             //var xslFODoc = XDocument.Parse(renderResult.RenderOutput);
 
             //******************************************************************************************

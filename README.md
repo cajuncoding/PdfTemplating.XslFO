@@ -34,8 +34,9 @@ NOTE: Currently the Razor Implementation requires Microsoft.AspNet.MVC and does 
 a real need to render Pdf file from a .Net Core web application; or a console app for that matter 
 (useful info. [https://stackoverflow.com/questions/38247080/using-razor-outside-of-mvc-in-net-core](here on StackOverflow).)
 
-#### Example Usages from the Demo MVC Project:
+### Example Usages from the Demo MVC Project:
 
+#### ASP.NET Framework:
 ##### Xslt (.Net Standard 2.0):
 ```csharp
     //Use XSLT Template + FONet PDF Rendering Engine...
@@ -101,13 +102,75 @@ a real need to render Pdf file from a .Net Core web application; or a console ap
         var renderResult = razorViewRenderer.RenderView(this.RazorViewVirtualPath, templateModel);
 
         //Load the XSL-FO output into a fully validated XDocument.
-        //NOTE: This template must generate valid Xsl-FO output -- via the well-formed xml we load into the XDocument return value -- to be rendered as a Pdf Binary!
+        //NOTE: This template must generate valid Xsl-FO output to be rendered as a Pdf Binary! 
+        //      This is optional, but parsing the output into XML will validate that it is well-formed!
         var xslFODoc = XDocument.Parse(renderResult.RenderOutput);
 
         //******************************************************************************************
         //Execute the Transformation of the XSL-FO source to Binary Pdf via Apache FOP Service...
         //******************************************************************************************
         var pdfBytes = await ApacheFOPServiceHelper.RenderXslFOToPdfAsync(xslFODoc);
+        return pdfBytes;
+    }
+```
+#### NEW ASP.NET CORE Support (as of May 2022)
+NOTES: 
+ 1. The AspNetCore implementation nearly identical to the legacy .NET Framework example above, but must now be Async and
+          uses the new namespace `using PdfTemplating.XslFO.Razor.AspNetCoreMvc;`
+ 2. Fonet in-memory implementation is no longer provided due to known issues in non-windows environments, so we now
+     strongly encourage the PDF-as-a-service (de-coupled) implementation approach, such as ApacheFOP.Serverless.
+
+##### Xslt (.Net Standard 2.0):
+```csharp
+    //Use XSLT Template + FONet PDF Rendering Engine...
+    public virtual async Task<byte[]> RenderPdfAsync(MovieSearchResponse templateModel)
+    {
+        //NOTE: This is only needed becasue we share the same Report Template between legacy Fonet and new
+        //  ApacheFOP.Serverless rendering; and there are some markup compatibility logic we want to disable.
+        //Ensure that compatibility Mode is Disabled for proper rendering of our Model
+        templateModel.FonetCompatibilityEnabled = false;
+
+        //***********************************************************
+        //Execute the XSLT Transform to generate the XSL-FO output
+        //***********************************************************
+        //Render the XSL-FO output from the Razor Template and the View Model
+        var xslFODoc = this.RenderXslFOContent(templateModel);
+
+        //******************************************************************************************
+        //Execute the Transformation of the XSL-FO source to Binary Pdf via Apache FOP Service...
+        //******************************************************************************************
+        var pdfBytes = await _apacheFopHelperClient.RenderXslFOToPdfAsync(xslFODoc).ConfigureAwait(false);
+        return pdfBytes;
+    }
+```
+
+##### Razor View + ApacheFOP.Serverless (PDF-as-a-service via Azure Functions):
+```csharp
+    //Use ASP.NET Core Razor Template + ApacheFOP.Serverless Rendering Engine; PDF-as-a-service via Azure Functions...
+    public virtual async Task<byte[]> RenderPdfAsync(MovieSearchResponse templateModel)
+    {
+        //Ensure that compatibility Mode is Disabled for proper rendering of our Model
+        templateModel.FonetCompatibilityEnabled = false;
+
+        //***********************************************************
+        //Execute the Razor View to generate the XSL-FO output
+        //***********************************************************
+        var razorViewRenderer = new MvcRazorViewRenderer(this.MvcController);
+        var renderResult = await razorViewRenderer.RenderViewAsync(this.RazorViewPath, templateModel).ConfigureAwait(false);
+
+        //***********************************************************
+        //OPTIONALLY validate the Output by Loading the XSL-FO output into a fully validated XDocument...
+        //***********************************************************
+        //Load the XSL-FO output into a fully validated XDocument.
+        //NOTE: This template must generate valid Xsl-FO output to be rendered as a Pdf Binary! 
+        //      This is optional, but parsing the output into XML will validate that it is well-formed!
+        var xslFODoc = XDocument.Parse(renderResult.RenderOutput);
+
+        //******************************************************************************************
+        //Execute the Transformation of the XSL-FO source to Binary Pdf via Apache FOP Service...
+        //******************************************************************************************
+        //var pdfBytes = await ApacheFOPServerlessHelper.RenderXslFOToPdfAsync(xslFODoc).ConfigureAwait(false);
+        var pdfBytes = await _apacheFopHelperClient.RenderXslFOToPdfAsync(renderResult.RenderOutput).ConfigureAwait(false);
         return pdfBytes;
     }
 ```
@@ -123,7 +186,9 @@ This project is now implements support for two PDF rendering engines:
 
 **NOTES:**
 * Because the original FO.Net hasn't been updated in so long, I wanted to make sure that this solution contained a stable version. 
-Therefore, I've cloned the working stable version that I've used in several projects and included here in this project.  
+Therefore, I've cloned the working stable version that I've used in several projects and included here in this project.
+** BUT this version is not supported and there will be no enhancements, bug-fixees, etc. going forward.!** *We strongly encourage the use of the 
+new PDF-as-a-service (de-coupled) use of ApacheFOP.Serverless implementation approach.*
 
 * I've also updated the included version to target and compile as a .Net Standard 2.0 project for greater compatibility. 
 Though some feedback from the community is that FO.Net may have underlying dependencies on Windows specific Dlls and therefore may
@@ -134,11 +199,71 @@ XSL-FO spec. support, serverless deployment support via Azure Functions, etc... 
 it is my go-to architecture going forward.**
 
 
-#### TODO: 
-* Once I have a need to generate Pdf files with .Net Core I will create an implementation demo for that also.
+## Example Projects
+### XslFO.Console
+A very simple console application that illustrates the value of having the rendering of the PDF de-coupled as it's own service (e.g. ApacheFOP.Serverless).
+This allows even a simple Console App to read a pre-formatted XslFO document and render to a PDF and open the file locally.
 
-## Testing Projects
+While this app currently uses a pre-formatted report, it is absolutely possible for even a console app to render templates either XSLT or Razor based
+to create the reports, but this is out of the scope of this sample project since most use-cases will be web based and therefore the following
+.NET Framework and .NET Core web applications are of greater value.  But this Console example may help illustrate how easy it is to bridge the gap
+and show that there are no boundaries -- especially when using the PDF-as-a-service approach with ApacheFOP.Serverless.
+
+### XslFO.WebMvc.AspNet & XslFO.WebApi.AspNetCore projects
+Provides Web based client applications based on Asp.NET MVC & Asp.NET Core MVC that can be used to dynamically render and stream the Pdf to the 
+browser.  It provides an example of how elegant it can be to manage Xslt or Razor based (templating approaches) reports in a web application and 
+dynamically render PDF's for client requests.
+1. The sample report uses the OMDB Api to get results based on Movie Title Search
+	* [http://www.omdbapi.com](http://www.omdbapi.com)
+
+2. The default route for the application is **/movies/pdf** and will result in the results being rendered by the 
+**Razor Templating engine + FONet (in-memory)** with a default Search using **"Star Wars"**
+    * **The XSLT Templating engine is also supported (see below for explicitly testing with that engine)** 
+	* In addition, you can specify any dynamic search you want by using the "title" parameter: **/pdf?title={movie title here}**, some samples are:
+		1. `/movies/pdf?title=star%20trek`
+        2. `/movies/pdf?title=the%20matrix`
+		2. `/movies/pdf?title=braveheart`
+		3. `/movies/pdf?title=finding%20nemo`
+    
+    * For ASP.NET Core project you must use the ApacheFOP.Serverless routes as follows:
+    * **The above Fonet default in-memory processing does NOT Apply to the sample ASP.NET CORE project, due to known issues in non-windows environments! 
+      So ApacheFOP.Serverless de-coupled rending is strongly encouraged and provided as the only implementation example.***
+		1. `/movies/pdf/razor/apache-fop?title=star%20trek`
+        2. `/movies/pdf/razor/apache-fop?title=the%20matrix`
+		2. `/movies/pdf/razor/apache-fop?title=braveheart`
+		3. `/movies/pdf/razor/apache-fop?title=finding%20nemo`
+    
+    * Any of the can also be renderered by replacing `razor` with `xstl` in the route to engage the Xslt rendering engine instead:
+		1. `/movies/pdf/xslt/apache-fop?title=star%20trek`
+        2. `/movies/pdf/xslt/apache-fop?title=the%20matrix`
+		2. `/movies/pdf/xslt/apache-fop?title=braveheart`
+		3. `/movies/pdf/xslt/apache-fop?title=finding%20nemo`
+
+3. The Razor Mediator reports that render the FO (Formatting Objects Xml markup) -- that is converted into Pdf format -- are 
+located in the MVC Project at:
+	* XslFO.TestSolution/XslFO.WebMvc.AspNet/**Reports.Razor**/... or .../XslFO.WebApi.AspNetCore/**Reports.Razor**/...
+	* You can always explicity run the Razor Templating engine by using the explicit route:
+	    1. `/movies/pdf/razor?title=star%20wars`
+4. The XSLT reports that render the FO  (Formatting Objects Xml markup) -- that is converted into Pdf format -- are 
+located in the MVC Project at:
+	* **XslFO.TestSolution/XslFO.WebMvc.AspNet/Reports.XslFO/...**
+	* You can always explicity run the XSLT Templating engine by using the explicit route:
+	    1. `/movies/pdf/xslt?title=star%20wars`
+5. The **ApacheFOP.Serverless Rendering engine** implementation in the Demo project utilizes either Xslt or Razor templates by appending
+**/apache-fop** to the above paths as follows:
+    * Note: The XSL-FO markup will be generated with the specified template (per the path route), and then the
+request to render the PDF will be sent to the configured serverless deployment of [ApacheFOP.Serverless](https://github.com/cajuncoding/ApacheFOP.Serverless) 
+to render the binary PDF file.
+        * The ApacheFOP.Serverless client configuration is in either `web.config` or `appsettings.json` depending on the project*
+    * This uses the exact same reports to render the FO (Formatting Objects Xml markup) -- that is converted into Pdf format -- as noted above.
+	* You can explicity run the ApacheFOP Renderings by using the explicit routes:
+	  1. **XSLT + ApacheFOP.Serverless:** `/movies/pdf/xslt/apache-fop?title=star%20wars`
+	  2. **Razor + ApacheFOP.Serverless:** `/movies/pdf/razor/apache-fop?title=star%20wars`
+
+
 #### XslFO.ViewerApplication project
+*NOTE: Not Yet Updated to work with ApacheFOP.Serverless, but works well with legacy Fonet in-memory rendering*
+
 Provides a Windows client/desktop application that can be used as a viewer to provide real-time previews while creating/developing your Xslt and/or Xsl-FO.
 1. You use any text editor you like (e.g. Notepad++) to edit your Xslt.
 2. Then you can point the ViewerApplication to any of the following to view preview the results:
@@ -151,40 +276,6 @@ that are located in the Web MVC project (see below).
     * Samples of the pre-generated FO Xml -- generated by the MVC project -- are saved in the `Samples` folder of the XslFO.ViewerApplication:
       * Star Wars Movie Report.fo
       * The Matrix Movie Report.fo
-
-#### XslFO.WebMvc.AspNet project
-Provides a Web based client application based on ASP.Net MVC that can be used to dynamically render and stream the Pdf to the browser.  It provides an example of how elegant it can be to manage Xslt or Razor based (templated approach) reports in a web application and dynamically render Pdf's to client requests.
-1. The sample report uses the OMDB Api to get results based on Movie Title Search
-	* [http://www.omdbapi.com](http://www.omdbapi.com)
-3. The default route for the application is **/movies/pdf** and will result in the results being rendered by the 
-**Razor Templating engine + FONet (in-memory)** with a default Search using **"Star Wars"**
-    * **The XSLT Templating engine is also supported (see below for explicitly testing with that engine)** 
-	* In addition, you can specify any dynamic search you want by using the "title" parameter: **/pdf?title={movie title here}**, some samples are:
-		1. /movies/pdf?title=star%20trek
-        2. /movies/pdf?title=the%20matrix
-		2. /movies/pdf?title=braveheart
-		3. /movies/pdf?title=finding%20nemo
-3. The Razor Mediator reports that render the FO (Formatting Objects Xml markup) -- that is converted into Pdf format -- are 
-located in the MVC Project at:
-	* **XslFO.TestSolution/XslFO.WebMvc.AspNet/Reports.Razor/...**
-	* You can always explicity run the Razor Templating engine by using the explicit route:
-	    1. /movies/pdf/razor?title=star%20wars
-4. The XSLT reports that render the FO  (Formatting Objects Xml markup) -- that is converted into Pdf format -- are 
-located in the MVC Project at:
-	* **XslFO.TestSolution/XslFO.WebMvc.AspNet/Reports.XslFO/...**
-	* You can always explicity run the XSLT Templating engine by using the explicit route:
-	    1. /movies/pdf/xslt?title=star%20wars
-5. The **ApacheFOP.Serverless Rendering engine** implementation in the Demo project utilizes either Xslt or Razore templates by appending
-**/apache-fop** to the above paths as follows:
-    * Note: The XSL-FO markup will be generated with the specified template (per the path route), and then the
-request to render the PDF will be sent to the configured serverless deployment of [ApacheFOP.Serverless](https://github.com/cajuncoding/ApacheFOP.Serverless) 
-to render the binary PDF file.
-    * The reports that render the FO (Formatting Objects Xml markup) -- that is converted into Pdf format -- are located as noted above.
-located in the MVC Project at:
-	* You can explicity run the ApacheFOP Renderings by using the explicit routes:
-	  1. **XSLT + ApacheFOP.Serverless:** /movies/pdf/xslt/apache-fop?title=star%20wars
-	  2. **Razor + ApacheFOP.Serverless:** /movies/pdf/razor/apache-fop?title=star%20wars
-
 ```
 /*
 Copyright 2012 Brandon Bernard

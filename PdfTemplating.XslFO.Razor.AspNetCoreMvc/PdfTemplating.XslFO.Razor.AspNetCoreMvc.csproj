@@ -15,7 +15,7 @@
 		<PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop apache-fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
 		<PackageReleaseNotes>
 			- Initial relase of fully functioning Razor Template Renderer for Asp.NET Core; generally mirroring functionality fo the original Asp.NET MVC (legacy) version but now fully Async along with a few deviations necessiated by .NET Core best practices.
-			- Strongly encouraged use of de-coupled Templating and Rendering processes via ApacheFOP.Serverless; therefore sample projects for .NET Core no longer implement legacy Fonet; which likely has issues in non-Windows environements.
+			- New AspNetCore version Strongly encourages use of de-coupled Templating and Rendering processes via ApacheFOP.Serverless; therefore the sample projects for .NET Core no longer implement legacy Fonet -- which has known issues in non-Windows environements.
 		</PackageReleaseNotes>
 	</PropertyGroup>
 

@@ -29,6 +29,8 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
         }
 
         /// <summary>
+        /// NOTE: This method is strongly discouraged and is flagged as Obsolete so that consumers will use the truly Async version instead!
+        ///
         /// Implements the IPdfTemplatingRenderer interface with FO.NET in-memory rendering engine for illustration purposes!
         /// NOTE: This method orchestrates all logic to create the view model, execute the view template,
         ///         and render the XSL-FO output, and then convert that XSL-FO output to a valid Pdf
@@ -37,33 +39,12 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
         /// </summary>
         /// <param name="templateModel"></param>
         /// <returns></returns>
+        [Obsolete("In AspNetCore all I/O tasks are truly Async so the RenderPdfAsync() method should be used instead!")]
         public virtual byte[] RenderPdf(MovieSearchResponse templateModel)
         {
-            //***********************************************************
-            //Execute the XSLT Transform to generate the XSL-FO output
-            //***********************************************************
-            //Render the XSL-FO output from the Razor Template and the View Model
-            var xslfoContent = this.RenderXslFOContent(templateModel);
-
-            //Create the Pdf Options for the XSL-FO Rendering engine to use
-            var pdfOptions = new XslFOPdfOptions()
-            {
-                Author = Assembly.GetExecutingAssembly()?.GetName()?.Name ?? "PdfTemplating Renderer",
-                Title = $"Xsl-FO Pdf Templating Renderer [{this.GetType().Name}]",
-                Subject = $"Dynamic Xslt Generated Xsl-FO Pdf Document [{DateTime.Now}]",
-                //SET the Base Directory for XslFO Images, Xslt Imports, etc.
-                BaseDirectory = this.XsltFileInfo.Directory,
-                EnableAdd = false,
-                EnableCopy = true,
-                EnableModify = false,
-                EnablePrinting = true,
-            };
-
-            //****************************************************************************
-            //Execute the Transformation of the XSL-FO source to Binary Pdf via Fonet
-            //****************************************************************************
-            var xslFOPdfRenderer = new FONetXslFOPdfRenderer(pdfOptions);
-            var pdfBytes = xslFOPdfRenderer.RenderPdfBytes(xslfoContent);
+            //Provide a synchronous (blocking) implementation by blocking the Async task; as all I/O is truly Async now in AspNetCore!
+            var syncTaskRunner = Task.Run(() =>RenderPdfAsync(templateModel));
+            var pdfBytes = syncTaskRunner.GetAwaiter().GetResult();
             return pdfBytes;
         }
 
