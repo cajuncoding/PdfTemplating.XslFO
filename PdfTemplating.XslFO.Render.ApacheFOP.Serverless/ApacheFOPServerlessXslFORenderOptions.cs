@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.CustomExtensions;
 using Microsoft.AspNetCore.WebUtilities;
+using Flurl;
 
 namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 {
@@ -28,20 +29,20 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
         public const string DefaultXslFoApiPath = "api/apache-fop/xslfo";
         public const string DefaultGzipApiPath = "api/apache-fop/gzip";
 
-        public ApacheFOPServerlessXslFORenderOptions(Uri apacheFopServlessHostUri)
+        public ApacheFOPServerlessXslFORenderOptions(Uri apacheFopServlessUriWithToken)
         {
             
-            apacheFopServlessHostUri.AssertArgumentIsNotNull(nameof(apacheFopServlessHostUri), "A valid Uri to the Apache FOP service must be specified.");
+            apacheFopServlessUriWithToken.AssertArgumentIsNotNull(nameof(apacheFopServlessUriWithToken), "A valid Uri to the Apache FOP service must be specified.");
 
             //Safely parse the Host as we expect from the provided Uri.
-            var hostUrlString = apacheFopServlessHostUri
+            var hostUrlString = apacheFopServlessUriWithToken
                 .GetComponents(UriComponents.SchemeAndServer, UriFormat.SafeUnescaped)
-                .AssertArgumentIsNotNullOrBlank(nameof(apacheFopServlessHostUri), "The Apache FOP service Uri provided is invalid; the Server Host and Scheme of the Uri are blank/empty.");
+                .AssertArgumentIsNotNullOrBlank(nameof(apacheFopServlessUriWithToken), "The Apache FOP service Uri provided is invalid; the Server Host and Scheme of the Uri are blank/empty.");
             
             this.ApacheFOPServiceHost = new Uri(hostUrlString);
 
             //Safely parse the API Path as we expect from the provided Uri if included.
-            var apiPath = apacheFopServlessHostUri.GetComponents(UriComponents.Path, UriFormat.SafeUnescaped);
+            var apiPath = apacheFopServlessUriWithToken.GetComponents(UriComponents.Path, UriFormat.SafeUnescaped);
             if (!string.IsNullOrWhiteSpace(apiPath))
             {
                 this.ApacheFopXslFoApi = apiPath;
@@ -50,12 +51,16 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             }
 
             //Safely initialize any pre-defined Querystring Params from the original Uri
-            var query = QueryHelpers.ParseQuery(apacheFopServlessHostUri.Query);
+            var query = QueryHelpers.ParseQuery(apacheFopServlessUriWithToken.Query);
             foreach (var key in query.Keys)
             {
                 this.QuerystringParams[key] = query[key].ToString();
             }
         }
+
+        public ApacheFOPServerlessXslFORenderOptions(Uri apacheFopServlessHostUri, string azFuncAuthTokenCode)
+            : this(apacheFopServlessHostUri.SetQueryParam("code", azFuncAuthTokenCode).ToUri())
+        { }
 
         public int? RequestWaitTimeoutMillis { get; set; }
 
