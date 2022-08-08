@@ -15,7 +15,7 @@ Copyright 2012 Brandon Bernard
 */
 
 using System.Collections.Generic;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;

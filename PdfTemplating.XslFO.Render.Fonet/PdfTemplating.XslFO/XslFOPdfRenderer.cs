@@ -16,7 +16,7 @@ Copyright 2012 Brandon Bernard
 
 using PdfTemplating.XslFO.Fonet.CustomExtensions;
 using System;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using System.Xml.Linq;
 
 namespace PdfTemplating.XslFO

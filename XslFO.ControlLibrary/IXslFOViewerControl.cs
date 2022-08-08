@@ -15,15 +15,10 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Xml.Xsl;
 using System.Xml.Linq;
-using System.Xml.Linq.CustomExtensions;
-using PdfTemplating.XslFO.Fonet.CustomExtensions;
 using System.IO;
-using System.Text;
 using PdfTemplating.XslFO;
+using PdfTemplating.SystemXmlLinqXsltCustomExtensions;
 
 namespace XslFO.ControlLibrary
 {

@@ -4,7 +4,7 @@ using PdfTemplating.XslFO.ApacheFOP.Serverless;
 
 var directoryInfo = new DirectoryInfo(@$"{Directory.GetCurrentDirectory()}\FOSamples");
 var fileInfo = directoryInfo.GetFiles("StarWarsMovies.fo").FirstOrDefault();
-Console.WriteLine($"{Environment.NewLine}Loading XslFO Markup from File: {fileInfo.FullName}");
+Console.WriteLine($"{Environment.NewLine}Loading XslFO Markup from File: {fileInfo?.FullName}");
 
 var xslfoMarkup = await File.ReadAllTextAsync(fileInfo.FullName);
 Console.WriteLine($"{Environment.NewLine}[{xslfoMarkup.Length}] Bytes loaded successfully...");

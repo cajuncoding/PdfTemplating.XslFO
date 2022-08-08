@@ -5,16 +5,17 @@
 		<Authors>BBernard / CajunCoding</Authors>
 		<Company>CajunCoding.com</Company>
 		<Description>This is a C#.Net solution that provides the capability to easily generate Pdf files with a templating approach using Razor Mvc templates; as opposed to extremely complex code based approaches most libraries provide. It's based on the Xsl-FO standard for rendering robust paged media outputs as PDF Documents.</Description>
-		<Version>2.0.0</Version>
+		<Version>3.1</Version>
 		<Copyright>Copyright © 2020</Copyright>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
 		<PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop apache-fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
 		<PackageReleaseNotes>
-			- Updated to sync with new v3.0 Common and new v3 due to breaking changes.
+			- Breaking Namespace changes for CustomExtensions to reduce risk of conflicts.
+
+			Prior Release Notes:
+			- Updated to sync with new v3 Common and new v3 due to breaking changes.
 			- Breaking changes now with simplified API; no longer enforce XDocument instead we now simplify with strings leaving the validation to the implementation.
-			
-			Prior Release Notes:			
 			- v2.0 Upgrade for PdfTemplating with XSLT Templates.
 			- Contains Breaking changes to now fully decouple the Templeting from Rendering execution and to support ApacheFOP.Serverless (updated ApacheFOP Pdf Service approach) as well as legacy FONet (old in-memory engine).
 		</PackageReleaseNotes>

@@ -1,5 +1,5 @@
 ﻿using System;
-using System.CustomExtensions;
+using PdfTemplating.SystemCustomExtensions;
 using PdfTemplating.XslFO.Xslt;
 using PdfTemplating.XslFO;
 using System.Reflection;

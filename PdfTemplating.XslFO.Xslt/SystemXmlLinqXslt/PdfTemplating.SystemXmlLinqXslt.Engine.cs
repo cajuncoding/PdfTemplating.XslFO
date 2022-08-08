@@ -15,24 +15,16 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
-using System.CustomExtensions;
+using System.IO;
+using PdfTemplating.SystemCustomExtensions;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Xml;
 using System.Xml.Xsl;
-using System.Xml.XPath;
 using System.Xml.Linq;
-using System.Xml.Linq.CustomExtensions;
-using System.Text.RegularExpressions;
-using System.Text.RegularExpressions.CustomExtensions;
-using System.Security;
-using System.Web;
-using System.IO;
-using System.IO.CustomExtensions;
+using PdfTemplating.SystemXmlLinqCustomExtensions;
+using PdfTemplating.SystemIOCustomExtensions;
 
-namespace System.Xml.Linq.CustomExtensions
+namespace PdfTemplating.SystemXmlLinqXsltCustomExtensions
 {
     #region Xslt Transform Utility Classes
 

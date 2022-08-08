@@ -19,9 +19,9 @@ Copyright 2012 Brandon Bernard
 //using System.Linq;
 //using System.Text;
 //using System.IO;
-//using System.IO.CustomExtensions;
+//using PdfTemplating.SystemIOCustomExtensions;
 //using System.Diagnostics;
-//using System.CustomExtensions;
+//using PdfTemplating.SystemCustomExtensions;
 
 //namespace XslFO.ControlLibrary
 //{

@@ -15,14 +15,16 @@ Copyright 2012 Brandon Bernard
 */
 
 using System.Collections.Generic;
-//using System.Collections.CustomExtensions;
 using System.IO;
-using System.IO.CustomExtensions;
+using PdfTemplating.SystemIOCustomExtensions;
 using System.Linq;
-using System.Xml.Linq.CustomExtensions;
+using PdfTemplating.SystemXmlLinqCustomExtensions;
 using System.Xml.Xsl;
+using System;
+using System.Xml;
+using System.Xml.Linq;
 
-namespace System.Xml.Linq.Xslt.CustomExtensions
+namespace PdfTemplating.SystemXmlLinqXsltCustomExtensions
 {
     /// <summary>
     /// Provides extension methods for simple conversion, proxy, processing, etc. between System.Xml and System.Xml.Linq classes.
