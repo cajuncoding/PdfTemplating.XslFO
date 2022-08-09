@@ -11,6 +11,13 @@ API libraries out there require licenses that make them no longer feasible solut
 It's a simple Java based Azure Function enabling a serverless microservice for Apache FOP via an Azure Function! Super light-weight, really slick, and easy to deploy . . . providing the flexibility of the latest (e.g. v2.5) Xsl-FO processing from Apache FOP!
 * <a href="https://github.com/cajuncoding/ApacheFOP.Serverless">ApacheFOP.Serverless Repo is here!</a>
 
+### More Background & Context:
+* PDF Reporting from Web Apps, How hard can it be?
+  * [Part 1: Considerations for a robust PDF or Web reporting solution?](https://cajuncoding.com/2020-11-17-pdf-reports-part1-how-hard-can-it-be/)
+  * [Part 2: Why markup based PDF Templating is the way to go...](https://cajuncoding.com/2020-11-17-pdf-reports-part1-how-hard-can-it-be/)
+* [PDF Reporting with a Serverless Architecture!](https://cajuncoding.com/2020-11-17-pdf-reports-part1-how-hard-can-it-be/)
+  * More details, illustrations, and overview of the PDF-as-a-Service architectrue using ApacheFOP...
+
 #### May 2022 Updates:
   * All Example projects have been updated with support for PDF-as-a-service as the strongly recommended approach; vs in-memory processing with the legacy/deprecated Fonet library (which has known issues in non-windows environments).
   * New ASP.NET Core MVC implementattion and Nuget libraries have been added.
