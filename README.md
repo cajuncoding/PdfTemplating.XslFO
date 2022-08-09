@@ -1,17 +1,32 @@
-# PdfTemplating.XslFO
+﻿# PdfTemplating.XslFO
 This is a C#.Net solution that provides the capability to easily generate Pdf files using a templated approach that provides great separation between presentation
 (the template) and data (the Model); as opposed to extremely complex code based approaches most libraries provide.
-It's based on the Xsl-FO standard and currently is dependent on an old but still very functional libray "Fonet" -- which is port of Apache FOP to C#.
+It's based on the Xsl-FO standard and now with ApacheFOP.Serverless provides a PDF-as-a-service architecture for generating PDF reports without unnecessary complexity
+and long term technical debt of legacy approaches (e.g. reporting engines).
 
 In addition, this is a completely open-source and free solution to use (even commercially).  Many of the complex (powerful maybe, but horribly difficult to develop and maintain)
-API libraries out there require licenses and are no longer possible solutions when simply due to steep licensing costs.
+API libraries out there require licenses that make them no longer feasible solutions simply due to steep licensing costs for many projects.
 
-**Apache FOP support is now in Progress:** It's still pending documentation and readme updates, but I've got a fully functioning serverless implementation of Apache FOP (up-to-date Xsl-FO rendering engine) in it's own repo!  It's a simple Java app enabling a serverless microservice for Apache FOP via an Azure Function! Super light-weight, really slick, and easy to deploy . . . providing the flexibility of the latest (e.g. v2.5) Xsl-FO processing from Apache FOP!
-
+`ApacheFOP.Serverless` is a fully functioning serverless implementation of Apache FOP (up-to-date Xsl-FO rendering engine).  
+It's a simple Java based Azure Function enabling a serverless microservice for Apache FOP via an Azure Function! Super light-weight, really slick, and easy to deploy . . . providing the flexibility of the latest (e.g. v2.5) Xsl-FO processing from Apache FOP!
 * <a href="https://github.com/cajuncoding/ApacheFOP.Serverless">ApacheFOP.Serverless Repo is here!</a>
-* <a href="https://github.com/cajuncoding/PdfTemplating.XslFO/tree/feature/iniial_support_for_apache_fop_serverless_rendering">PdfTemplating.XslFO Branch Compatible with Serverless Apache FOP is here!</a>
+
+#### May 2022 Updates:
+  * All Example projects have been updated with support for PDF-as-a-service as the strongly recommended approach; vs in-memory processing with the legacy/deprecated Fonet library (which has known issues in non-windows environments).
+  * New ASP.NET Core MVC implementattion and Nuget libraries have been added.
 
 **I hope this helps anyone looking to dynamically generate PDF files in C# or .Net with a templating approach that is far more maintainable than other code based generation/manipulation approaches . . .**
+
+**If you like this project and/or use it the please give me a Star (c'mon it's free, and it'll make my day)!**
+
+### [Buy me a Coffee ☕](https://www.buymeacoffee.com/cajuncoding)
+*I'm happy to share with the community, but if you find this useful (e.g for professional use), and are so inclinded,
+then I do love-me-some-coffee!*
+
+<a href="https://www.buymeacoffee.com/cajuncoding" target="_blank">
+<img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174">
+</a> 
+
 
 ### Project Overview:
 This project illustrates the capabilities of using templating based approaches to render Xsl-FO for dynamically generating PDF documents. 
