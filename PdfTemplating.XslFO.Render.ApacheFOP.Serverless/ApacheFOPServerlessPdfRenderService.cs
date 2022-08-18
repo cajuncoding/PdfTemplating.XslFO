@@ -49,7 +49,10 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             }
             catch (FlurlHttpException flurlHttpException)
             {
-                var apacheFopServerlessApiException = await ApacheFOPServerlessApiException.FromFlurlHttpExceptionAsync(flurlHttpException, xslfoContent);
+                var apacheFopServerlessApiException = await ApacheFOPServerlessApiException.FromFlurlHttpExceptionAsync(
+                    flurlHttpException,
+                    requestBody: xslfoContent
+                );
                 throw apacheFopServerlessApiException;
             }
 
@@ -80,10 +83,25 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             return response.PdfBytes;
         }
 
+        /// <summary>
+        /// Public method to get the raw Url (not yet a fully formed Rest Request) for support
+        /// in debugging, error handling, etc.
+        /// </summary>
+        /// <returns></returns>
+        public virtual Url CreateRestUrl()
+        {
+            var restRequestUrl = Options.ApacheFOPServiceHost.AppendPathSegment(Options.GetApacheFopApiPath());
+            
+            //Append Request Querystring Params if defined...
+            foreach (var item in this.Options.QuerystringParams)
+                restRequestUrl.SetQueryParam(item.Key, item.Value);
+
+            return restRequestUrl;
+        }
+
         protected virtual IFlurlRequest CreateRestRequest()
         {
-            var restRequest = Options.ApacheFOPServiceHost
-                .AppendPathSegment(Options.GetApacheFopApiPath())
+            var restRequest = CreateRestUrl()
                 //Always add the custom header denoting the content type of the payload for processing (e.g. Always Xml)
                 //NOTE: We provide this as as a fallback for reference if ever needed because ApacheFop.Serverless Azure Function now
                 //      supports both GZIP & String payloads, and therefore the normal ContentType header may be set to Binary Octet-Stream
@@ -117,10 +135,6 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
             //Manually add special case Gzip Compression Header for Responses if not already defined (e.g. we Accept GZIP Encoding as a response)...
             if (Options.EnableGzipCompressionForResponses && !this.Options.RequestHeaders.ContainsKey(ApacheFOPServerlessHeaders.AcceptEncoding))
                 restRequest.WithHeader(ApacheFOPServerlessHeaders.AcceptEncoding, ApacheFOPServerlessEncodings.GzipEncoding);
-
-            //Append Request Querystring Params if defined...
-            foreach (var item in this.Options.QuerystringParams)
-                restRequest.SetQueryParam(item.Key, item.Value);
 
             return restRequest;
         }

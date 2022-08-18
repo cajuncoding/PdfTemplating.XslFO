@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using Flurl;
 using Flurl.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PdfTemplating.XslFO.ApacheFOP.Serverless;
 
 namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
 {
@@ -15,6 +17,16 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
 
         public string ResponseBody { get; }
 
+        /// <summary>
+        /// Returns the Request Uri without the 'code' querystring param if it exists.
+        /// </summary>
+        public Uri RequestUriSecured { get; }
+
+        /// <summary>
+        /// Returns the complete raw Uri including secured query params such as 'code'.
+        /// </summary>
+        public Uri RequestUriRaw { get; }
+
         private JObject _responseJson = null;
         public JObject ToJsonJObject() => _responseJson ?? (_responseJson = ParseJsonSafely(ResponseBody));
 
@@ -23,6 +35,11 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
             var httpStatusCode = HttpStatusCode.InternalServerError;
             var responseBody = await flurlHttpException.GetResponseStringAsync().ConfigureAwait(false);
             var responseJson = ParseJsonSafely(responseBody);
+            
+            var requestUrl = flurlHttpException.Call?.Request?.Url;
+            var requestUriRaw = requestUrl.ToUri();
+            var requestUriSecured = requestUrl.RemoveQueryParam(ApacheFOPServerlessXslFORenderOptions.AzureFunctionsApiTokenQueryParamName).ToUri();
+
             string errorMessage = null;
 
             //Handle Timeout exception...
@@ -43,7 +60,9 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
 
             return new ApacheFOPServerlessApiException(
                 httpStatusCode, 
-                errorMessage, 
+                errorMessage,
+                requestUriRaw: requestUriRaw,
+                requestUriSecured: requestUriSecured,
                 requestPayloadBody: requestBody, 
                 errorResponseBody: responseBody, 
                 errorResponseJson: responseJson, 
@@ -53,7 +72,9 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
 
         public ApacheFOPServerlessApiException(
             HttpStatusCode httpStatusCode,
-            string message, 
+            string message,
+            Uri requestUriRaw,
+            Uri requestUriSecured,
             string requestPayloadBody, 
             string errorResponseBody, 
             Exception innerException = null
@@ -62,6 +83,8 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
             HttpStatusCode = httpStatusCode;
             RequestBody = requestPayloadBody;
             ResponseBody = errorResponseBody;
+            RequestUriRaw = requestUriRaw;
+            RequestUriSecured = requestUriSecured;
         }
 
         /// <summary>
@@ -69,12 +92,14 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
         /// </summary>
         protected ApacheFOPServerlessApiException(
             HttpStatusCode httpStatusCode, 
-            string message, 
+            string message,
+            Uri requestUriRaw,
+            Uri requestUriSecured,
             string requestPayloadBody, 
             string errorResponseBody, 
             JObject errorResponseJson, 
             Exception innerException = null
-        ) : this(httpStatusCode, message, requestPayloadBody, errorResponseBody, innerException)
+        ) : this(httpStatusCode, message, requestUriRaw, requestUriSecured, requestPayloadBody, errorResponseBody, innerException)
         {
             _responseJson = errorResponseJson;
         }

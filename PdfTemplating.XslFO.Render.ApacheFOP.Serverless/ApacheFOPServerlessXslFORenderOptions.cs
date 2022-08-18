@@ -24,6 +24,7 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 {
     public class ApacheFOPServerlessXslFORenderOptions
     {
+        public const string AzureFunctionsApiTokenQueryParamName = "code";
         public const string DefaultXslFoCommandName = "xslfo";
         public const string DefaultGzipCommandName = "gzip";
         public const string DefaultXslFoApiPath = "api/apache-fop/xslfo";
@@ -31,7 +32,6 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 
         public ApacheFOPServerlessXslFORenderOptions(Uri apacheFopServlessUriWithToken)
         {
-            
             apacheFopServlessUriWithToken.AssertArgumentIsNotNull(nameof(apacheFopServlessUriWithToken), "A valid Uri to the Apache FOP service must be specified.");
 
             //Safely parse the Host as we expect from the provided Uri.
@@ -59,7 +59,7 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
         }
 
         public ApacheFOPServerlessXslFORenderOptions(Uri apacheFopServlessHostUri, string azFuncAuthTokenCode)
-            : this(apacheFopServlessHostUri.SetQueryParam("code", azFuncAuthTokenCode).ToUri())
+            : this(apacheFopServlessHostUri.SetQueryParam(AzureFunctionsApiTokenQueryParamName, azFuncAuthTokenCode).ToUri())
         { }
 
         public int? RequestWaitTimeoutMillis { get; set; }
