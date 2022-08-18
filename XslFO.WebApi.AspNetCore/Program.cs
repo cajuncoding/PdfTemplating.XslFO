@@ -24,6 +24,7 @@ var apacheFOPServiceHostString = Environment.GetEnvironmentVariable("XslFO.Apach
 //Construct the REST request options and append the Security Token (as QuerystringParam):
 builder.Services.AddSingleton(s => new ApacheFOPServerlessXslFORenderOptions(new Uri(apacheFOPServiceHostString))
 {
+    //RequestWaitTimeoutMillis = 10, //TESTING Timeout Exception!
     EnableGzipCompressionForRequests = Environment.GetEnvironmentVariable("XslFO.ApacheFOP.Serverless.GzipRequestsEnabled").EqualsIgnoreCase(bool.TrueString),
     EnableGzipCompressionForResponses = Environment.GetEnvironmentVariable("XslFO.ApacheFOP.Serverless.GzipResponsesEnabled").EqualsIgnoreCase(bool.TrueString)
 });

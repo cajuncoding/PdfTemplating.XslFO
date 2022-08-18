@@ -6,7 +6,8 @@ namespace PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers
 {
     public class ApacheFOPServerlessHelperClient
     {
-        private IAsyncXslFOPdfRenderer ApacheFOPService { get; }
+        protected IAsyncXslFOPdfRenderer ApacheFOPService { get; }
+
         public ApacheFOPServerlessHelperClient(IAsyncXslFOPdfRenderer apacheFopService)
         {
             ApacheFOPService = apacheFopService.AssertArgumentIsNotNull(nameof(apacheFopService));

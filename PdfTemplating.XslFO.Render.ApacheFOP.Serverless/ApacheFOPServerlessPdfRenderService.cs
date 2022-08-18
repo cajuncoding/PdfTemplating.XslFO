@@ -42,7 +42,16 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 
             //Execute the request to the service, validate, and retrieve the Raw Binary response...
             var httpContent = await CreatePayloadAsync(xslfoContent).ConfigureAwait(false);
-            var restResponse = await restRequest.PostAsync(httpContent, cancellationToken).ConfigureAwait(false);
+            IFlurlResponse restResponse;
+            try
+            {
+                restResponse = await restRequest.PostAsync(httpContent, cancellationToken).ConfigureAwait(false);
+            }
+            catch (FlurlHttpException flurlHttpException)
+            {
+                var apacheFopServerlessApiException = await ApacheFOPServerlessApiException.FromFlurlHttpExceptionAsync(flurlHttpException, xslfoContent);
+                throw apacheFopServerlessApiException;
+            }
 
             //Read Response Headers to return...
             var headersDictionary = await GetResponseHeadersDictionaryAsync(restResponse).ConfigureAwait(false);
