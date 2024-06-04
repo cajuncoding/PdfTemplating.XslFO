@@ -5,17 +5,18 @@
 		<Authors>BBernard / CajunCoding</Authors>
 		<Company>CajunCoding</Company>
 		<Description>This is a C#.Net solution that provides the capability to easily render PDF documents with a templating approach using your choice of templating technology (e.g. Xslt, Razor Mvc templates, or custom) and the latest version of ApacheFOP.Serverless (PDF-as-a-Service) for binary rendering. It's based on the Xsl-FO standard for robust paged media generation and ApacheFOP.Serverless is a separate project that enables the easy use of the latest version of Apache FOP as a PDF Rendering Service using Azure Functions.</Description>
-		<Version>3.2.1</Version>
+		<Version>4.0.0</Version>
 		<Copyright>Copyright © 2020</Copyright>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
 		<PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop apache-fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
 		<PackageReleaseNotes>
-			- Add support to retrieve the fully qualified Request Uri from the Service and Exception for use by the consumer for debugging, error handling, etc.
+			- Update for Flurl v4.0 support due to breaking changes from Flurl v3 causing runtime errors.
 
 			Prior Release Notes:
+			- Add support to retrieve the fully qualified Request Uri from the Service and Exception for use by the consumer for debugging, error handling, etc.
 			- Error handling improvements to now wrap FlurlHttpExceptions as new ApacheFOPServerlessApiException class (potentially breaking change); which now encapsulates and abstracts the main exception while
-				providing more details including request payload, and automatically parsing the response error message from the response body.
+			providing more details including request payload, and automatically parsing the response error message from the response body.
 			- Breaking Namespace changes for CustomExtensions to reduce risk of conflicts.
 			- Updated to sync with new v3.0 Common and new v3 due to breaking changes.
 			- Refactored Interfaces to better support Dependency Injection; some small breaking changes to method signatures.
@@ -41,8 +42,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Flurl.Http" Version="3.2.4" />
-	  <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+	  <PackageReference Include="Flurl.Http" Version="4.0.2" />
+	  <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.1.1" />
 	</ItemGroup>
 
 	<ItemGroup>
