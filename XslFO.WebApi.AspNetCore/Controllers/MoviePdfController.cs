@@ -14,10 +14,8 @@ Copyright 2012 Brandon Bernard
    limitations under the License.
 */
 
-using System;
 using PdfTemplating.SystemCustomExtensions;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using PdfTemplating.AspNetCoreMvc.Reports.PdfRenderers;
 using XslFO.Samples.MovieSearchService;
 

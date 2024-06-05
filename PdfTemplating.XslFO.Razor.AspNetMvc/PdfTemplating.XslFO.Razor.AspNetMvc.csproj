@@ -27,7 +27,7 @@
 		</PackageReleaseNotes>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNet.Mvc" Version="5.0.0" />
+		<PackageReference Include="Microsoft.AspNet.Mvc" Version="5.3.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj" />

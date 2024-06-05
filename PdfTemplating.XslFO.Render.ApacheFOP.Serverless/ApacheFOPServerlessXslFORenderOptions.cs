@@ -16,9 +16,10 @@ Copyright 2020 Brandon Bernard
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using PdfTemplating.SystemCustomExtensions;
-using Microsoft.AspNetCore.WebUtilities;
 using Flurl;
+using Flurl.Util;
 
 namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 {
@@ -50,11 +51,11 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
                 this.ApacheFopGzipApi = apiPath.Replace(DefaultXslFoCommandName, DefaultGzipCommandName);
             }
 
-            //Safely initialize any pre-defined Querystring Params from the original Uri
-            var query = QueryHelpers.ParseQuery(apacheFopServlessUriWithToken.Query);
-            foreach (var key in query.Keys)
+            //Safely initialize any pre-defined Querystring Params from the original Uri (using Flurl.Util helpers)...
+            var queryParams = apacheFopServlessUriWithToken.Query.ToKeyValuePairs();
+            foreach (var (key, value) in queryParams)
             {
-                this.QuerystringParams[key] = query[key].ToString();
+                this.QuerystringParams[key] = value.ToString();
             }
         }
 

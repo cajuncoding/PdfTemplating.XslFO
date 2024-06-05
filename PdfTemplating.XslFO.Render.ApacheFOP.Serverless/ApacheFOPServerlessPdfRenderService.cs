@@ -65,6 +65,7 @@ namespace PdfTemplating.XslFO.ApacheFOP.Serverless
 
             //Read teh Pdf Bytes (decompressing if necessary) and return the Apache FOP Serverless response...
             var rawResponseBytes = await restResponse.GetBytesAsync().ConfigureAwait(false);
+
             var pdfBytes = isResponseGzipEncoded
                 ? await rawResponseBytes.GzipDecompressAsync().ConfigureAwait(false)
                 : rawResponseBytes;
