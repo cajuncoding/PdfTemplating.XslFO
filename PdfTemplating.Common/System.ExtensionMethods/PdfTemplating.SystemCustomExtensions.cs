@@ -29,7 +29,6 @@ using System.Web;
 using PdfTemplating.SystemCustomExtensions;
 using System.Globalization;
 using PdfTemplating.SystemXmlLinqCustomExtensions;
-using Newtonsoft.Json.Linq;
 
 namespace PdfTemplating.SystemCustomExtensions
 {
@@ -217,115 +216,6 @@ namespace PdfTemplating.SystemCustomExtensions
 			return output;
 		}
 	}
-
-	public static class SystemExceptionCustomExtensions
-	{
-        private const string _nestedExceptionFormatString = "[{0}] {1}";
-
-        /// <summary>
-        /// Retrieve a string containing ALL descendent Exception Messages using the specified format string; traversing all nested exceptions as necessary.
-        /// </summary>
-        /// <param name="thisException"></param>
-        /// <returns></returns>
-        public static String GetMessagesRecursively(this Exception thisException)
-        {
-            StringBuilder stringBuilder = new StringBuilder();
-            string exceptionMessage = String.Empty;
-
-            if (thisException != null)
-            {
-                exceptionMessage = TerminateMessageHelper(thisException.Message);
-                stringBuilder.AppendFormat(_nestedExceptionFormatString, thisException.GetType().Name, exceptionMessage);
-
-                //Traverse all InnerExceptions
-                Exception innerException = thisException.InnerException;
-                while (innerException != null)
-                {
-                    exceptionMessage = TerminateMessageHelper(innerException.Message);
-                    stringBuilder.AppendFormat(_nestedExceptionFormatString, innerException.GetType().Name, exceptionMessage);
-                    innerException = innerException.InnerException;
-                }
-
-                //Handle New .Net 4.0 Aggregate Exception Type as a special Case because
-                //AggregateExceptions contain a list of Exceptions thrown by background threads.
-                if (thisException is AggregateException aggregateExc)
-                {
-                    foreach (var exc in aggregateExc.InnerExceptions)
-                    {
-                        //exceptionMessage = TerminateMessageHelper(exc.Message);
-                        exceptionMessage = TerminateMessageHelper(exc.GetMessagesRecursively());
-                        stringBuilder.AppendFormat(_nestedExceptionFormatString, exc.GetType().Name, exceptionMessage);
-                    }
-                }
-            }
-
-            return stringBuilder.ToString();
-        }
-
-        private static string TerminateMessageHelper(string message)
-        {
-            if (!string.IsNullOrEmpty(message) && !message.EndsWith(".") && !message.EndsWith(";"))
-            {
-                return string.Concat(message, ";");
-            }
-
-            return message;
-        }
-
-        /// <summary>
-		/// Provides a simplified Json object model that can be safely used and serialized with no risk of
-		/// recursive reference errors that the Exception class.
-		/// </summary>
-		/// <param name="exc"></param>
-		/// <param name="includeStackTrace"></param>
-		/// <returns></returns>
-        public static JObject ToSimplifiedJObjectModel(this Exception exc, bool includeStackTrace = false)
-        {
-            var type = exc.GetType();
-            var exceptionJson = JObject.FromObject(new
-            {
-                ExceptionType = type.FullName,
-                ExceptionTypeName = type.Name,
-                AllMessages = exc.GetMessagesRecursively(),
-                Data = exc.Data,
-                HResult = exc.HResult,
-                Source = exc.Source,
-            });
-
-            if (includeStackTrace)
-                exceptionJson[nameof(exc.StackTrace)] = exc.StackTrace;
-
-            return exceptionJson;
-        }
-
-		/// <summary>
-		/// Safely convert the Exception to Json without issues relating to recursive references;
-		/// handles all nested inner exceptions and ensures that we get all relevant data and messages with
-		/// optional StackTraces included.
-		/// </summary>
-		/// <param name="exc"></param>
-		/// <param name="includeStackTrace"></param>
-		/// <returns></returns>
-        public static string ToJson(this Exception exc, bool includeStackTrace = false)
-        {
-            //Simplify and map the Exception Model for Serialization...
-            var exceptionJson = ToSimplifiedJObjectModel(exc, includeStackTrace);
-
-            var innerException = exc.InnerException;
-            var parentExceptionJson = exceptionJson;
-            while (innerException != null)
-            {
-                var newInnerException = ToSimplifiedJObjectModel(innerException, includeStackTrace);
-				//Set the Inner Exception into the Parent...
-                parentExceptionJson[nameof(exc.InnerException)] = newInnerException;
-				//Now Re-set the Parent to the new Inner Exception, and see if there are any further Inner Exceptions to handle; so we keep crawling the tree...
-                parentExceptionJson = newInnerException;
-                innerException = innerException.InnerException;
-            }
-
-            return exceptionJson.ToString();
-        }
-    }
 
 	public static class SystemStringCustomExtensions
 	{
@@ -1667,81 +1557,6 @@ namespace PdfTemplating.SystemCustomExtensions
 
 		#endregion
 	}
-
-	public static class SystemEventHandlerDelegateCustomExtensions
-	{
-
-		//Note:  We do not implement overloads that take in only an Object param as teh sender because this lends to easy bugs since
-		//       mistaking the EventHandler<T> as the sender object is easy and yields Runtime errors.
-		public static bool Raise(this EventHandler _this, object sender)
-		{
-			return _this.Raise(sender, null);
-		}
-
-		//Note:  We do not implement overloads that take in only an Object param as teh sender because this lends to easy bugs since
-		//       mistaking the EventHandler<T> as the sender object is easy and yields Runtime errors.
-		public static bool Raise(this EventHandler _this, object sender, EventArgs eventArgs)
-		{
-			if (_this != null)
-			{
-				_this(sender, eventArgs ?? EventArgs.Empty);
-				return true;
-			}
-			return false;
-		}
-
-		//Note:  We do not implement overloads that take in only an Object param as teh sender because this lends to easy bugs since
-		//       mistaking the EventHandler<T> as the sender object is easy and yields Runtime errors.
-		public static bool Raise(this EventHandler<EventArgs> _this, object sender)
-		{
-			return _this.Raise(sender, EventArgs.Empty);
-		}
-
-		//Note:  We do not implement overloads that take in only an Object param as teh sender because this lends to easy bugs since
-		//       mistaking the EventHandler<T> as the sender object is easy and yields Runtime errors.
-		public static bool Raise<TEventArgs>(this EventHandler<TEventArgs> _this, object sender) where TEventArgs : EventArgs
-		{
-			return _this.Raise<TEventArgs>(sender, null);
-		}
-
-		//Note:  We do not implement overloads that take in only an Object param as teh sender because this lends to easy bugs since
-		//       mistaking the EventHandler<T> as the sender object is easy and yields Runtime errors.
-		public static bool Raise<TEventArgs>(this EventHandler<TEventArgs> _this, object sender, TEventArgs eventArgs) where TEventArgs : EventArgs
-		{
-			try
-			{
-				if (_this != null)
-				{
-					_this(sender, eventArgs);
-					return true;
-				}
-			}
-			catch(Exception exc)
-			{
-				Debug.Write(exc.GetMessagesRecursively());
-			}
-			return false;
-		}
-
-		//public static EventHandler<TEventArgs> AddHandler<TEventArgs>(this EventHandler<TEventArgs> _this, EventHandler<TEventArgs> fnNewHandler) where TEventArgs : EventArgs
-		//{
-		//    if (fnNewHandler != null)
-		//    {
-		//        _this += fnNewHandler;
-		//    }
-		//    return _this;
-		//}
-
-		//public static EventHandler<TEventArgs> RemoveHandler<TEventArgs>(this EventHandler<TEventArgs> _this, EventHandler<TEventArgs> fnNewHandler) where TEventArgs : EventArgs
-		//{
-		//    if (fnNewHandler != null)
-		//    {
-		//        _this -= fnNewHandler;
-		//    }
-		//    return _this;
-		//}
-	}
-
 }
 	
 

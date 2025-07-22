@@ -16,6 +16,7 @@ Copyright 2012 Brandon Bernard
 
 using System;
 using PdfTemplating.SystemCustomExtensions;
+using PdfTemplating.SystemEventHandlerCustomExtensions;
 using System.Globalization;
 using System.Text;
 using System.Xml.XPath;
@@ -23,6 +24,7 @@ using System.Xml.Linq;
 using PdfTemplating.SystemXmlLinqCustomExtensions;
 using System.Text.RegularExpressions;
 using PdfTemplating.SystemTextRegularExpressionsCustomExtensions;
+using PdfTemplating.WebApp.Common;
 
 namespace PdfTemplating.SystemXmlLinqXsltCustomExtensions
 {

@@ -28,7 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="9.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\PdfTemplating.Common\PdfTemplating.XslFO.Common.csproj" />
+    <ProjectReference Include="..\PdfTemplating.WebApp.Common\PdfTemplating.WebApp.Common.csproj" />
     <ProjectReference Include="..\PdfTemplating.XslFO.Razor.AspNetCoreMvc\PdfTemplating.XslFO.Razor.AspNetCoreMvc.csproj" />
     <ProjectReference Include="..\PdfTemplating.XslFO.Render.ApacheFOP.Serverless\PdfTemplating.XslFO.Render.ApacheFOP.Serverless.csproj" />
     <ProjectReference Include="..\PdfTemplating.XslFO.Xslt\PdfTemplating.XslFO.Xslt.csproj" />

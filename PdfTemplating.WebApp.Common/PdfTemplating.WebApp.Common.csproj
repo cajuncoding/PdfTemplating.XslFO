@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	  <RootNamespace>PdfTemplating.WebApp.Common</RootNamespace>
+	  <Authors>BBernard / CajunCoding</Authors>
+	  <Company>CajunCoding.com</Company>
+	  <Description>This project contains the common interfaces and shared foundational classes for the Example Web Apps to use that are not dependencies for the libraries published to Nuget.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="9.0.7" />
+  </ItemGroup>
+
+</Project>

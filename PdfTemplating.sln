@@ -53,6 +53,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PdfTemplating.XslFO.Razor.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XslFO.MovieSearchService", "XslFO.MovieSearchService\XslFO.MovieSearchService.csproj", "{8AC82C3F-B3AA-486C-A445-A0A79DE410F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfTemplating.WebApp.Common", "PdfTemplating.WebApp.Common\PdfTemplating.WebApp.Common.csproj", "{691DBF89-4888-4C17-8491-16D0EB0A88A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,10 @@ Global
 		{8AC82C3F-B3AA-486C-A445-A0A79DE410F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AC82C3F-B3AA-486C-A445-A0A79DE410F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AC82C3F-B3AA-486C-A445-A0A79DE410F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{691DBF89-4888-4C17-8491-16D0EB0A88A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691DBF89-4888-4C17-8491-16D0EB0A88A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{691DBF89-4888-4C17-8491-16D0EB0A88A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{691DBF89-4888-4C17-8491-16D0EB0A88A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +141,7 @@ Global
 		{2553FCDC-5F7D-4FB0-87F9-BF882CDC8F02} = {02290664-0964-4EA5-AA17-20BE04327B71}
 		{C2D01A08-6196-483E-B1BA-07EA7D13BD45} = {3FC646FF-E262-4BEC-ABCE-465EF01DD551}
 		{8AC82C3F-B3AA-486C-A445-A0A79DE410F8} = {625A1E03-1CC9-46A4-8DA4-98871B23CF3C}
+		{691DBF89-4888-4C17-8491-16D0EB0A88A7} = {625A1E03-1CC9-46A4-8DA4-98871B23CF3C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7A57A57D-1914-4887-A77D-2FCB32B09BBE}

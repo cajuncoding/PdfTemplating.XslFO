@@ -5,20 +5,21 @@
 		<Authors>BBernard / CajunCoding</Authors>
 		<Company>CajunCoding.com</Company>
 		<Description>This is a C#.Net solution that provides the capability to easily render PDF documents with a templating approach using your choice of templating technology (e.g. Xslt, Razor Mvc templates, or custom) and the legacy Fonet XslFO in-memory rendering egine. It's based on the Xsl-FO standard for robust paged media generation and currently is dependent on an old but still functional libray "Fonet" -- which is port of an old version of Apache FOP to C#.</Description>
-		<Version>3.1</Version>
+		<Version>3.2</Version>
 		<Copyright>Copyright © 2020</Copyright>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</PackageProjectUrl>
 		<PackageTags>adobe acrobat pdf template razor xslt xslfo xsl-fo xsl fo portrait landscape fluid width apache fop formatting objects itext itextsharp pdfsharp evopdf ironpdf spire freespire expertpdf</PackageTags>
 		<PackageReleaseNotes>
-			- Breaking Namespace changes for CustomExtensions to reduce risk of conflicts.
-			- Updated to sync with new v3 Common and new v3 due to breaking changes.
+			- Update dependencies to resolve issues with Vulnerabilities and Deprecated versions.
 
 			NOTE: This legacy Fonet lilbrary will not work in non-Windows environments due to internal dependencies on System.Drawing.
 			This code is neither supported nor recommended for future use in general as you will be much better served with a de-coupled approach.
 			New projects are strongly recommended to use a PDF-as-a-service design which is available via my other project ApacheFOP.Serverless -- a ready-to-go implementation of the full/newest version of ApacheFOP via Azure Functions!
 
 			Prior Release Notes:
+			- Breaking Change: Namespace changes for CustomExtensions to reduce risk of conflicts.
+			- Updated to sync with new v3 Common and new v3 due to breaking changes.
 			- Initial package upload for PdfTemplating.XslFO core XslFO libraries for use with other templating packages: PdfTemplating.XslFO.Razor.AspNet (.Net Framework Mvc), PdfTemplating.XslFO.Xslt (.Net Standard 2.0, etc.
 		</PackageReleaseNotes>
 		<RepositoryUrl>https://github.com/cajuncoding/PdfTemplating.XslFO</RepositoryUrl>
@@ -40,7 +41,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+		<PackageReference Include="System.Drawing.Common" Version="9.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>

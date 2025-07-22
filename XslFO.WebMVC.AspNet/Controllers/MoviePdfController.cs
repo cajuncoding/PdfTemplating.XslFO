@@ -15,10 +15,9 @@ Copyright 2012 Brandon Bernard
 */
 
 using System;
-using PdfTemplating.SystemCustomExtensions;
+using PdfTemplating.WebApp.Common;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Newtonsoft.Json;
 using PdfTemplating;
 using PdfTemplating.AspNetMvc.Reports.PdfRenderers;
 using XslFO.Samples.MovieSearchService;
@@ -130,6 +129,14 @@ namespace AspNetCoreMvc.Controllers
                 //Bubble up the Error as Json for additional Details
                 return CreateJsonExceptionResult(exc);
             }
+        }
+
+        [Route("debug")]
+        public string Debug()
+        {
+            //return typeof(System.Text.Json.JsonSerializer).Assembly.GetName().Version.ToString();
+            //return typeof(System.Numerics.Vector).Assembly.GetName().Version.ToString();
+            return typeof(System.Memory<string>).Assembly.GetName().Version.ToString();
         }
 
         #region Helpers

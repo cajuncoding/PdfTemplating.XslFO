@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Net;
+using System.Text.Json.Nodes;
 using System.Threading.Tasks;
-using Flurl;
 using Flurl.Http;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using PdfTemplating.XslFO.ApacheFOP.Serverless;
 
 namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
@@ -27,8 +25,8 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
         /// </summary>
         public Uri RequestUriRaw { get; }
 
-        private JObject _responseJson = null;
-        public JObject ToJsonJObject() => _responseJson ?? (_responseJson = ParseJsonSafely(ResponseBody));
+        private JsonNode _responseJson = null;
+        public JsonNode ToJson() => _responseJson ?? (_responseJson = ParseJsonSafely(ResponseBody));
 
         public static async Task<ApacheFOPServerlessApiException> FromFlurlHttpExceptionAsync(FlurlHttpException flurlHttpException, string requestBody = null)
         {
@@ -54,8 +52,8 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
                 if (flurlHttpException.StatusCode.HasValue)
                     httpStatusCode = (HttpStatusCode)flurlHttpException.StatusCode;
 
-                errorMessage = responseJson.GetValue("detailMessage", StringComparison.OrdinalIgnoreCase)?.Value<string>() 
-                                ?? "Unknown Error occurred rendering the Xsl FO markup; error message could not be parsed from response.";
+                if(responseJson is JsonObject jsonObject)
+                    errorMessage = jsonObject["detailMessage"]?.GetValue<string>() ?? "Unknown Error occurred rendering the Xsl FO markup; error message could not be parsed from response.";
             }
 
             return new ApacheFOPServerlessApiException(
@@ -97,23 +95,23 @@ namespace PdfTemplating.XslFO.Render.ApacheFOP.Serverless
             Uri requestUriSecured,
             string requestPayloadBody, 
             string errorResponseBody, 
-            JObject errorResponseJson, 
+            JsonNode errorResponseJson, 
             Exception innerException = null
         ) : this(httpStatusCode, message, requestUriRaw, requestUriSecured, requestPayloadBody, errorResponseBody, innerException)
         {
             _responseJson = errorResponseJson;
         }
 
-        protected static JObject ParseJsonSafely(string json)
+        protected static JsonNode ParseJsonSafely(string json)
         {
             if (string.IsNullOrWhiteSpace(json))
                 return null;
 
             try
             {
-                return JObject.Parse(json);
+                return JsonNode.Parse(json, new JsonNodeOptions() { PropertyNameCaseInsensitive = true });
             }
-            catch (JsonReaderException)
+            catch (Exception)
             {
                 //DO NOTHING if there is a Parse Error...
                 return null;

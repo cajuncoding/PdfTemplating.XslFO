@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
@@ -12,7 +11,6 @@ namespace XslFO.Samples.MovieSearchService
         //NOTE: We default to True for compatibility with prior functionality.
         public bool FonetCompatibilityEnabled { get; set; } = true;
 
-        [JsonProperty("Search")]
         [JsonPropertyName("Search")]
         public List<SearchResult> SearchResults { get; set; }
         public string TotalResults { get; set; }
